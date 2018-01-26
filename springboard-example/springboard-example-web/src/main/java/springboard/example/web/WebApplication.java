@@ -13,7 +13,7 @@ import springboard.web.annotation.EnableRestWeb;
 @EnableRestWeb
 @EnableShiroSecurity
 @EnableSwaggerDocumentation
-public class Application {
+public class WebApplication {
 
     @Bean
     public StormtrooperService stormtrooperService() {
@@ -21,7 +21,7 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(WebApplication.class, args);
     }
 
 }
