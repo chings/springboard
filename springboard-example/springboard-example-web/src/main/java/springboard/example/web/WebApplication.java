@@ -7,10 +7,10 @@ import springboard.example.model.StormtrooperService;
 import springboard.example.service.DefaultStormtrooperService;
 import springboard.shiro.annotation.EnableShiroSecurity;
 import springboard.swagger.annotation.EnableSwaggerDocumentation;
-import springboard.web.annotation.EnableRestWeb;
+import springboard.web.annotation.EnableRestWebMVC;
 
 @SpringBootApplication
-@EnableRestWeb
+@EnableRestWebMVC
 @EnableShiroSecurity
 @EnableSwaggerDocumentation
 public class WebApplication {

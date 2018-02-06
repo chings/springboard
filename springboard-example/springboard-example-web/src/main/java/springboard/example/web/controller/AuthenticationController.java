@@ -1,4 +1,4 @@
-package springboard.shiro.controller;
+package springboard.example.web.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -10,13 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class HelpController {
+public class AuthenticationController {
 
-    private static Logger log = LoggerFactory.getLogger(HelpController.class);
+    private static Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
     @RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
     public Object login(@RequestParam("username") String username,
-                                      @RequestParam("password") String password) {
+                        @RequestParam("password") String password) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {

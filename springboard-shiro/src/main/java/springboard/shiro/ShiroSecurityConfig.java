@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import springboard.shiro.controller.HelpController;
 import springboard.shiro.support.SubjectTypeArgumentResolver;
 
 import java.util.List;
@@ -40,11 +39,6 @@ public class ShiroSecurityConfig extends WebMvcConfigurerAdapter {
         // use permissive to NOT require authentication, our controller Annotations will decide that
         chainDefinition.addPathDefinition("/**", "authcBasic[permissive]");
         return chainDefinition;
-    }
-
-    @Bean
-    public HelpController helpController() {
-        return new HelpController();
     }
 
     @ExceptionHandler(UnauthenticatedException.class)
