@@ -9,6 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 public class AuthenticationController {
 
@@ -31,6 +36,16 @@ public class AuthenticationController {
     @GetMapping("/principal")
     public Object principal(Subject subject) {
         return subject.getPrincipal();
+    }
+
+    @GetMapping(value = "/session")
+    public Object session(HttpSession session) {
+        Map<String, Object> result = new HashMap<>();
+        for(Enumeration<String> e = session.getAttributeNames(); e.hasMoreElements(); ) {
+            String attributeName = e.nextElement();
+            result.put(attributeName, session.getAttribute(attributeName));
+        }
+        return result;
     }
 
     @RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
