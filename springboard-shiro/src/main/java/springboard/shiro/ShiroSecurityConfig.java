@@ -7,10 +7,12 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.mgt.WebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,7 @@ public class ShiroSecurityConfig extends WebMvcConfigurerAdapter {
     Realm realm;
 
     @Bean
+    @ConditionalOnMissingBean
     public DefaultWebSecurityManager defaultWebSecurityManager() {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(realm);
@@ -42,18 +45,7 @@ public class ShiroSecurityConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor() {
-        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-        authorizationAttributeSourceAdvisor.setSecurityManager(defaultWebSecurityManager());
-        return authorizationAttributeSourceAdvisor;
-    }
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new SubjectTypeArgumentResolver());
-    }
-
-    @Bean
+    @ConditionalOnMissingBean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
         // use permissive to NOT require authentication, our controller Annotations will decide that
@@ -73,6 +65,11 @@ public class ShiroSecurityConfig extends WebMvcConfigurerAdapter {
     public @ResponseBody String handleException(AuthorizationException x) {
         log.warn("{} was thrown", x.getClass(), x);
         return x.getMessage();
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new SubjectTypeArgumentResolver());
     }
 
 }
