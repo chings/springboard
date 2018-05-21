@@ -11,5 +11,16 @@
 
     <artifactId>springboard-example-service</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>cn.ching.springboard</groupId>
+            <artifactId>springboard-starter-mybatis</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

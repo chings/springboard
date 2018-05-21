@@ -14,17 +14,17 @@
     <dependencies>
         <dependency>
             <groupId>cn.ching.springboard</groupId>
-            <artifactId>springboard-web</artifactId>
+            <artifactId>springboard-starter-web</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.ching.springboard</groupId>
-            <artifactId>springboard-shiro</artifactId>
+            <artifactId>springboard-starter-shiro</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.ching.springboard</groupId>
-            <artifactId>springboard-swagger</artifactId>
+            <artifactId>springboard-starter-swagger</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
+        <version>2.0.2.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,9 +15,10 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>springboard-example</module>
-        <module>springboard-shiro</module>
-        <module>springboard-web</module>
-        <module>springboard-swagger</module>
+        <module>springboard-starter-shiro</module>
+        <module>springboard-starter-web</module>
+        <module>springboard-starter-swagger</module>
+        <module>springboard-starter-mybatis</module>
     </modules>
 
     <dependencyManagement>
@@ -39,6 +40,18 @@
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>2.8.0</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>1.3.2</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>5.1.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

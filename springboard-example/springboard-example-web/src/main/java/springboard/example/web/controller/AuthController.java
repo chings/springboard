@@ -19,7 +19,7 @@ public class AuthController {
 
     private static Logger log = LoggerFactory.getLogger(AuthController.class);
 
-    @RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
+    @PostMapping("/login")
     public Object login(@RequestParam("username") String username,
                         @RequestParam("password") String password) {
         Subject subject = SecurityUtils.getSubject();
@@ -48,7 +48,7 @@ public class AuthController {
         return result;
     }
 
-    @RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
+    @PostMapping("/logout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Object logout() {
         Subject subject = SecurityUtils.getSubject();
