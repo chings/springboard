@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class AuthController {
+public class AdminController {
 
-    private static Logger log = LoggerFactory.getLogger(AuthController.class);
+    private static Logger log = LoggerFactory.getLogger(AdminController.class);
 
     @PostMapping("/login")
     public Object login(@RequestParam("username") String username,

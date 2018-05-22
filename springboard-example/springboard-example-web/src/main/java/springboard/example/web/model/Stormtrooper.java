@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package springboard.example.model;
+package springboard.example.web.model;
 
 public class Stormtrooper {
 

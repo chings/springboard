@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import springboard.example.model.Stormtrooper;
-import springboard.example.model.StormtrooperService;
+import springboard.example.web.model.Stormtrooper;
+import springboard.example.web.model.StormtrooperService;
 import springboard.web.exception.NotFoundException;
 
 import java.util.Collection;

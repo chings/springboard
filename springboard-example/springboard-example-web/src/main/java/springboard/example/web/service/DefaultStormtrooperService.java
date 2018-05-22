@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package springboard.example.service;
+package springboard.example.web.service;
 
-import springboard.example.model.Stormtrooper;
-import springboard.example.model.StormtrooperService;
+import springboard.example.web.model.Stormtrooper;
+import springboard.example.web.model.StormtrooperService;
 
 import java.security.SecureRandom;
 import java.util.*;

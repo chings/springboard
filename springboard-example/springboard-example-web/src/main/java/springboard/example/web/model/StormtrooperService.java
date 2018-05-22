@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package springboard.example.model;
-
-import springboard.example.model.Stormtrooper;
+package springboard.example.web.model;
 
 import java.util.Collection;
 

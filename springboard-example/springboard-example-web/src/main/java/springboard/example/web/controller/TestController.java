@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class SampleController {
+public class TestController {
 
     @GetMapping({"/", "/hello"})
     @ResponseBody Object home() {
