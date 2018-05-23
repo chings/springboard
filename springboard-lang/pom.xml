@@ -11,5 +11,6 @@
 
     <artifactId>springboard-lang</artifactId>
 
+    <dependencies/>
 
 </project>

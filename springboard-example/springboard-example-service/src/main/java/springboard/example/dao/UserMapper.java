@@ -5,6 +5,9 @@ import springboard.example.model.Role;
 import springboard.example.model.User;
 import springboard.mybatis.ValuedEnumTypeHandler;
 
+import java.util.Date;
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
 
@@ -30,6 +33,24 @@ public interface UserMapper {
     })
     User getByUsername(String username);
 
+    @Select("<script>" +
+            "  SELECT  u.*,r.type,r.name,r.created_time FROM roles r, users u " +
+            "  WHERE r.id=u.id " +
+            "    <if test='id != null'>AND u.id=#{id}</if>" +
+            "    <if test='username != null'>AND username LIKE '%${username}%'}</if>" +
+            "    <if test='name != null'>AND name LIKE '%${name}%'</if>" +
+            "    <if test='createdTime0 != null'>AND createdTime &gt;= #{createdTime0}</if>" +
+            "    <if test='createdTime1 != null'>AND createdTime &lt; #{createdTime1}</if>" +
+            "  ORDER BY id DESC" +
+            "</script>")
+    @Results({
+            @Result(column = "last_logged_in_time", property = "lastLoggedInTime"),
+            @Result(column = "last_logged_in_addr", property = "lastLoggedInAddr"),
+            @Result(column = "type", property = "type", javaType = Role.Type.class, typeHandler = ValuedEnumTypeHandler.class),
+            @Result(column = "created_time", property = "createdTime")
+    })
+    List<User> find(@Param("id") Long id, @Param("username") String username, @Param("name") String name, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
+
     @Update("<script>" +
             "  UPDATE users \n" +
             "    <set>\n" +
@@ -40,5 +61,17 @@ public interface UserMapper {
             "  WHERE id=#{id}\n" +
             "</script>")
     int update(User user);
+
+    @Insert("INSERT IGNORE INTO user_roles(user_id, role_id) VALUES(#{userId}, #{roleId})")
+    int setRole(@Param("id") Long userId, @Param("id") Long roleId);
+
+    @Select("SELECT role_id FROM user_roles WHERE user_id=#{userId} AND role_id=#{roleId}")
+    Long getRole(@Param("id") Long userId, @Param("id") Long roleId);
+
+    @Delete("DELETE FROM user_roles WHERE user_id=#{userId} AND role_id=#{roleId}")
+    int unsetRole(@Param("id") Long userId, @Param("id") Long roleId);
+
+    @Delete("DELETE FROM user_roles WHERE user_id=#{userId}")
+    int unsetAllRoles(Long roleId);
 
 }

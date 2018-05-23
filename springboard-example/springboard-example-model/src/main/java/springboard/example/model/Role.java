@@ -1,6 +1,5 @@
 package springboard.example.model;
 
-import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 import springboard.lang.ValuedEnum;
 
 import java.io.Serializable;
@@ -8,7 +7,7 @@ import java.util.Date;
 
 public class Role implements Serializable {
 
-    public enum Type implements ValuedEnum {
+    public enum Type implements ValuedEnum, Serializable {
         ROLE(0), USER(1);
 
         int value;

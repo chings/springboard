@@ -1,9 +1,7 @@
 package springboard.example.service.impl;
 
-import com.github.pagehelper.Page;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,7 +16,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = ServiceApplication.class)
+@SpringBootTest
 public class TestAdminServiceImpl {
 
     @Autowired
@@ -31,7 +29,7 @@ public class TestAdminServiceImpl {
         user.setPassword("the nameless");
         user.setName("Ching");
         user.setCreatedTime(new Date());
-        user = adminService.create(user);
+        user = adminService.createUser(user);
         System.out.println(user);
     }
 
@@ -55,8 +53,14 @@ public class TestAdminServiceImpl {
 
     @Test
     public void testFindRoles() {
-        List<Role> roles = adminService.findRoles(null, "ing", 1, 2);
+        List<Role> roles = adminService.findRoles(null, null, null, null,null,1, 2);
         System.out.println(roles);
+    }
+
+    @Test
+    public void testFindUsers() {
+        List<User> users = adminService.findUsers(null, null, null, null,null,1, 2);
+        System.out.println(users);
     }
 
     @Test
@@ -64,7 +68,7 @@ public class TestAdminServiceImpl {
         User user = new User();
         user.setId(1000L);
         user.setPassword("Passw0rd");
-        boolean ok = adminService.update(user);
+        boolean ok = adminService.updateUser(user);
         System.out.println(ok);
     }
 

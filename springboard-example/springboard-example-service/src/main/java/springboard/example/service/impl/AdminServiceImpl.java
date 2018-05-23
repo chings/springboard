@@ -1,6 +1,5 @@
 package springboard.example.service.impl;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +14,7 @@ import springboard.example.model.AdminService;
 import springboard.example.model.Role;
 import springboard.example.model.User;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,19 +32,19 @@ public class AdminServiceImpl implements AdminService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public Role create(Role role) {
+    public Role createRole(Role role) {
         boolean ok = roleMapper.create(role) == 1;
         return ok ? role : null;
     }
 
     @Transactional
     @Override
-    public User create(User user) {
+    public User createUser(User user) {
         Role role = new Role();
         role.setType(user.getType());
         role.setName(user.getName());
         role.setCreatedTime(user.getCreatedTime());
-        role = create(role);
+        role = createRole(role);
         if(role == null) return null;
 
         user.setId(role.getId());
@@ -74,24 +74,71 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Role> findRoles(Role.Type type, String name, Integer pageNum, Integer pageSize) {
+    public List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize) {
         return pageNum != null && pageSize != null ?
-                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> roleMapper.find(type, name)) :
-                roleMapper.find(type, name);
+                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> roleMapper.find(id, type, name, createdTime0, createdTime1)) :
+                roleMapper.find(id, type, name, createdTime0, createdTime1);
     }
 
     @Override
-    public boolean update(Role role) {
+    public List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize) {
+        return pageNum != null && pageSize != null ?
+                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userMapper.find(id, username, name, createdTime0, createdTime1)) :
+                userMapper.find(id, username, name, createdTime0, createdTime1);
+    }
+
+    @Override
+    public boolean updateRole(Role role) {
         return roleMapper.update(role) == 1;
     }
 
     @Override
-    public boolean update(User user) {
+    public boolean updateUser(User user) {
         String password = user.getPassword();
         if(!StringUtils.isEmpty(password)) user.setPassword(passwordEncoder.encode(password));
         boolean ok = userMapper.update(user) == 1;
         user.setPassword(password);
         return ok;
+    }
+
+    @Override
+    public boolean setUserRoles(long userId, long... roleIds) {
+        boolean ok = false;
+        for(long roleId : roleIds) ok |= userMapper.setRole(userId, roleId) == 1;
+        return ok;
+    }
+
+    @Override
+    public boolean unsetUserRoles(long userId, long... roleIds) {
+        if(roleIds.length == 0) return userMapper.unsetAllRoles(userId) > 0;
+        boolean ok = false;
+        for(long roleId : roleIds) ok |= userMapper.unsetRole(userId, roleId) == 1;
+        return ok;
+    }
+
+    @Override
+    public boolean setRolePermissions(long roleId, String... permissions) {
+        boolean ok = false;
+        for(String permission : permissions) ok |= roleMapper.setPermission(roleId, permission) == 1;
+        return ok;
+    }
+
+    @Override
+    public boolean unsetRolePermissions(long roleId, String... permissions) {
+        if(permissions.length == 0) return roleMapper.unsetAllPermissions(roleId) > 0;
+        boolean ok = false;
+        for(String permission : permissions) ok |= roleMapper.unsetPermission(roleId, permission) == 1;
+        return ok;
+    }
+
+    @Override
+    public boolean deleteRole(long id) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteUser(long id) {
+        return false;
     }
 
 }
