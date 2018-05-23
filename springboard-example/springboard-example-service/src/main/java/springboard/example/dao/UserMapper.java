@@ -62,6 +62,9 @@ public interface UserMapper {
             "</script>")
     int update(User user);
 
+    @Delete("DELETE FROM users WHERE id=#{id}")
+    int delete(@Param("id") Long id);
+
     @Insert("INSERT IGNORE INTO user_roles(user_id, role_id) VALUES(#{userId}, #{roleId})")
     int setRole(@Param("userId") Long userId, @Param("roleId") Long roleId);
 

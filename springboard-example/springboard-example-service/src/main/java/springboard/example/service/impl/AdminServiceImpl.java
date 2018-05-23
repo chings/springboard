@@ -158,14 +158,18 @@ public class AdminServiceImpl implements AdminService {
         return ok;
     }
 
+    @Transactional
     @Override
     public boolean deleteRole(long id) {
-        return false;
+        roleMapper.unsetAllPermissions(id);
+        return roleMapper.delete(id) == 1;
     }
 
+    @Transactional
     @Override
     public boolean deleteUser(long id) {
-        return false;
+        deleteRole(id);
+        return userMapper.delete(id) == 1;
     }
 
 }

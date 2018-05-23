@@ -49,6 +49,9 @@ public interface RoleMapper {
             "</script>")
     int update(Role role);
 
+    @Delete("DELETE FROM roles WHERE id=#{id}")
+    int delete(@Param("id") Long id);
+
     @Insert("INSERT IGNORE INTO role_permissions(role_id, permission) VALUES(#{roleId}, #{permission})")
     int setPermission(@Param("roleId") Long roleId, @Param("permission") String permission);
 
