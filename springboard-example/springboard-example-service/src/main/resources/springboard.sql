@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `role_permissions`;
 CREATE TABLE `role_permissions`  (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `role_id` bigint(20) NOT NULL,
-  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 

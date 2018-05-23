@@ -8,12 +8,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import springboard.example.model.AdminService;
 import springboard.example.model.Role;
 import springboard.example.model.User;
-import springboard.example.service.ServiceApplication;
 
 import java.util.Date;
 import java.util.List;
-
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -73,6 +70,12 @@ public class TestAdminServiceImpl {
     }
 
     @Test
+    public void testFindRolesOfUser() {
+        List<Role> roles = adminService.findRolesOfUser(3L);
+        System.out.println(roles);
+    }
+
+    @Test
     public void testFindPermissionsOfUser() {
         List<String> permissions = adminService.findPermissionsOfUser(3L);
         System.out.println(permissions);
@@ -92,7 +95,7 @@ public class TestAdminServiceImpl {
     }
 
     @Test
-    public void untestSetUserRoles() {
+    public void testUnsetUserRoles() {
         adminService.unsetUserRoles(3);
     }
 

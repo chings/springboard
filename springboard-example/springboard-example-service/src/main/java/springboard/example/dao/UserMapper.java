@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    @Insert("INSERT INTO users(id,username,password,last_logged_in_time,last_logged_in_addr) " +
+    @Insert("INSERT INTO users(id,username,password,last_logged_in_time,last_logged_in_addr) \n" +
             "VALUES(#{id},#{username},#{password},#{lastLoggedInTime},#{lastLoggedInAddr})")
     int create(User user);
 
@@ -33,15 +33,15 @@ public interface UserMapper {
     })
     User get2(@Param("username") String username);
 
-    @Select("<script>" +
-            "  SELECT  u.*,r.type,r.name,r.created_time FROM roles r, users u " +
-            "  WHERE r.id=u.id " +
-            "    <if test='id != null'>AND u.id=#{id}</if>" +
-            "    <if test='username != null'>AND username LIKE '%${username}%'}</if>" +
-            "    <if test='name != null'>AND name LIKE '%${name}%'</if>" +
-            "    <if test='createdTime0 != null'>AND createdTime &gt;= #{createdTime0}</if>" +
-            "    <if test='createdTime1 != null'>AND createdTime &lt; #{createdTime1}</if>" +
-            "  ORDER BY id DESC" +
+    @Select("<script>\n" +
+            "  SELECT  u.*,r.type,r.name,r.created_time FROM roles r, users u \n" +
+            "  WHERE r.id=u.id \n" +
+            "    <if test='id != null'>AND u.id=#{id}</if>\n" +
+            "    <if test='username != null'>AND username LIKE '%${username}%'}</if>\n" +
+            "    <if test='name != null'>AND name LIKE '%${name}%'</if>\n" +
+            "    <if test='createdTime0 != null'>AND createdTime &gt;= #{createdTime0}</if>\n" +
+            "    <if test='createdTime1 != null'>AND createdTime &lt; #{createdTime1}</if>\n" +
+            "  ORDER BY id DESC\n" +
             "</script>")
     @Results({
             @Result(column = "last_logged_in_time", property = "lastLoggedInTime"),
@@ -51,7 +51,7 @@ public interface UserMapper {
     })
     List<User> find(@Param("id") Long id, @Param("username") String username, @Param("name") String name, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
 
-    @Update("<script>" +
+    @Update("<script>\n" +
             "  UPDATE users \n" +
             "    <set>\n" +
             "      <if test='password != null'>password=#{password},</if>\n" +

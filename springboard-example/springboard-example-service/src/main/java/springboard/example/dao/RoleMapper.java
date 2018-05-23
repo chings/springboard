@@ -2,7 +2,6 @@ package springboard.example.dao;
 
 import org.apache.ibatis.annotations.*;
 import springboard.example.model.Role;
-import springboard.example.model.User;
 import springboard.mybatis.InOperationLanguageDriver;
 import springboard.mybatis.ValuedEnumTypeHandler;
 
@@ -12,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface RoleMapper {
 
-    @Insert("INSERT INTO roles(type,name,created_time) " +
+    @Insert("INSERT INTO roles(type,name,created_time) \n" +
             "VALUES(#{type,typeHandler=springboard.mybatis.ValuedEnumTypeHandler},#{name},#{createdTime})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int create(Role role);
@@ -24,16 +23,16 @@ public interface RoleMapper {
     })
     Role get(@Param("id") long id);
 
-    @Select("<script>" +
-            "  SELECT * FROM roles " +
-            "  <where>" +
-            "    <if test='id != null'>id=#{id}</if>" +
-            "    <if test='type != null'>AND type=#{type,typeHandler=springboard.mybatis.ValuedEnumTypeHandler}</if>" +
-            "    <if test='name != null'>AND name like '%${name}%'</if>" +
-            "    <if test='createdTime0 != null'>AND createdTime &gt;= #{createdTime0}</if>" +
-            "    <if test='createdTime1 != null'>AND createdTime &lt; #{createdTime1}</if>" +
-            "  </where>" +
-            "  ORDER BY id DESC" +
+    @Select("<script>\n" +
+            "  SELECT * FROM roles \n" +
+            "  <where>\n" +
+            "    <if test='id != null'>id=#{id}</if>\n" +
+            "    <if test='type != null'>AND type=#{type,typeHandler=springboard.mybatis.ValuedEnumTypeHandler}</if>\n" +
+            "    <if test='name != null'>AND name like '%${name}%'</if>\n" +
+            "    <if test='createdTime0 != null'>AND createdTime &gt;= #{createdTime0}</if>\n" +
+            "    <if test='createdTime1 != null'>AND createdTime &lt; #{createdTime1}</if>\n" +
+            "  </where>\n" +
+            "  ORDER BY id DESC\n" +
             "</script>")
     @Results({
             @Result(column = "type", property = "type", javaType = Role.Type.class, typeHandler = ValuedEnumTypeHandler.class),
@@ -41,7 +40,7 @@ public interface RoleMapper {
     })
     List<Role> find(@Param("id") Long id, @Param("type") Role.Type type, @Param("name") String name, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
 
-    @Update("<script>" +
+    @Update("<script>\n" +
             "  UPDATE roles \n" +
             "    <set>\n" +
             "      <if test='name != null'>name=#{name}</if>\n" +
