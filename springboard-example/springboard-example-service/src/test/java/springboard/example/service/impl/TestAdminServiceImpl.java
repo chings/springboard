@@ -23,6 +23,15 @@ public class TestAdminServiceImpl {
     AdminService adminService;
 
     @Test
+    public void testCreateRole() {
+        Role role = new Role();
+        role.setName("<troppers_op>");
+        role.setCreatedTime(new Date());
+        role = adminService.createRole(role);
+        System.out.println(role);
+    }
+
+    @Test
     public void testCreateUser() {
         User user = new User();
         user.setUsername("ching");
@@ -64,12 +73,32 @@ public class TestAdminServiceImpl {
     }
 
     @Test
+    public void testFindPermissionsOfUser() {
+        List<String> permissions = adminService.findPermissionsOfUser(3L);
+        System.out.println(permissions);
+    }
+
+    @Test
     public void testUpdateUser() {
         User user = new User();
         user.setId(1000L);
         user.setPassword("Passw0rd");
-        boolean ok = adminService.updateUser(user);
-        System.out.println(ok);
+        adminService.updateUser(user);
+    }
+
+    @Test
+    public void testSetUserRoles() {
+        adminService.setUserRoles(3, 1);
+    }
+
+    @Test
+    public void untestSetUserRoles() {
+        adminService.unsetUserRoles(3);
+    }
+
+    @Test
+    public void testSetRolePermissions() {
+        adminService.setRolePermissions(4,  "troopers:read", "troopers:create", "troopers:update", "troopers:delete");
     }
 
 }

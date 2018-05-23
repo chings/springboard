@@ -14,6 +14,7 @@ import springboard.example.model.AdminService;
 import springboard.example.model.Role;
 import springboard.example.model.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public User getUser(String username, String password) {
-        User user = userMapper.getByUsername(username);
+        User user = userMapper.get2(username);
         if(user == null) return null;
         if(!passwordEncoder.matches(password, user.getPassword())) return null;
         return user;
@@ -88,6 +89,28 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public List<Role> findRolesOfUser(Long userId) {
+        User user = getUser(userId);
+        List<Role> roles = new ArrayList<>();
+        roles.add(user);
+        roles.addAll(userMapper.findRoles(userId));
+        return roles;
+    }
+
+    @Override
+    public List<String> findPermissionsOfRole(Long roleId) {
+        return roleMapper.findPermissions(roleId);
+    }
+
+    @Override
+    public List<String> findPermissionsOfUser(Long userId) {
+        List<Long> roleIds = new ArrayList<>();
+        roleIds.add(userId);
+        roleIds.addAll(userMapper.findRoleIds(userId));
+        return roleMapper.findPermissions2(roleIds);
+    }
+
+    @Override
     public boolean updateRole(Role role) {
         return roleMapper.update(role) == 1;
     }
@@ -101,6 +124,7 @@ public class AdminServiceImpl implements AdminService {
         return ok;
     }
 
+    @Transactional
     @Override
     public boolean setUserRoles(long userId, long... roleIds) {
         boolean ok = false;
@@ -108,6 +132,7 @@ public class AdminServiceImpl implements AdminService {
         return ok;
     }
 
+    @Transactional
     @Override
     public boolean unsetUserRoles(long userId, long... roleIds) {
         if(roleIds.length == 0) return userMapper.unsetAllRoles(userId) > 0;
@@ -116,6 +141,7 @@ public class AdminServiceImpl implements AdminService {
         return ok;
     }
 
+    @Transactional
     @Override
     public boolean setRolePermissions(long roleId, String... permissions) {
         boolean ok = false;
@@ -123,6 +149,7 @@ public class AdminServiceImpl implements AdminService {
         return ok;
     }
 
+    @Transactional
     @Override
     public boolean unsetRolePermissions(long roleId, String... permissions) {
         if(permissions.length == 0) return roleMapper.unsetAllPermissions(roleId) > 0;

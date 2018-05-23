@@ -22,7 +22,7 @@ public interface UserMapper {
             @Result(column = "type", property = "type", javaType = Role.Type.class, typeHandler = ValuedEnumTypeHandler.class),
             @Result(column = "created_time", property = "createdTime")
     })
-    User get(long id);
+    User get(@Param("id") long id);
 
     @Select("SELECT u.*,r.type,r.name,r.created_time FROM roles r, users u WHERE r.id=u.id AND username=#{username}")
     @Results({
@@ -31,7 +31,7 @@ public interface UserMapper {
             @Result(column = "type", property = "type", javaType = Role.Type.class, typeHandler = ValuedEnumTypeHandler.class),
             @Result(column = "created_time", property = "createdTime")
     })
-    User getByUsername(String username);
+    User get2(@Param("username") String username);
 
     @Select("<script>" +
             "  SELECT  u.*,r.type,r.name,r.created_time FROM roles r, users u " +
@@ -63,15 +63,22 @@ public interface UserMapper {
     int update(User user);
 
     @Insert("INSERT IGNORE INTO user_roles(user_id, role_id) VALUES(#{userId}, #{roleId})")
-    int setRole(@Param("id") Long userId, @Param("id") Long roleId);
+    int setRole(@Param("userId") Long userId, @Param("roleId") Long roleId);
 
-    @Select("SELECT role_id FROM user_roles WHERE user_id=#{userId} AND role_id=#{roleId}")
-    Long getRole(@Param("id") Long userId, @Param("id") Long roleId);
+    @Select("SELECT role_id FROM user_roles WHERE user_id=#{userId}")
+    List<Long> findRoleIds(@Param("userId") Long userId);
+
+    @Select("SELECT r.* FROM roles r, user_roles ur WHERE r.id=ur.role_id AND user_id=#{userId}")
+    @Results({
+            @Result(column = "type", property = "type", javaType = Role.Type.class, typeHandler = ValuedEnumTypeHandler.class),
+            @Result(column = "created_time", property = "createdTime")
+    })
+    List<Role> findRoles(@Param("userId") Long userId);
 
     @Delete("DELETE FROM user_roles WHERE user_id=#{userId} AND role_id=#{roleId}")
-    int unsetRole(@Param("id") Long userId, @Param("id") Long roleId);
+    int unsetRole(@Param("userId") Long userId, @Param("roleId") Long roleId);
 
     @Delete("DELETE FROM user_roles WHERE user_id=#{userId}")
-    int unsetAllRoles(Long roleId);
+    int unsetAllRoles(@Param("userId") Long userId);
 
 }

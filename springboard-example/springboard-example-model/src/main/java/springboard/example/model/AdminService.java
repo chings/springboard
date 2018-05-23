@@ -15,6 +15,11 @@ public interface AdminService {
     List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize);
     List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize);
 
+    List<Role> findRolesOfUser(Long userId);
+
+    List<String> findPermissionsOfRole(Long roleId);
+    List<String> findPermissionsOfUser(Long userId);
+
     boolean updateRole(Role role);
     boolean updateUser(User user);
 

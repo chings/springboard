@@ -11,6 +11,7 @@ public class User extends Role implements Serializable {
     String lastLoggedInAddr;
 
     public User() {
+        super();
         type = Type.USER;
     }
 

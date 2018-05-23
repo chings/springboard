@@ -3,6 +3,7 @@ package springboard.example.dao;
 import org.apache.ibatis.annotations.*;
 import springboard.example.model.Role;
 import springboard.example.model.User;
+import springboard.mybatis.InOperationLanguageDriver;
 import springboard.mybatis.ValuedEnumTypeHandler;
 
 import java.util.Date;
@@ -21,7 +22,7 @@ public interface RoleMapper {
             @Result(column = "type", property = "type", javaType = Role.Type.class, typeHandler = ValuedEnumTypeHandler.class),
             @Result(column = "created_time", property = "createdTime")
     })
-    Role get(long id);
+    Role get(@Param("id") long id);
 
     @Select("<script>" +
             "  SELECT * FROM roles " +
@@ -50,15 +51,19 @@ public interface RoleMapper {
     int update(Role role);
 
     @Insert("INSERT IGNORE INTO role_permissions(role_id, permission) VALUES(#{roleId}, #{permission})")
-    int setPermission(@Param("id") Long roleId, @Param("permission") String permission);
+    int setPermission(@Param("roleId") Long roleId, @Param("permission") String permission);
 
-    @Select("SELECT permission FROM role_permissions WHERE role_id=#{roleId} AND permission=#{permission}")
-    Long getPermission(@Param("id") Long roleId, @Param("permission") String permission);
+    @Select("SELECT permission FROM role_permissions WHERE role_id=#{roleId}")
+    List<String> findPermissions(@Param("roleIds") Long roleId);
+
+    @Select("SELECT permission FROM role_permissions WHERE role_id IN #{roleIds}")
+    @Lang(InOperationLanguageDriver.class)
+    List<String> findPermissions2(@Param("roleIds") List<Long> roleIds);
 
     @Delete("DELETE FROM role_permissions WHERE role_id=#{roleId} AND permission=#{permission}")
-    int unsetPermission(@Param("id") Long roleId, @Param("permission") String permission);
+    int unsetPermission(@Param("roleId") Long roleId, @Param("permission") String permission);
 
     @Delete("DELETE FROM role_permissions WHERE role_id=#{roleId}")
-    int unsetAllPermissions(Long roleId);
+    int unsetAllPermissions(@Param("roleId") Long roleId);
 
 }
