@@ -1,13 +1,17 @@
 package springboard.example.model;
 
-import springboard.lang.ValuedEnum;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IEnum;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
 import java.util.Date;
 
+@TableName("roles")
 public class Role implements Serializable {
 
-    public enum Type implements ValuedEnum, Serializable {
+    public enum Type implements IEnum, Serializable {
         ROLE(0), USER(1);
 
         int value;
@@ -17,11 +21,12 @@ public class Role implements Serializable {
         }
 
         @Override
-        public int getValue() {
+        public Serializable getValue() {
             return value;
         }
     }
 
+    @TableId(type = IdType.AUTO)
     Long id;
     Type type;
     String name;

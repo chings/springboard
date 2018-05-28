@@ -1,6 +1,9 @@
 package springboard.example.service;
 
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,10 +14,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import springboard.mybatis.AutoEnumTypeHandler;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 @SpringBootApplication
+@MapperScan("springboard.example.dao")
 public class ServiceApplication {
 
     @Bean(name = "springboardDataSource")

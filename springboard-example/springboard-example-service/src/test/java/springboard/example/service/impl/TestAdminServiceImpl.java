@@ -47,7 +47,7 @@ public class TestAdminServiceImpl {
 
     @Test
     public void testGetUser() {
-        User user = adminService.getUser(1000);
+        User user = adminService.getUser(3);
         System.out.println(user);
     }
 

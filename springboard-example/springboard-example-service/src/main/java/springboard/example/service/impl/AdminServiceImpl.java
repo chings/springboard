@@ -1,6 +1,5 @@
 package springboard.example.service.impl;
 
-import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Role createRole(Role role) {
-        boolean ok = roleMapper.create(role) == 1;
+        boolean ok = roleMapper.insert(role) == 1;
         return ok ? role : null;
     }
 
@@ -51,24 +50,24 @@ public class AdminServiceImpl implements AdminService {
         user.setId(role.getId());
         String password = user.getPassword();
         if(!StringUtils.isEmpty(password)) user.setPassword(passwordEncoder.encode(password));
-        boolean ok = userMapper.create(user) == 1;
+        boolean ok = userMapper.insert(user) == 1;
         user.setPassword(password);
         return ok ? user : null;
     }
 
     @Override
     public Role getRole(long id) {
-        return roleMapper.get(id);
+        return roleMapper.selectById(id);
     }
 
     @Override
     public User getUser(long id) {
-        return userMapper.get(id);
+        return userMapper.selectById(id);
     }
 
     @Override
     public User getUser(String username, String password) {
-        User user = userMapper.get2(username);
+        User user = userMapper.selectByUsername(username);
         if(user == null) return null;
         if(!passwordEncoder.matches(password, user.getPassword())) return null;
         return user;
@@ -76,16 +75,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize) {
-        return pageNum != null && pageSize != null ?
-                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> roleMapper.find(id, type, name, createdTime0, createdTime1)) :
-                roleMapper.find(id, type, name, createdTime0, createdTime1);
+        return null;
     }
 
     @Override
     public List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize) {
-        return pageNum != null && pageSize != null ?
-                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userMapper.find(id, username, name, createdTime0, createdTime1)) :
-                userMapper.find(id, username, name, createdTime0, createdTime1);
+        return null;
     }
 
     @Override
@@ -112,14 +107,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean updateRole(Role role) {
-        return roleMapper.update(role) == 1;
+        return roleMapper.updateById(role) == 1;
     }
 
     @Override
     public boolean updateUser(User user) {
         String password = user.getPassword();
         if(!StringUtils.isEmpty(password)) user.setPassword(passwordEncoder.encode(password));
-        boolean ok = userMapper.update(user) == 1;
+        boolean ok = userMapper.updateById(user) == 1;
         user.setPassword(password);
         return ok;
     }
@@ -162,14 +157,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean deleteRole(long id) {
         roleMapper.unsetAllPermissions(id);
-        return roleMapper.delete(id) == 1;
+        return roleMapper.deleteById(id) == 1;
     }
 
     @Transactional
     @Override
     public boolean deleteUser(long id) {
         deleteRole(id);
-        return userMapper.delete(id) == 1;
+        return userMapper.deleteById(id) == 1;
     }
 
 }
