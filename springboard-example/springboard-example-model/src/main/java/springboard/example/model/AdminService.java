@@ -1,5 +1,7 @@
 package springboard.example.model;
 
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +14,8 @@ public interface AdminService {
     User getUser(long id);
     User getUser(String username, String password);
 
-    List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize);
-    List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize);
+    List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Pagination pagination);
+    List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Pagination pagination);
 
     List<Role> findRolesOfUser(Long userId);
 

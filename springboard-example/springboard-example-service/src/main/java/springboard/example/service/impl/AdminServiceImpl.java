@@ -1,5 +1,9 @@
 package springboard.example.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,13 +78,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize) {
-        return null;
+    public List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Pagination pagination) {
+        Wrapper<Role> criteria = new EntityWrapper<>();
+        return pagination != null ?
+                PageHelper.startPage(pagination.getCurrent(), pagination.getSize()).doSelectPage(() -> roleMapper.selectList(criteria)) :
+                roleMapper.selectList(criteria);
     }
 
     @Override
-    public List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Integer pageNum, Integer pageSize) {
-        return null;
+    public List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Pagination pagination) {
+        return pagination != null ?
+                PageHelper.startPage(pagination.getCurrent(), pagination.getSize()).doSelectPage(() -> userMapper.selectList(id, username, name, createdTime0, createdTime1)) :
+                userMapper.selectList(id, username, name, createdTime0, createdTime1);
     }
 
     @Override

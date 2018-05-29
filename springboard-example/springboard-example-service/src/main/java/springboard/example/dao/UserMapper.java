@@ -30,7 +30,7 @@ public interface UserMapper {
             "    <if test='createdTime1 != null'>AND createdTime &lt; #{createdTime1}</if>\n" +
             "  ORDER BY id DESC\n" +
             "</script>")
-    List<User> find(@Param("id") Long id, @Param("username") String username, @Param("name") String name, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
+    List<User> selec(@Param("id") Long id, @Param("username") String username, @Param("name") String name, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
 
     @Update("<script>\n" +
             "  UPDATE users \n" +

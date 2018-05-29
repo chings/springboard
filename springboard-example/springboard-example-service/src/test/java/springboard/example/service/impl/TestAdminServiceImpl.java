@@ -1,5 +1,6 @@
 package springboard.example.service.impl;
 
+import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,13 +60,13 @@ public class TestAdminServiceImpl {
 
     @Test
     public void testFindRoles() {
-        List<Role> roles = adminService.findRoles(null, null, null, null,null,1, 2);
+        List<Role> roles = adminService.findRoles(null, null, null, null,null, new Pagination(2, 1));
         System.out.println(roles);
     }
 
     @Test
     public void testFindUsers() {
-        List<User> users = adminService.findUsers(null, null, null, null,null,1, 2);
+        List<User> users = adminService.findUsers(null, null, null, null,null, new Pagination(2, 1));
         System.out.println(users);
     }
 
