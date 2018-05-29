@@ -60,7 +60,7 @@ public class TestAdminServiceImpl {
 
     @Test
     public void testFindRoles() {
-        List<Role> roles = adminService.findRoles(null, null, null, null,null, new Pagination(2, 1));
+        List<Role> roles = adminService.findRoles(null, null, "admin", null,null, new Pagination(2, 1));
         System.out.println(roles);
     }
 

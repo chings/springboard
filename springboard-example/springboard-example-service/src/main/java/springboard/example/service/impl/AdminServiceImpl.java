@@ -80,6 +80,11 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Pagination pagination) {
         Wrapper<Role> criteria = new EntityWrapper<>();
+        if(id != null) criteria.eq("id", id);
+        if(type != null) criteria.eq("type", type);
+        if(name != null) criteria.like("name", name);
+        if(createdTime0 != null) criteria.ge("created_time", createdTime0);
+        if(createdTime1 != null) criteria.lt("created_time", createdTime1);
         return pagination != null ?
                 PageHelper.startPage(pagination.getCurrent(), pagination.getSize()).doSelectPage(() -> roleMapper.selectList(criteria)) :
                 roleMapper.selectList(criteria);
