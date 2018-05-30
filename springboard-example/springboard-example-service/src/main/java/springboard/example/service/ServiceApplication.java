@@ -15,12 +15,13 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import springboard.mybatis.AutoEnumTypeHandler;
+import springboard.mybatis.annotation.EnableMybatisPersistence;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@MapperScan("springboard.example.dao")
+@EnableMybatisPersistence("springboard.example.dao")
 public class ServiceApplication {
 
     @Bean(name = "springboardDataSource")

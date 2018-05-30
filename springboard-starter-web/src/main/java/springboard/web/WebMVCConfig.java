@@ -12,9 +12,9 @@ import springboard.web.exception.*;
 
 @Configuration
 @ControllerAdvice
-public class WebMVCAutoConfig {
+public class WebMVCConfig {
 
-    private static Logger log = LoggerFactory.getLogger(WebMVCAutoConfig.class);
+    private static Logger log = LoggerFactory.getLogger(WebMVCConfig.class);
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
