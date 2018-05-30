@@ -3,6 +3,7 @@ package springboard.example.dao;
 import org.apache.ibatis.annotations.*;
 import springboard.example.model.Role;
 import springboard.example.model.User;
+import springboard.mybatis.AutoXMLLanguageDriver;
 
 import java.util.Date;
 import java.util.List;
@@ -20,27 +21,23 @@ public interface UserMapper {
     @Select("SELECT u.*,r.type,r.name,r.created_time as createdTime FROM roles r, users u WHERE r.id=u.id AND username=#{username}")
     User selectByUsername(@Param("username") String username);
 
-    @Select("<script>\n" +
-            "  SELECT  u.*,r.type,r.name,r.created_time as createdTime FROM roles r, users u \n" +
-            "  WHERE r.id=u.id \n" +
-            "    <if test='id != null'>AND u.id=#{id}</if>\n" +
-            "    <if test='username != null'>AND username LIKE '%${username}%'}</if>\n" +
-            "    <if test='name != null'>AND name LIKE '%${name}%'</if>\n" +
-            "    <if test='createdTime0 != null'>AND createdTime &gt;= #{createdTime0}</if>\n" +
-            "    <if test='createdTime1 != null'>AND createdTime &lt; #{createdTime1}</if>\n" +
-            "  ORDER BY id DESC\n" +
-            "</script>")
+    @Select("SELECT  u.*,r.type,r.name,r.created_time as createdTime FROM roles r, users u \n" +
+            "WHERE r.id=u.id \n" +
+            "  <if test='id != null'>AND u.id=#{id}</if>\n" +
+            "  <if test='username != null'>AND username LIKE '%${username}%'}</if>\n" +
+            "  <if test='name != null'>AND name LIKE '%${name}%'</if>\n" +
+            "  <if test='createdTime0 != null'>AND createdTime &gt;= #{createdTime0}</if>\n" +
+            "  <if test='createdTime1 != null'>AND createdTime &lt; #{createdTime1}</if>\n" +
+            "ORDER BY id DESC")
     List<User> selectList(@Param("id") Long id, @Param("username") String username, @Param("name") String name, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
 
-    @Update("<script>\n" +
-            "  UPDATE users \n" +
-            "    <set>\n" +
-            "      <if test='password != null'>password=#{password},</if>\n" +
-            "      <if test='lastLoggedInTime != null'>last_logged_in_time=#{lastLoggedInTime},</if>\n" +
-            "      <if test='lastLoggedInAddr != null'>last_logged_in_addr=#{lastLoggedInAddr}</if>\n" +
-            "    </set>\n" +
-            "  WHERE id=#{id}\n" +
-            "</script>")
+    @Update("UPDATE users \n" +
+            "  <set>\n" +
+            "    <if test='password != null'>password=#{password},</if>\n" +
+            "    <if test='lastLoggedInTime != null'>last_logged_in_time=#{lastLoggedInTime},</if>\n" +
+            "    <if test='lastLoggedInAddr != null'>last_logged_in_addr=#{lastLoggedInAddr}</if>\n" +
+            "  </set>\n" +
+            "WHERE id=#{id}")
     int updateById(User user);
 
     @Delete("DELETE FROM users WHERE id=#{id}")

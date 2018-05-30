@@ -3,7 +3,7 @@ package springboard.example.dao;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import springboard.example.model.Role;
-import springboard.mybatis.InOperationLanguageDriver;
+import springboard.mybatis.AutoXMLLanguageDriver;
 
 import java.util.List;
 
@@ -17,7 +17,6 @@ public interface RoleMapper extends BaseMapper<Role> {
     List<String> findPermissions(@Param("roleId") Long roleId);
 
     @Select("SELECT permission FROM role_permissions WHERE role_id IN #{roleIds}")
-    @Lang(InOperationLanguageDriver.class)
     List<String> findPermissions2(@Param("roleIds") List<Long> roleIds);
 
     @Delete("DELETE FROM role_permissions WHERE role_id=#{roleId} AND permission=#{permission}")
