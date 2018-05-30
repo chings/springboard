@@ -14,7 +14,7 @@ public interface RoleMapper extends BaseMapper<Role> {
     int setPermission(@Param("roleId") Long roleId, @Param("permission") String permission);
 
     @Select("SELECT permission FROM role_permissions WHERE role_id=#{roleId}")
-    List<String> findPermissions(@Param("roleIds") Long roleId);
+    List<String> findPermissions(@Param("roleId") Long roleId);
 
     @Select("SELECT permission FROM role_permissions WHERE role_id IN #{roleIds}")
     @Lang(InOperationLanguageDriver.class)

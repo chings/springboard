@@ -77,6 +77,12 @@ public class TestAdminServiceImpl {
     }
 
     @Test
+    public void testFindPermissionsOfRole() {
+        List<String> permissions = adminService.findPermissionsOfRole(4L);
+        System.out.println(permissions);
+    }
+
+    @Test
     public void testFindPermissionsOfUser() {
         List<String> permissions = adminService.findPermissionsOfUser(3L);
         System.out.println(permissions);
