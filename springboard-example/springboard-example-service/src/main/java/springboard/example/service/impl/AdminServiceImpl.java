@@ -98,7 +98,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Role> findRolesOfUser(Long userId) {
+    public List<Role> findRolesOfUser(long userId) {
         User user = getUser(userId);
         List<Role> roles = new ArrayList<>();
         roles.add(user);
@@ -107,12 +107,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<String> findPermissionsOfRole(Long roleId) {
+    public List<String> findPermissionsOfRole(long roleId) {
         return roleMapper.findPermissions(roleId);
     }
 
     @Override
-    public List<String> findPermissionsOfUser(Long userId) {
+    public List<String> findPermissionsOfUser(long userId) {
         List<Long> roleIds = new ArrayList<>();
         roleIds.add(userId);
         roleIds.addAll(userMapper.findRoleIds(userId));
