@@ -17,4 +17,16 @@
         <module>springboard-example-service</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>development</id>
+            <properties>
+                <profiles.active>development</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
 </project>

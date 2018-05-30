@@ -3,7 +3,6 @@ package springboard.example.dao;
 import org.apache.ibatis.annotations.*;
 import springboard.example.model.Role;
 import springboard.example.model.User;
-import springboard.mybatis.AutoXMLLanguageDriver;
 
 import java.util.Date;
 import java.util.List;

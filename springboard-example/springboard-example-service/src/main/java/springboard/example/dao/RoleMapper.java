@@ -3,7 +3,6 @@ package springboard.example.dao;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 import springboard.example.model.Role;
-import springboard.mybatis.AutoXMLLanguageDriver;
 
 import java.util.List;
 
