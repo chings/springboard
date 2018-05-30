@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@com.alibaba.dubbo.config.annotation.Service
 public class AdminServiceImpl implements AdminService {
 
     private static Logger log = LoggerFactory.getLogger(AdminServiceImpl.class);

@@ -1,5 +1,6 @@
 package springboard.example.web.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import springboard.example.model.AdminService;
 
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
@@ -18,6 +20,9 @@ import java.util.Map;
 public class AdminController {
 
     private static Logger log = LoggerFactory.getLogger(AdminController.class);
+
+    @Reference
+    AdminService adminService;
 
     @PostMapping("/login")
     public Object login(@RequestParam("username") String username,
@@ -54,6 +59,11 @@ public class AdminController {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
         return "";
+    }
+
+    @GetMapping("/test")
+    public Object test(@RequestParam(value = "id", defaultValue = "2") long id) {
+        return adminService.findPermissionsOfUser(id);
     }
 
 }

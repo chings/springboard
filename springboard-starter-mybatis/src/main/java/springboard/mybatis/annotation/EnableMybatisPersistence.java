@@ -21,4 +21,7 @@ public @interface EnableMybatisPersistence {
     @AliasFor(annotation = MapperScan.class)
     String[] basePackages() default {};
 
+    @AliasFor(annotation = MapperScan.class)
+    Class<?>[] basePackageClasses() default {};
+
 }
