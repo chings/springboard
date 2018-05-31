@@ -65,7 +65,7 @@ public class TestAdminServiceImpl {
 
     @Test
     public void testFindUsers() {
-        List<User> users = adminService.findUsers(null, null, null, null,null, 1);
+        List<User> users = adminService.findUsers(null, null, null,null, null,null, 1);
         System.out.println(users);
     }
 

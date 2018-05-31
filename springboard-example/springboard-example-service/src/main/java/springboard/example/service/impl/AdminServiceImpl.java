@@ -55,7 +55,7 @@ public class AdminServiceImpl implements AdminService {
 
         user.setId(role.getId());
         String password = user.getPassword();
-        if(!StringUtils.isEmpty(password)) user.setPassword(passwordEncoder.encode(password));
+        if(StringUtils.hasText(password)) user.setPassword(passwordEncoder.encode(password));
         boolean ok = userMapper.insert(user) == 1;
         user.setPassword(password);
         return ok ? user : null;
@@ -95,12 +95,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Integer... pagination) {
+    public List<User> findUsers(Long id, User.Status status, String username, String name, Date createdTime0, Date createdTime1, Integer... pagination) {
         Integer pageNum = pagination.length > 0 ? pagination[0]: null;
         Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
         return pagination != null ?
-                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userMapper.selectList(id, username, name, createdTime0, createdTime1)) :
-                userMapper.selectList(id, username, name, createdTime0, createdTime1);
+                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userMapper.selectList(id, status, username, name, createdTime0, createdTime1)) :
+                userMapper.selectList(id, status, username, name, createdTime0, createdTime1);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean updateUser(User user) {
         String password = user.getPassword();
-        if(!StringUtils.isEmpty(password)) user.setPassword(passwordEncoder.encode(password));
+        if(StringUtils.hasText(password)) user.setPassword(passwordEncoder.encode(password));
         boolean ok = userMapper.updateById(user) == 1;
         user.setPassword(password);
         return ok;
@@ -184,6 +184,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean deleteUser(long id) {
         deleteRole(id);
+        userMapper.unsetAllRoles(id);
         return userMapper.deleteById(id) == 1;
     }
 

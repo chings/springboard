@@ -4,6 +4,9 @@
     <settings>
         <setting name="defaultScriptingLanguage" value="springboard.mybatis.AutoXMLLanguageDriver"/>
     </settings>
+    <typeHandlers>
+        <typeHandler javaType="com.baomidou.mybatisplus.enums.IEnum" handler="com.baomidou.mybatisplus.handlers.EnumTypeHandler"/>
+    </typeHandlers>
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
     </plugins>

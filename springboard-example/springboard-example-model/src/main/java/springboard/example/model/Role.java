@@ -28,13 +28,9 @@ public class Role implements Serializable {
 
     @TableId(type = IdType.AUTO)
     Long id;
-    Type type;
+    Type type = Type.ROLE;
     String name;
     Date createdTime;
-
-    public Role() {
-        type = Type.ROLE;
-    }
 
     public Long getId() {
         return id;

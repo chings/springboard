@@ -10,28 +10,30 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    @Insert("INSERT INTO users(id,username,password,last_logged_in_time,last_logged_in_addr) \n" +
-            "VALUES(#{id},#{username},#{password},#{lastLoggedInTime},#{lastLoggedInAddr})")
+    @Insert("INSERT INTO users(id,status,username,password,last_logged_in_time,last_logged_in_addr) \n" +
+            "VALUES(#{id},#{status},#{username},#{password},#{lastLoggedInTime},#{lastLoggedInAddr})")
     int insert(User user);
 
-    @Select("SELECT u.*,r.type,r.name,r.created_time as createdTime FROM roles r, users u WHERE r.id=u.id AND u.id=#{id}")
+    @Select("SELECT u.*,r.type,r.name,r.created_time AS createdTime FROM roles r, users u WHERE r.id=u.id AND u.id=#{id}")
     User selectById(@Param("id") long id);
 
-    @Select("SELECT u.*,r.type,r.name,r.created_time as createdTime FROM roles r, users u WHERE r.id=u.id AND username=#{username}")
+    @Select("SELECT u.*,r.type,r.name,r.created_time AS createdTime FROM roles r, users u WHERE r.id=u.id AND username=#{username}")
     User selectByUsername(@Param("username") String username);
 
-    @Select("SELECT  u.*,r.type,r.name,r.created_time as createdTime FROM roles r, users u \n" +
+    @Select("SELECT u.*,r.type,r.name,r.created_time AS createdTime FROM roles r, users u \n" +
             "WHERE r.id=u.id \n" +
             "  <if test='id != null'>AND u.id=#{id}</if>\n" +
+            "  <if test='status != null'>AND u.status=#{status}</if>\n" +
             "  <if test='username != null'>AND username LIKE '%${username}%'}</if>\n" +
             "  <if test='name != null'>AND name LIKE '%${name}%'</if>\n" +
             "  <if test='createdTime0 != null'>AND createdTime &gt;= #{createdTime0}</if>\n" +
             "  <if test='createdTime1 != null'>AND createdTime &lt; #{createdTime1}</if>\n" +
             "ORDER BY id DESC")
-    List<User> selectList(@Param("id") Long id, @Param("username") String username, @Param("name") String name, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
+    List<User> selectList(@Param("id") Long id, @Param("status") User.Status status, @Param("username") String username, @Param("name") String name, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
 
     @Update("UPDATE users \n" +
             "  <set>\n" +
+            "    <if test='status != null'>status=#{status},</if>\n" +
             "    <if test='password != null'>password=#{password},</if>\n" +
             "    <if test='lastLoggedInTime != null'>last_logged_in_time=#{lastLoggedInTime},</if>\n" +
             "    <if test='lastLoggedInAddr != null'>last_logged_in_addr=#{lastLoggedInAddr}</if>\n" +
