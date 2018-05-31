@@ -14,8 +14,8 @@ public interface AdminService {
     User getUser(long id);
     User getUser(String username, String password);
 
-    List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Pagination pagination);
-    List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Pagination pagination);
+    List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Integer... pagination);
+    List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Integer... pagination);
 
     List<Role> findRolesOfUser(long userId);
 

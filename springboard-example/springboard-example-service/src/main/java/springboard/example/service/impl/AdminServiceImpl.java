@@ -27,6 +27,8 @@ public class AdminServiceImpl implements AdminService {
 
     private static Logger log = LoggerFactory.getLogger(AdminServiceImpl.class);
 
+    public static final int DEFAULT_PAGE_SIZE = 20;
+
     @Autowired
     RoleMapper roleMapper;
 
@@ -79,22 +81,26 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Pagination pagination) {
+    public List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Integer... pagination) {
         Wrapper<Role> criteria = new EntityWrapper<>();
         if(id != null) criteria.eq("id", id);
         if(type != null) criteria.eq("type", type);
         if(name != null) criteria.like("name", name);
         if(createdTime0 != null) criteria.ge("created_time", createdTime0);
         if(createdTime1 != null) criteria.lt("created_time", createdTime1);
+        Integer pageNum = pagination.length > 0 ? pagination[0]: null;
+        Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
         return pagination != null ?
-                PageHelper.startPage(pagination.getCurrent(), pagination.getSize()).doSelectPage(() -> roleMapper.selectList(criteria)) :
+                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> roleMapper.selectList(criteria)) :
                 roleMapper.selectList(criteria);
     }
 
     @Override
-    public List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Pagination pagination) {
+    public List<User> findUsers(Long id, String username, String name, Date createdTime0, Date createdTime1, Integer... pagination) {
+        Integer pageNum = pagination.length > 0 ? pagination[0]: null;
+        Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
         return pagination != null ?
-                PageHelper.startPage(pagination.getCurrent(), pagination.getSize()).doSelectPage(() -> userMapper.selectList(id, username, name, createdTime0, createdTime1)) :
+                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userMapper.selectList(id, username, name, createdTime0, createdTime1)) :
                 userMapper.selectList(id, username, name, createdTime0, createdTime1);
     }
 
