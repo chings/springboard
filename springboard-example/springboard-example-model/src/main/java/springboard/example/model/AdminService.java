@@ -1,7 +1,5 @@
 package springboard.example.model;
 
-import com.baomidou.mybatisplus.plugins.pagination.Pagination;
-
 import java.util.Date;
 import java.util.List;
 

@@ -15,7 +15,7 @@ public interface RoleMapper extends BaseMapper<Role> {
     @Select("SELECT permission FROM role_permissions WHERE role_id=#{roleId}")
     List<String> findPermissions(@Param("roleId") Long roleId);
 
-    @Select("SELECT permission FROM role_permissions WHERE role_id IN #{roleIds}")
+    @Select("SELECT DISTINCT permission FROM role_permissions WHERE role_id IN #{roleIds}")
     List<String> findPermissions2(@Param("roleIds") List<Long> roleIds);
 
     @Delete("DELETE FROM role_permissions WHERE role_id=#{roleId} AND permission=#{permission}")
