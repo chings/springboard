@@ -12,11 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import springboard.example.model.AdminService;
 import springboard.example.model.User;
 
-import javax.servlet.http.HttpSession;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 public class AdminController {
 
@@ -58,21 +53,6 @@ public class AdminController {
     @GetMapping("/users/{id}/permissions")
     public Object getUserPermissions(@PathVariable("id") long id) {
         return adminService.findPermissionsOfUser(id);
-    }
-
-    @GetMapping("/principal")
-    public Object peekPrincipal(Subject subject) {
-        return subject.getPrincipal();
-    }
-
-    @GetMapping(value = "/session")
-    public Object peekSession(HttpSession session) {
-        Map<String, Object> result = new HashMap<>();
-        for(Enumeration<String> e = session.getAttributeNames(); e.hasMoreElements(); ) {
-            String attributeName = e.nextElement();
-            result.put(attributeName, session.getAttribute(attributeName));
-        }
-        return result;
     }
 
 }

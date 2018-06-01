@@ -1,15 +1,8 @@
 package springboard.example.web;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import org.apache.shiro.realm.Realm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import springboard.dubbo.annotation.EnableDubboConsumer;
-import springboard.example.model.AdminService;
-import springboard.example.model.StormtrooperService;
-import springboard.example.web.component.AdminRealm;
 import springboard.shiro.annotation.EnableShiroSecurity;
 import springboard.swagger.annotation.EnableSwaggerDocumentation;
 
