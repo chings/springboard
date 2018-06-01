@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import springboard.example.model.AdminService;
 import springboard.example.model.User;
+import springboard.web.exception.UnauthorizedException;
 
 @RestController
 public class AdminController {
@@ -29,7 +30,7 @@ public class AdminController {
             subject.login(token);
         } catch(AuthenticationException x) {
             log.warn("{} was thrown", x.getClass(), x);
-            throw x;
+            throw new UnauthorizedException("The username or password was not correct.");
         }
         return "OK";
     }
@@ -37,8 +38,7 @@ public class AdminController {
     @PostMapping("/logout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Object logout() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
+        SecurityUtils.getSubject().logout();
         return "";
     }
 
