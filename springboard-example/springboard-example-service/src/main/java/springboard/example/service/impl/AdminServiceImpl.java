@@ -1,5 +1,6 @@
 package springboard.example.service.impl;
 
+import com.baomidou.dynamic.datasource.DS;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.github.pagehelper.PageHelper;
@@ -100,6 +101,7 @@ public class AdminServiceImpl implements AdminService {
                 roleMapper.selectList(criteria);
     }
 
+    @DS("springboard2DataSource")
     @Override
     public List<User> findUsers(Long id, User.Status status, String username, String name, Date createdTime0, Date createdTime1, Integer... pagination) {
         Integer pageNum = pagination.length > 0 ? pagination[0]: null;

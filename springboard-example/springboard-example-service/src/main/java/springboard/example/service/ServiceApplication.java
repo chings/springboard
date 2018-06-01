@@ -21,7 +21,13 @@ public class ServiceApplication {
     @Bean(name = "springboardDataSource")
     @ConfigurationProperties(prefix = "datasource.springboard")
     @Primary
-    public DataSource dataSource() {
+    public DataSource springboardDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean(name = "springboard2DataSource")
+    @ConfigurationProperties(prefix = "datasource.springboard2")
+    public DataSource springboard2DataSource() {
         return DataSourceBuilder.create().build();
     }
 
