@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import springboard.example.model.AdminService;
+import springboard.example.model.User;
 
 import javax.servlet.http.HttpSession;
 import java.util.Enumeration;
@@ -38,21 +39,6 @@ public class AdminController {
         return "OK";
     }
 
-    @GetMapping("/principal")
-    public Object principal(Subject subject) {
-        return subject.getPrincipal();
-    }
-
-    @GetMapping(value = "/session")
-    public Object session(HttpSession session) {
-        Map<String, Object> result = new HashMap<>();
-        for(Enumeration<String> e = session.getAttributeNames(); e.hasMoreElements(); ) {
-            String attributeName = e.nextElement();
-            result.put(attributeName, session.getAttribute(attributeName));
-        }
-        return result;
-    }
-
     @PostMapping("/logout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Object logout() {
@@ -61,9 +47,32 @@ public class AdminController {
         return "";
     }
 
-    @GetMapping("/test")
-    public Object test(@RequestParam(value = "id", defaultValue = "2") long id) {
+    @PostMapping("/users/{id}/password")
+    public Object resetUserPassword(@PathVariable("id") long id, @RequestParam("password") String password) {
+        User user = new User();
+        user.setId(id);
+        user.setPassword(password);
+        return adminService.updateUser(user);
+    }
+
+    @GetMapping("/users/{id}/permissions")
+    public Object getUserPermissions(@PathVariable("id") long id) {
         return adminService.findPermissionsOfUser(id);
+    }
+
+    @GetMapping("/principal")
+    public Object peekPrincipal(Subject subject) {
+        return subject.getPrincipal();
+    }
+
+    @GetMapping(value = "/session")
+    public Object peekSession(HttpSession session) {
+        Map<String, Object> result = new HashMap<>();
+        for(Enumeration<String> e = session.getAttributeNames(); e.hasMoreElements(); ) {
+            String attributeName = e.nextElement();
+            result.put(attributeName, session.getAttribute(attributeName));
+        }
+        return result;
     }
 
 }

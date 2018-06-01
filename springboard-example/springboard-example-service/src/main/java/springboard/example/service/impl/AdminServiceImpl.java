@@ -19,6 +19,7 @@ import springboard.example.model.User;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @com.alibaba.dubbo.config.annotation.Service
@@ -72,6 +73,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public User getUser(String username) {
+        return userMapper.selectByUsername(username);
+    }
+
+    @Override
     public User getUser(String username, String password) {
         User user = userMapper.selectByUsername(username);
         if(user == null) return null;
@@ -104,12 +110,21 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public List<Role> findRolesOfUser(long userId) {
-        User user = getUser(userId);
+    public List<Role> findRolesOfUser(long userId, Role.Type type) {
         List<Role> roles = new ArrayList<>();
-        roles.add(user);
-        roles.addAll(userMapper.findRoles(userId));
+        if(type == null || type == Role.Type.USER) {
+            User user = getUser(userId);
+            if(user != null) roles.add(user);
+        }
+        if(type == null || type == Role.Type.ROLE) {
+            roles.addAll(userMapper.findRoles(userId));
+        }
         return roles;
+    }
+
+    @Override
+    public List<String> findRoleNamesOfUser(long userId, Role.Type type) {
+        return findRolesOfUser(userId, type).stream().map(role -> role.getName()).collect(Collectors.toList());
     }
 
     @Override

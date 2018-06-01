@@ -22,7 +22,7 @@ public class User extends Role implements Serializable {
         }
     }
 
-    Status status = Status.ACTIVE;
+    Status status;
     String username;
     String password;
     Date lastLoggedInTime;

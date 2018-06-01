@@ -31,6 +31,7 @@ public class TestAdminServiceImpl {
     @Test
     public void testCreateUser() {
         User user = new User();
+        user.setStatus(User.Status.ACTIVE);
         user.setUsername("ching");
         user.setPassword("the nameless");
         user.setName("Ching");
@@ -53,7 +54,7 @@ public class TestAdminServiceImpl {
 
     @Test
     public void testGetUser2() {
-        User user = adminService.getUser("admin", "Password");
+        User user = adminService.getUser("admin", "Passw0rd");
         System.out.println(user);
     }
 
@@ -65,13 +66,13 @@ public class TestAdminServiceImpl {
 
     @Test
     public void testFindUsers() {
-        List<User> users = adminService.findUsers(null, null, null,null, null,null, 1);
+        List<User> users = adminService.findUsers(null, User.Status.ACTIVE, null,null, null,null, 1);
         System.out.println(users);
     }
 
     @Test
     public void testFindRolesOfUser() {
-        List<Role> roles = adminService.findRolesOfUser(3L);
+        List<Role> roles = adminService.findRolesOfUser(3L, null);
         System.out.println(roles);
     }
 
