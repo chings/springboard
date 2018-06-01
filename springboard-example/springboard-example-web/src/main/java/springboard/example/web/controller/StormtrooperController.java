@@ -1,12 +1,13 @@
 package springboard.example.web.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import springboard.example.web.model.Stormtrooper;
-import springboard.example.web.model.StormtrooperService;
+import springboard.example.model.Stormtrooper;
+import springboard.example.model.StormtrooperService;
 import springboard.web.exception.NotFoundException;
 
 import java.util.Collection;
@@ -15,47 +16,43 @@ import java.util.Collection;
 @RequestMapping(path = "/troopers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class StormtrooperController {
 
-    private final StormtrooperService trooperDao;
+    @Reference
+    StormtrooperService stormtrooperService;
 
-    @Autowired
-    public StormtrooperController(StormtrooperService trooperDao) {
-        this.trooperDao = trooperDao;
-    }
-
-    @GetMapping()
     @RequiresPermissions("troopers:read")
+    @GetMapping
     public Collection<Stormtrooper> listTroopers() {
-        return trooperDao.listStormtroopers();
+        return stormtrooperService.listStormtroopers();
     }
 
-    @GetMapping(path = "/{id}")
     @RequiresPermissions("troopers:read")
+    @GetMapping(path = "/{id}")
     public Stormtrooper getTrooper(@PathVariable("id") String id) {
-        Stormtrooper stormtrooper = trooperDao.getStormtrooper(id);
+        Stormtrooper stormtrooper = stormtrooperService.getStormtrooper(id);
         if (stormtrooper == null) {
             throw new NotFoundException(id);
         }
         return stormtrooper;
     }
 
-    @PostMapping()
     @RequiresPermissions("troopers:create")
+    @PostMapping
     public Stormtrooper createTrooper(@RequestBody Stormtrooper trooper) {
-        return trooperDao.addStormtrooper(trooper);
+        return stormtrooperService.addStormtrooper(trooper);
     }
 
-    @PostMapping(path = "/{id}")
     @RequiresPermissions("troopers:update")
+    @PostMapping(path = "/{id}")
     public Stormtrooper updateTrooper(@PathVariable("id") String id,
                                       @RequestBody Stormtrooper updatedTrooper) throws NotFoundException {
-        return trooperDao.updateStormtrooper(id, updatedTrooper);
+        return stormtrooperService.updateStormtrooper(id, updatedTrooper);
     }
 
+    @RequiresPermissions("troopers:delete")
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @RequiresPermissions("troopers:delete")
     public void deleteTrooper(@PathVariable("id") String id) {
-        trooperDao.deleteStormtrooper(id);
+        stormtrooperService.deleteStormtrooper(id);
     }
 
 }

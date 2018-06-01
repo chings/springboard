@@ -1,10 +1,12 @@
 package springboard.example.web.component;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.stereotype.Component;
 import springboard.example.model.AdminService;
 import springboard.example.model.Role;
 import springboard.example.model.User;
@@ -12,13 +14,11 @@ import springboard.example.model.User;
 import java.util.HashSet;
 import java.util.Set;
 
+@Component
 public class AdminRealm extends AuthorizingRealm {
 
+    @Reference
     AdminService adminService;
-
-    public AdminRealm(AdminService adminService) {
-        this.adminService = adminService;
-    }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {

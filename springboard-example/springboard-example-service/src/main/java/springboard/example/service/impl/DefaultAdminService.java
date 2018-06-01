@@ -1,5 +1,6 @@
 package springboard.example.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.dynamic.datasource.DS;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -8,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import springboard.example.dao.RoleMapper;
@@ -22,11 +23,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 @Service
-@com.alibaba.dubbo.config.annotation.Service
-public class AdminServiceImpl implements AdminService {
+public class DefaultAdminService implements AdminService {
 
-    private static Logger log = LoggerFactory.getLogger(AdminServiceImpl.class);
+    private static Logger log = LoggerFactory.getLogger(DefaultAdminService.class);
 
     public static final int DEFAULT_PAGE_SIZE = 20;
 

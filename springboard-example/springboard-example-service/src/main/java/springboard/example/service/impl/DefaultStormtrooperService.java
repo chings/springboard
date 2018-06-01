@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package springboard.example.web.service;
+package springboard.example.service.impl;
 
-import springboard.example.web.model.Stormtrooper;
-import springboard.example.web.model.StormtrooperService;
+import com.alibaba.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Component;
+import springboard.example.model.Stormtrooper;
+import springboard.example.model.StormtrooperService;
 
 import java.security.SecureRandom;
 import java.util.*;
@@ -25,6 +27,8 @@ import java.util.*;
 /**
  * Dummy DAO that will generate 50 random Stormtroopers upon creation.
  */
+@Component
+@Service
 public final class DefaultStormtrooperService implements StormtrooperService {
 
     final static private String[] trooperTypes = {"Basic", "Space", "Aquatic", "Marine", "Jump", "Sand"};

@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package springboard.example.web.model;
+package springboard.example.model;
 
-public class Stormtrooper {
+import java.io.Serializable;
+
+public class Stormtrooper implements Serializable {
 
     private String id;
     private String planetOfOrigin;
