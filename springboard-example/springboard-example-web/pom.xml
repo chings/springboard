@@ -29,6 +29,11 @@
         </dependency>
         <dependency>
             <groupId>cn.ching.springboard</groupId>
+            <artifactId>springboard-starter-rocketmq</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching.springboard</groupId>
             <artifactId>springboard-starter-shiro</artifactId>
             <version>${project.version}</version>
         </dependency>

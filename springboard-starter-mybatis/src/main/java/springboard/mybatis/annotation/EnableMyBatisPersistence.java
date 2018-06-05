@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
-import springboard.mybatis.MybatisPersistenceConfig;
+import springboard.mybatis.MyBatisPersistenceConfig;
 
 import java.lang.annotation.*;
 
@@ -13,8 +13,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @MapperScan(annotationClass= Mapper.class)
-@Import(MybatisPersistenceConfig.class)
-public @interface EnableMybatisPersistence {
+@Import(MyBatisPersistenceConfig.class)
+public @interface EnableMyBatisPersistence {
 
     @AliasFor(annotation = MapperScan.class)
     String[] value() default {};

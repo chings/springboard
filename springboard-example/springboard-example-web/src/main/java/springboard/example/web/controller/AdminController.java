@@ -7,11 +7,18 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import springboard.example.model.AdminService;
+import springboard.example.model.LoginEvent;
 import springboard.example.model.User;
+import springboard.lang.EventPublisher;
 import springboard.web.exception.UnauthorizedException;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 @RestController
 public class AdminController {
@@ -21,8 +28,12 @@ public class AdminController {
     @Reference
     AdminService adminService;
 
+    @Autowired
+    EventPublisher eventPublisher;
+
     @PostMapping("/login")
-    public Object login(@RequestParam("username") String username,
+    public Object login(HttpServletRequest request,
+                        @RequestParam("username") String username,
                         @RequestParam("password") String password) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -32,6 +43,15 @@ public class AdminController {
             log.warn("{} was thrown", x.getClass(), x);
             throw new UnauthorizedException("The username or password was not correct.");
         }
+
+        User user = adminService.getUser(username);
+        LoginEvent loginEvent = new LoginEvent();
+        loginEvent.setUserId(user.getId());
+        loginEvent.setUsername(username);
+        loginEvent.setLoggedInTime(new Date());
+        loginEvent.setLoggedInAddr(request.getRemoteAddr());
+        eventPublisher.publish(loginEvent);
+
         return "OK";
     }
 
@@ -53,6 +73,15 @@ public class AdminController {
     @GetMapping("/users/{id}/permissions")
     public Object getUserPermissions(@PathVariable("id") long id) {
         return adminService.findPermissionsOfUser(id);
+    }
+
+    @EventListener(LoginEvent.class)
+    public void handleLogin(LoginEvent event) {
+        User user = new User();
+        user.setId(event.getUserId());
+        user.setLastLoggedInTime(event.getLoggedInTime());
+        user.setLastLoggedInAddr(event.getLoggedInAddr());
+        adminService.updateUser(user);
     }
 
 }

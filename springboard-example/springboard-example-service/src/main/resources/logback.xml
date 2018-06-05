@@ -28,6 +28,6 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="springboard.example.dao" level="DEBUG" />
+    <logger name="springboard" level="DEBUG" />
 
 </configuration>
