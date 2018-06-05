@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>springboard-common</module>
         <module>springboard-example</module>
         <module>springboard-starter-dubbo</module>
         <module>springboard-starter-mybatis</module>
