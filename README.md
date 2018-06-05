@@ -1,1 +1,1 @@
-No wheels, just screws.
+ No wheels, just bolts.
