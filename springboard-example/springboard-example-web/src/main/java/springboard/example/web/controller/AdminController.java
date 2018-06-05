@@ -12,7 +12,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import springboard.example.model.AdminService;
-import springboard.example.model.LoginEvent;
+import springboard.example.model.LoggedInEvent;
 import springboard.example.model.User;
 import springboard.lang.EventPublisher;
 import springboard.web.exception.UnauthorizedException;
@@ -45,12 +45,12 @@ public class AdminController {
         }
 
         User user = adminService.getUser(username);
-        LoginEvent loginEvent = new LoginEvent();
-        loginEvent.setUserId(user.getId());
-        loginEvent.setUsername(username);
-        loginEvent.setLoggedInTime(new Date());
-        loginEvent.setLoggedInAddr(request.getRemoteAddr());
-        eventPublisher.publish(loginEvent);
+        LoggedInEvent loggedInEvent = new LoggedInEvent();
+        loggedInEvent.setUserId(user.getId());
+        loggedInEvent.setUsername(username);
+        loggedInEvent.setLoggedInTime(new Date());
+        loggedInEvent.setLoggedInAddr(request.getRemoteAddr());
+        eventPublisher.publish(loggedInEvent);
 
         return "OK";
     }
@@ -75,8 +75,8 @@ public class AdminController {
         return adminService.findPermissionsOfUser(id);
     }
 
-    @EventListener(LoginEvent.class)
-    public void handleLogin(LoginEvent event) {
+    @EventListener(LoggedInEvent.class)
+    public void handleLoggedIn(LoggedInEvent event) {
         User user = new User();
         user.setId(event.getUserId());
         user.setLastLoggedInTime(event.getLoggedInTime());

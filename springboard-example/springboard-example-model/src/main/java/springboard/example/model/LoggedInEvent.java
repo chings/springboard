@@ -3,7 +3,7 @@ package springboard.example.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class LoginEvent implements Serializable {
+public class LoggedInEvent implements Serializable {
 
     Long userId;
     String username;
@@ -44,7 +44,7 @@ public class LoginEvent implements Serializable {
 
     @Override
     public String toString() {
-        return "LoginEvent{" +
+        return "LoggedInEvent{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", loggedInTime=" + loggedInTime +

@@ -1,9 +1,13 @@
 package springboard.rocketmq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.common.UtilAll;
+import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.starter.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.starter.core.RocketMQListener;
+import org.apache.rocketmq.spring.starter.core.RocketMQPushConsumerLifecycleListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
@@ -14,7 +18,7 @@ import java.io.IOException;
 import static springboard.rocketmq.RocketMQEventPublisher.MESSAGE_CLASS_KEY;
 
 @RocketMQMessageListener(topic="${spring.rocketmq.consumer.topic}", consumerGroup="${spring.rocketmq.consumer.group}")
-public class RocketMQEventListener implements RocketMQListener<MessageExt> {
+public class RocketMQEventListener implements RocketMQListener<MessageExt>, RocketMQPushConsumerLifecycleListener {
 
     private static Logger log = LoggerFactory.getLogger(RocketMQEventListener.class);
 
@@ -45,6 +49,12 @@ public class RocketMQEventListener implements RocketMQListener<MessageExt> {
         String result = message.getUserProperty(key);
         if(StringUtils.isEmpty(result)) result = message.getProperty("USERS_" + key);
         return result;
+    }
+
+    @Override
+    public void prepareStart(DefaultMQPushConsumer consumer) {
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_TIMESTAMP);
+        consumer.setConsumeTimestamp(UtilAll.timeMillisToHumanString3(System.currentTimeMillis()));
     }
 
 }

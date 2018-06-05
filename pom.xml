@@ -17,11 +17,11 @@
         <module>springboard-example</module>
         <module>springboard-starter-dubbo</module>
         <module>springboard-starter-mybatis</module>
+        <module>springboard-starter-rocketmq</module>
         <module>springboard-starter-shiro</module>
         <module>springboard-starter-swagger</module>
         <module>springboard-starter-web</module>
         <module>springboard-util</module>
-        <module>springboard-starter-rocketmq</module>
     </modules>
 
     <repositories>
@@ -39,6 +39,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>2.0.2.RELEASE</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
