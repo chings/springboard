@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RocketMQEventListenerConfig implements ApplicationEventPublisherAware {
+public class RocketMQEventSubscriberConfig implements ApplicationEventPublisherAware {
 
     ApplicationEventPublisher eventPublisher;
 
@@ -26,7 +26,7 @@ public class RocketMQEventListenerConfig implements ApplicationEventPublisherAwa
 
     @Bean
     public RocketMQListener<MessageExt> rocketMQListener() {
-        return new RocketMQEventListener(eventPublisher, objectMapper);
+        return new RocketMQEventSubscriber(eventPublisher, objectMapper);
     }
 
 }

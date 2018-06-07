@@ -21,3 +21,4 @@ public @interface EnableDubboGovernance {
     Class<?>[] basePackageClasses() default {};
 
 }
+

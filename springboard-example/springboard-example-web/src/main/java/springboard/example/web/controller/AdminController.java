@@ -86,4 +86,9 @@ public class AdminController {
         adminService.updateUser(user);
     }
 
+    @EventListener(LoggedInEvent.class)
+    public void traceLoggedIn(LoggedInEvent event) {
+        log.info(event.toString());
+    }
+
 }

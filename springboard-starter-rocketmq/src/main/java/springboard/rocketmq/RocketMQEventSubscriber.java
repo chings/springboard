@@ -18,15 +18,15 @@ import java.io.IOException;
 import static springboard.rocketmq.RocketMQEventPublisher.MESSAGE_CLASS_KEY;
 
 @RocketMQMessageListener(topic="${spring.rocketmq.consumer.topic}", consumerGroup="${spring.rocketmq.consumer.group}")
-public class RocketMQEventListener implements RocketMQListener<MessageExt>, RocketMQPushConsumerLifecycleListener {
+public class RocketMQEventSubscriber implements RocketMQListener<MessageExt>, RocketMQPushConsumerLifecycleListener {
 
-    private static Logger log = LoggerFactory.getLogger(RocketMQEventListener.class);
+    private static Logger log = LoggerFactory.getLogger(RocketMQEventSubscriber.class);
 
-    ApplicationEventPublisher eventPublisher;
+    ApplicationEventPublisher localEventPublisher;
     ObjectMapper objectMapper;
 
-    public RocketMQEventListener(ApplicationEventPublisher eventPublisher, ObjectMapper objectMapper) {
-        this.eventPublisher = eventPublisher;
+    public RocketMQEventSubscriber(ApplicationEventPublisher eventPublisher, ObjectMapper objectMapper) {
+        this.localEventPublisher = eventPublisher;
         this.objectMapper = objectMapper;
     }
 
@@ -49,7 +49,7 @@ public class RocketMQEventListener implements RocketMQListener<MessageExt>, Rock
                 throw new RuntimeException(x);
             }
         }
-        eventPublisher.publishEvent(event);
+        localEventPublisher.publishEvent(event);
     }
 
     @Override
