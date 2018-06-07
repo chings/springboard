@@ -24,24 +24,24 @@ public class RocketMQEventPublisher implements EventPublisher {
         rocketMQTemplate.setDefaultDestination(topic);
     }
 
-    @Override
-    public void publish(Object event) {
-        log.debug("Sending: {}", event);
-        rocketMQTemplate.convertAndSend(rocketMQTemplate.getDefaultDestination(), event, messageHeaders(MESSAGE_CLASS_KEY, event.getClass().getCanonicalName()));
-    }
-
-    @Override
-    public void publish(String topic, Object event) {
-        log.debug("Sending: {}", event);
-        rocketMQTemplate.convertAndSend(topic, event, messageHeaders(MESSAGE_CLASS_KEY, event.getClass().getCanonicalName()));
-    }
-
-    static Map<String, Object> messageHeaders(final Object... keyValuePairs) {
+    static Map<String, Object> headers(final Object... keyValuePairs) {
         return new HashMap<String, Object>() {{
             for(int i = 0; i + 1 < keyValuePairs.length; i += 2) {
                 put(keyValuePairs[i].toString(), keyValuePairs[i + 1]);
             }
         }};
+    }
+
+    @Override
+    public void publish(Object event) {
+        log.debug("Sending: {}", event);
+        rocketMQTemplate.convertAndSend(rocketMQTemplate.getDefaultDestination(), event, headers(MESSAGE_CLASS_KEY, event.getClass().getCanonicalName()));
+    }
+
+    @Override
+    public void publish(String topic, Object event) {
+        log.debug("Sending: {}", event);
+        rocketMQTemplate.convertAndSend(topic, event, headers(MESSAGE_CLASS_KEY, event.getClass().getCanonicalName()));
     }
 
 }

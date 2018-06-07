@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import springboard.annotation.Idempotent;
 import springboard.example.model.AdminService;
 import springboard.example.model.LoggedInEvent;
 import springboard.example.model.User;
@@ -76,6 +77,7 @@ public class AdminController {
     }
 
     @EventListener(LoggedInEvent.class)
+    @Idempotent
     public void handleLoggedIn(LoggedInEvent event) {
         User user = new User();
         user.setId(event.getUserId());

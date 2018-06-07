@@ -30,6 +30,13 @@ public class RocketMQEventListener implements RocketMQListener<MessageExt>, Rock
         this.objectMapper = objectMapper;
     }
 
+    static String getUserProperty(MessageExt message, String key) {
+        String result = message.getUserProperty(key);
+        if(StringUtils.isEmpty(result)) result = message.getProperty("USERS_" + key);
+        return result;
+    }
+
+    @Override
     public void onMessage(MessageExt message) {
         log.debug("Received: {}", message);
         Object event = new String(message.getBody());
@@ -43,12 +50,6 @@ public class RocketMQEventListener implements RocketMQListener<MessageExt>, Rock
             }
         }
         eventPublisher.publishEvent(event);
-    }
-
-    static String getUserProperty(MessageExt message, String key) {
-        String result = message.getUserProperty(key);
-        if(StringUtils.isEmpty(result)) result = message.getProperty("USERS_" + key);
-        return result;
     }
 
     @Override
