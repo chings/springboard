@@ -8,9 +8,11 @@ import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.starter.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.starter.core.RocketMQListener;
 import org.apache.rocketmq.spring.starter.core.RocketMQPushConsumerLifecycleListener;
+import org.apache.rocketmq.spring.starter.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -18,16 +20,23 @@ import java.io.IOException;
 import static springboard.rocketmq.RocketMQEventPublisher.MESSAGE_CLASS_KEY;
 
 @RocketMQMessageListener(topic="${spring.rocketmq.consumer.topic}", consumerGroup="${spring.rocketmq.consumer.group}")
-public class RocketMQEventSubscriber implements RocketMQListener<MessageExt>, RocketMQPushConsumerLifecycleListener {
+public class RocketMQEventSubscriber implements ApplicationEventPublisherAware, RocketMQListener<MessageExt>, RocketMQPushConsumerLifecycleListener {
 
     private static Logger log = LoggerFactory.getLogger(RocketMQEventSubscriber.class);
 
-    ApplicationEventPublisher localEventPublisher;
+    RocketMQTemplate rocketMQTemplate;
     ObjectMapper objectMapper;
+    ApplicationEventPublisher localEventPublisher;
 
-    public RocketMQEventSubscriber(ApplicationEventPublisher eventPublisher, ObjectMapper objectMapper) {
-        this.localEventPublisher = eventPublisher;
-        this.objectMapper = objectMapper;
+    public RocketMQEventSubscriber(RocketMQTemplate rocketMQTemplate) {
+        this.rocketMQTemplate = rocketMQTemplate;
+        objectMapper = rocketMQTemplate.getObjectMapper();
+        if(objectMapper == null) throw new NullPointerException("objectMapper not found");
+    }
+
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        localEventPublisher = applicationEventPublisher;
     }
 
     static String getUserProperty(MessageExt message, String key) {

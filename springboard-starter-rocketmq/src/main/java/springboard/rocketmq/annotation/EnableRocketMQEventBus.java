@@ -1,8 +1,8 @@
 package springboard.rocketmq.annotation;
 
 import org.springframework.context.annotation.Import;
-import springboard.rocketmq.RocketMQEventSubscriberConfig;
 import springboard.rocketmq.RocketMQEventPublisherConfig;
+import springboard.rocketmq.RocketMQEventSubscriberConfig;
 
 import java.lang.annotation.*;
 

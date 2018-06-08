@@ -15,13 +15,14 @@ public class RocketMQEventPublisher implements EventPublisher {
     public static final String MESSAGE_CLASS_KEY = "class";
 
     RocketMQTemplate rocketMQTemplate;
+    String topic;
 
     public RocketMQEventPublisher(RocketMQTemplate rocketMQTemplate) {
         this.rocketMQTemplate = rocketMQTemplate;
     }
 
     public void setTopic(String topic) {
-        rocketMQTemplate.setDefaultDestination(topic);
+        this.topic = topic;
     }
 
     static Map<String, Object> headers(final Object... keyValuePairs) {
@@ -35,7 +36,7 @@ public class RocketMQEventPublisher implements EventPublisher {
     @Override
     public void publish(Object event) {
         log.debug("Sending: {}", event);
-        rocketMQTemplate.convertAndSend(rocketMQTemplate.getDefaultDestination(), event, headers(MESSAGE_CLASS_KEY, event.getClass().getCanonicalName()));
+        rocketMQTemplate.convertAndSend(topic, event, headers(MESSAGE_CLASS_KEY, event.getClass().getCanonicalName()));
     }
 
     @Override

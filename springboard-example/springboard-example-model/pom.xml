@@ -13,8 +13,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-support</artifactId>
+            <groupId>cn.ching.springboard</groupId>
+            <artifactId>springboard-common</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
