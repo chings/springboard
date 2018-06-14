@@ -7,5 +7,6 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Inherited
 @EnableSwagger2
 public @interface EnableSwaggerDocumentation { }

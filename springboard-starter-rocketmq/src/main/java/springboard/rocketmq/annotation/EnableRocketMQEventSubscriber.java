@@ -8,5 +8,6 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Inherited
 @Import(RocketMQEventSubscriberConfig.class)
 public @interface EnableRocketMQEventSubscriber { }

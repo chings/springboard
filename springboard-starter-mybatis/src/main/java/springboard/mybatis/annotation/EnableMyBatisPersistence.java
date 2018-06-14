@@ -12,6 +12,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Inherited
 @MapperScan(annotationClass= Mapper.class)
 @Import(MyBatisPersistenceConfig.class)
 public @interface EnableMyBatisPersistence {
