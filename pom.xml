@@ -58,11 +58,11 @@
                 <artifactId>spring-security-core</artifactId>
                 <version>5.0.6.RELEASE</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/com.alibaba.boot/dubbo-spring-boot-starter -->
+             <!-- https://mvnrepository.com/artifact/com.alibaba.boot/dubbo-spring-boot-starter -->
             <dependency>
                 <groupId>com.alibaba.boot</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
-                <version>0.2.0-SNAPSHOT</version>
+                <version>0.2.0</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
             <dependency>
