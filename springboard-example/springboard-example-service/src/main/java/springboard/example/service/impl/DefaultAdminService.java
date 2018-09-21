@@ -1,7 +1,7 @@
 package springboard.example.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.baomidou.dynamic.datasource.DS;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.github.pagehelper.PageHelper;
@@ -64,25 +64,25 @@ public class DefaultAdminService implements AdminService {
         return ok ? user : null;
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public Role getRole(long id) {
         return roleMapper.selectById(id);
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public User getUser(long id) {
         return userMapper.selectById(id);
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public User getUser(String username) {
         return userMapper.selectByUsername(username);
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public User getUser(String username, String password) {
         User user = userMapper.selectByUsername(username);
@@ -91,7 +91,7 @@ public class DefaultAdminService implements AdminService {
         return user;
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Integer... pagination) {
         Wrapper<Role> criteria = new EntityWrapper<>();
@@ -107,7 +107,7 @@ public class DefaultAdminService implements AdminService {
                 roleMapper.selectList(criteria);
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public List<User> findUsers(Long id, User.Status status, String username, String name, Date createdTime0, Date createdTime1, Integer... pagination) {
         Integer pageNum = pagination.length > 0 ? pagination[0]: null;
@@ -117,7 +117,7 @@ public class DefaultAdminService implements AdminService {
                 userMapper.selectList(id, status, username, name, createdTime0, createdTime1);
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public List<Role> findRolesOfUser(long userId, Role.Type type) {
         List<Role> roles = new ArrayList<>();
@@ -131,19 +131,19 @@ public class DefaultAdminService implements AdminService {
         return roles;
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public List<String> findRoleNamesOfUser(long userId, Role.Type type) {
         return findRolesOfUser(userId, type).stream().map(role -> role.getName()).collect(Collectors.toList());
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public List<String> findPermissionsOfRole(long roleId) {
         return roleMapper.findPermissions(roleId);
     }
 
-    @DS("springboard2DataSource")
+    @DS("slave")
     @Override
     public List<String> findPermissionsOfUser(long userId) {
         List<Long> roleIds = new ArrayList<>();

@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    active: @profiles.active@
+---
+spring:
+  profiles: development
+  datasource:
+    dynamic:
+      primary: master
+      datasource:
+        master:
+          username: root
+          password: 1qaz!QAZ
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://172.18.238.220:3306/springboard?useUnicode=true&characterEncoding=utf-8&useSSL=false
+        slave:
+          username: root
+          password: 1qaz!QAZ
+          driver-class-name: com.mysql.jdbc.Driver
+          url: jdbc:mysql://172.18.238.220:3306/springboard?useUnicode=true&characterEncoding=utf-8&useSSL=false
+dubbo:
+  application:
+    name: springboard-example-service
+    qos:
+      enable: false
+  registry:
+    address: zookeeper://172.18.238.220:2181
+  protocol:
+    host: 172.18.238.175
+    port: 9100
+mybatis-plus:
+  config-location: classpath:mybatis-config.xml
+server:
+  port: 8080

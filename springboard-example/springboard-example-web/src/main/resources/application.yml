@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: @profiles.active@
+---
+spring:
+  profiles: development
+  rocketmq:
+    name-server: 172.18.238.220:9876
+    producer:
+      topic: springboardEventBus
+      group: springboard-example-web
+    consumer:
+      topic: springboardEventBus
+      group: springboard-example-web
+dubbo:
+  application:
+    name: springboard-example-web
+    qos:
+      enable: false
+  registry:
+    address: zookeeper://172.18.238.220:2181
+server:
+  port: 8000

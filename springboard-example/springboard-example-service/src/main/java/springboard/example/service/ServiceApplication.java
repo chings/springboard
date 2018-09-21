@@ -2,34 +2,16 @@ package springboard.example.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import springboard.dubbo.annotation.EnableDubboProvider;
 import springboard.mybatis.annotation.EnableMyBatisPersistence;
 
-import javax.sql.DataSource;
-
 @SpringBootApplication
 @EnableMyBatisPersistence("springboard.example.dao")
 @EnableDubboProvider("springboard.example.service")
 public class ServiceApplication {
-
-    @Bean(name = "springboardDataSource")
-    @ConfigurationProperties(prefix = "datasource.springboard")
-    @Primary
-    public DataSource springboardDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-
-    @Bean(name = "springboard2DataSource")
-    @ConfigurationProperties(prefix = "datasource.springboard2")
-    public DataSource springboard2DataSource() {
-        return DataSourceBuilder.create().build();
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
