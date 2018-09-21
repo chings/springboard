@@ -40,6 +40,41 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-starter-dubbo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-starter-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-starter-rocketmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-starter-shiro</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-starter-swagger</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-starter-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
