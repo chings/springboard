@@ -1,0 +1,32 @@
+{
+  "users": {
+    "admin": {
+      "password": "123456",
+      "roles": [
+        "admin"
+      ]
+    },
+    "guest": {
+      "password": "123456",
+      "roles": [
+        "guest"
+      ]
+    }
+  },
+  "roles": {
+    "admin": [
+      "pm:video",
+      "pm:usiness",
+      "pm:price",
+      "pm:case",
+      "pm:news",
+      "pm:help",
+      "pm:company",
+      "pm:products",
+      "pm:dealer-apply"
+    ],
+    "guest": [
+      "clportal:video"
+    ]
+  }
+}
