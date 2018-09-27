@@ -7,17 +7,45 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
 public class JsonPermissionRealm extends AuthorizingRealm {
 
-    @Autowired
-    @Qualifier(value = "shiroPermissionJson")
+    Logger log = LoggerFactory.getLogger(JsonPermissionRealm.class);
+
     private JSONObject jsonObject;
+
+    public JsonPermissionRealm(){
+        try {
+            Resource resource = new ClassPathResource("permissons.json");
+            InputStream inputStream = resource.getInputStream();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+            StringBuilder sb = new StringBuilder();
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            String jsonString = sb.toString();
+            jsonObject=JSONObject.parseObject(jsonString);
+        } catch (IOException e) {
+            log.info("读取基础permissions.json权限文件异常", e);
+        }
+    }
 
     /*
      * 授权
