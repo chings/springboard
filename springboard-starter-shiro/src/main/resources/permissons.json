@@ -15,18 +15,11 @@
   },
   "roles": {
     "admin": [
-      "pm:video",
-      "pm:usiness",
-      "pm:price",
-      "pm:case",
-      "pm:news",
-      "pm:help",
-      "pm:company",
-      "pm:products",
-      "pm:dealer-apply"
+      "base:test1",
+      "base:test2"
     ],
     "guest": [
-      "clportal:video"
+      "base:test"
     ]
   }
 }
