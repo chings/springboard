@@ -18,6 +18,7 @@ import springboard.example.model.AdminService;
 import springboard.example.model.Role;
 import springboard.example.model.User;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -93,7 +94,7 @@ public class DefaultAdminService implements AdminService {
 
     @DS("slave")
     @Override
-    public List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, int... pagination) {
+    public List<Role> findRoles(@Nullable Long id, @Nullable Role.Type type, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
         Wrapper<Role> criteria = new EntityWrapper<>();
         if(id != null) criteria.eq("id", id);
         if(type != null) criteria.eq("type", type);
@@ -109,7 +110,7 @@ public class DefaultAdminService implements AdminService {
 
     @DS("slave")
     @Override
-    public List<User> findUsers(Long id, User.Status status, String username, String name, Date createdTime0, Date createdTime1, int... pagination) {
+    public List<User> findUsers(@Nullable Long id, @Nullable User.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
         Integer pageNum = pagination.length > 0 ? pagination[0]: null;
         Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
         return pageNum != null ?

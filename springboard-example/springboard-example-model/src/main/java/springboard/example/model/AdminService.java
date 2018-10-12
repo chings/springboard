@@ -1,5 +1,6 @@
 package springboard.example.model;
 
+import javax.annotation.Nullable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,8 +14,8 @@ public interface AdminService {
     User getUser(String username);
     User getUser(String username, String password);
 
-    List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, int... pagination);
-    List<User> findUsers(Long id, User.Status status, String username, String name, Date createdTime0, Date createdTime1, int... pagination);
+    List<Role> findRoles(@Nullable Long id, @Nullable Role.Type type, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
+    List<User> findUsers(@Nullable Long id, @Nullable User.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
 
     List<Role> findRolesOfUser(long userId, Role.Type type);
     List<String> findRoleNamesOfUser(long userId, Role.Type type);
