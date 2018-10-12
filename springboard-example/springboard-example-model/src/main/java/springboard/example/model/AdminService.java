@@ -13,8 +13,8 @@ public interface AdminService {
     User getUser(String username);
     User getUser(String username, String password);
 
-    List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, Integer... pagination);
-    List<User> findUsers(Long id, User.Status status, String username, String name, Date createdTime0, Date createdTime1, Integer... pagination);
+    List<Role> findRoles(Long id, Role.Type type, String name, Date createdTime0, Date createdTime1, int... pagination);
+    List<User> findUsers(Long id, User.Status status, String username, String name, Date createdTime0, Date createdTime1, int... pagination);
 
     List<Role> findRolesOfUser(long userId, Role.Type type);
     List<String> findRoleNamesOfUser(long userId, Role.Type type);
