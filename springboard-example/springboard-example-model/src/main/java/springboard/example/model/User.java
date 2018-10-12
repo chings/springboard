@@ -1,6 +1,7 @@
 package springboard.example.model;
 
-import com.baomidou.mybatisplus.enums.IEnum;
+
+import com.baomidou.mybatisplus.core.enums.IEnum;
 
 import java.io.Serializable;
 import java.util.Date;

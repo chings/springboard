@@ -2,8 +2,8 @@ package springboard.example.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +95,7 @@ public class DefaultAdminService implements AdminService {
     @DS("slave")
     @Override
     public List<Role> findRoles(@Nullable Long id, @Nullable Role.Type type, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
-        Wrapper<Role> criteria = new EntityWrapper<>();
+        QueryWrapper<Role> criteria = new QueryWrapper<>();
         if(id != null) criteria.eq("id", id);
         if(type != null) criteria.eq("type", type);
         if(name != null) criteria.like("name", name);

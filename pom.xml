@@ -109,13 +109,13 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>2.3.1</version>
+                <version>3.0.5</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-support -->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-support</artifactId>
-                <version>2.3.1</version>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>3.0.5</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.baomidou/dynamic-datasource-spring-boot-starter -->
             <dependency>
