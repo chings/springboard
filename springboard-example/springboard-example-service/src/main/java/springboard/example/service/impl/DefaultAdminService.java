@@ -102,7 +102,7 @@ public class DefaultAdminService implements AdminService {
         if(createdTime1 != null) criteria.lt("created_time", createdTime1);
         Integer pageNum = pagination.length > 0 ? pagination[0]: null;
         Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
-        return pagination != null ?
+        return pageNum != null ?
                 PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> roleMapper.selectList(criteria)) :
                 roleMapper.selectList(criteria);
     }
@@ -112,7 +112,7 @@ public class DefaultAdminService implements AdminService {
     public List<User> findUsers(Long id, User.Status status, String username, String name, Date createdTime0, Date createdTime1, Integer... pagination) {
         Integer pageNum = pagination.length > 0 ? pagination[0]: null;
         Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
-        return pagination != null ?
+        return pageNum != null ?
                 PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userMapper.selectList(id, status, username, name, createdTime0, createdTime1)) :
                 userMapper.selectList(id, status, username, name, createdTime0, createdTime1);
     }
