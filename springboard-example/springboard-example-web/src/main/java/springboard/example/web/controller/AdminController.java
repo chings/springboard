@@ -21,7 +21,7 @@ import springboard.web.exception.UnauthorizedException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
-@RestController
+@RestController("/admin")
 public class AdminController {
 
     private static Logger log = LoggerFactory.getLogger(AdminController.class);
@@ -29,66 +29,16 @@ public class AdminController {
     @Reference
     AdminService adminService;
 
-    @Autowired
-    EventPublisher eventPublisher;
-
-    @PostMapping("/login")
-    public Object login(HttpServletRequest request,
-                        @RequestParam("username") String username,
-                        @RequestParam("password") String password) {
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        try {
-            subject.login(token);
-        } catch(AuthenticationException x) {
-            log.warn("{} was thrown", x.getClass(), x);
-            throw new UnauthorizedException("The username or password was not correct.");
-        }
-
-        User user = adminService.getUser(username);
-        LoggedInEvent loggedInEvent = new LoggedInEvent();
-        loggedInEvent.setUserId(user.getId());
-        loggedInEvent.setUsername(username);
-        loggedInEvent.setLoggedInTime(new Date());
-        loggedInEvent.setLoggedInAddr(request.getRemoteAddr());
-        eventPublisher.publish(loggedInEvent);
-
-        return "OK";
-    }
-
-    @PostMapping("/logout")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Object logout() {
-        SecurityUtils.getSubject().logout();
-        return "";
-    }
-
-    @PostMapping("/users/{id}/password")
-    public Object resetUserPassword(@PathVariable("id") long id, @RequestParam("password") String password) {
-        User user = new User();
-        user.setId(id);
-        user.setPassword(password);
-        return adminService.updateUser(user);
-    }
-
-    @GetMapping("/users/{id}/permissions")
-    public Object getUserPermissions(@PathVariable("id") long id) {
-        return adminService.findPermissionsOfUser(id);
-    }
-
-    @EventListener(LoggedInEvent.class)
-    @Idempotent
-    public void handleLoggedIn(LoggedInEvent event) {
-        User user = new User();
-        user.setId(event.getUserId());
-        user.setLastLoggedInTime(event.getLoggedInTime());
-        user.setLastLoggedInAddr(event.getLoggedInAddr());
-        adminService.updateUser(user);
-    }
-
-    @EventListener(LoggedInEvent.class)
-    public void traceLoggedIn(LoggedInEvent event) {
-        log.info(event.toString());
+    @GetMapping("users")
+    public Object users(@RequestParam(name = "id", required = false) Long id,
+                        @RequestParam(name = "status", required = false) User.Status status,
+                        @RequestParam(name = "username", required = false) String username,
+                        @RequestParam(name = "name", required = false) String name,
+                        @RequestParam(name = "createdTime0", required = false) Date createdTime0,
+                        @RequestParam(name = "createdTime1", required = false) Date createdTime1,
+                        @RequestParam(name = "pageNum", defaultValue = "0") int pageNum,
+                        @RequestParam(name = "pageSize", defaultValue = "20") int pageSize) {
+        return adminService.findUsers(id, status, username, name, createdTime0, createdTime1, pageNum, pageSize);
     }
 
 }

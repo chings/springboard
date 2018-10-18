@@ -5,13 +5,13 @@ spring:
 spring:
   profiles: development
   rocketmq:
-    name-server: 172.18.238.220:9876
+    nameServer: 172.18.238.220:9876
     producer:
       topic: springboardEventBus
       group: springboard-example-web
     consumer:
       topic: springboardEventBus
-      group: springboard-example-web
+      group: springboard-example-webS
 dubbo:
   application:
     name: springboard-example-web
