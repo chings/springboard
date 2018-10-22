@@ -2,16 +2,20 @@ package springboard.example.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import springboard.data.domain.PageWrapper;
 import springboard.example.dao.RoleMapper;
 import springboard.example.dao.UserMapper;
 import springboard.example.model.AdminService;
@@ -94,28 +98,37 @@ public class DefaultAdminService implements AdminService {
 
     @DS("slave")
     @Override
-    public List<Role> findRoles(@Nullable Long id, @Nullable Role.Type type, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
+    public Page<Role> findRoles(@Nullable Long id, @Nullable Role.Type type, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
         QueryWrapper<Role> criteria = new QueryWrapper<>();
         if(id != null) criteria.eq("id", id);
         if(type != null) criteria.eq("type", type);
         if(name != null) criteria.like("name", name);
         if(createdTime0 != null) criteria.ge("created_time", createdTime0);
         if(createdTime1 != null) criteria.lt("created_time", createdTime1);
+
         Integer pageNum = pagination.length > 0 ? pagination[0]: null;
-        Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
-        return pageNum != null ?
-                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> roleMapper.selectList(criteria)) :
-                roleMapper.selectList(criteria);
+        if(pageNum != null) {
+            Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
+            com.github.pagehelper.Page<Role> result = PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> roleMapper.selectList(criteria));
+            return new PageWrapper<>(result, pageNum, pageSize, result.getTotal());
+        } else {
+            List<Role> result = roleMapper.selectList(criteria);
+            return new PageWrapper<>(result, 0, result.size(), result.size());
+        }
     }
 
     @DS("slave")
     @Override
-    public List<User> findUsers(@Nullable Long id, @Nullable User.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
+    public Page<User> findUsers(@Nullable Long id, @Nullable User.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
         Integer pageNum = pagination.length > 0 ? pagination[0]: null;
-        Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
-        return pageNum != null ?
-                PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userMapper.selectList(id, status, username, name, createdTime0, createdTime1)) :
-                userMapper.selectList(id, status, username, name, createdTime0, createdTime1);
+        if(pageNum != null) {
+            Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
+            com.github.pagehelper.Page<User> result = PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userMapper.selectList(id, status, username, name, createdTime0, createdTime1));
+            return new PageWrapper<>(result, pageNum, pageSize, result.getTotal());
+        } else {
+            List<User> result = userMapper.selectList(id, status, username, name, createdTime0, createdTime1);
+            return new PageWrapper<>(result, 0, result.size(), result.size());
+        }
     }
 
     @DS("slave")

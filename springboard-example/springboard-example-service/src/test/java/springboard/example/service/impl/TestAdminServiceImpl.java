@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import springboard.example.model.AdminService;
 import springboard.example.model.Role;
@@ -60,13 +61,13 @@ public class TestAdminServiceImpl {
 
     @Test
     public void testFindRoles() {
-        List<Role> roles = adminService.findRoles(null, null, "admin", null,null, 2, 1);
+        Page<Role> roles = adminService.findRoles(null, null, "admin", null,null);
         System.out.println(roles);
     }
 
     @Test
     public void testFindUsers() {
-        List<User> users = adminService.findUsers(null, User.Status.ACTIVE, null,null, null,null, 1);
+        Page<User> users = adminService.findUsers(null, User.Status.ACTIVE, null,null, null,null, 1);
         System.out.println(users);
     }
 

@@ -3,6 +3,7 @@
 <configuration>
     <settings>
         <setting name="defaultScriptingLanguage" value="springboard.mybatis.AutoXMLLanguageDriver"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <typeHandlers>
         <typeHandler javaType="com.baomidou.mybatisplus.core.enums.IEnum" handler="com.baomidou.mybatisplus.extension.handlers.EnumTypeHandler"/>
