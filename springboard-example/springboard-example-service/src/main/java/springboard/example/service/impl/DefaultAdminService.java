@@ -8,9 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,13 +25,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static springboard.data.domain.PageWrapper.DEFAULT_PAGE_SIZE;
+
 @Component
 @Service
 public class DefaultAdminService implements AdminService {
 
     private static Logger log = LoggerFactory.getLogger(DefaultAdminService.class);
-
-    public static final int DEFAULT_PAGE_SIZE = 20;
 
     @Autowired
     RoleMapper roleMapper;
@@ -184,7 +181,9 @@ public class DefaultAdminService implements AdminService {
     @Override
     public boolean setUserRoles(long userId, long... roleIds) {
         boolean ok = false;
-        for(long roleId : roleIds) ok |= userMapper.setRole(userId, roleId) == 1;
+        for(long roleId : roleIds) {
+            ok |= userMapper.setRole(userId, roleId) == 1;
+        }
         return ok;
     }
 
@@ -193,7 +192,9 @@ public class DefaultAdminService implements AdminService {
     public boolean unsetUserRoles(long userId, long... roleIds) {
         if(roleIds.length == 0) return userMapper.unsetAllRoles(userId) > 0;
         boolean ok = false;
-        for(long roleId : roleIds) ok |= userMapper.unsetRole(userId, roleId) == 1;
+        for(long roleId : roleIds) {
+            ok |= userMapper.unsetRole(userId, roleId) == 1;
+        }
         return ok;
     }
 
@@ -201,7 +202,9 @@ public class DefaultAdminService implements AdminService {
     @Override
     public boolean setRolePermissions(long roleId, String... permissions) {
         boolean ok = false;
-        for(String permission : permissions) ok |= roleMapper.setPermission(roleId, permission) == 1;
+        for(String permission : permissions) {
+            ok |= roleMapper.setPermission(roleId, permission) == 1;
+        }
         return ok;
     }
 
@@ -210,7 +213,9 @@ public class DefaultAdminService implements AdminService {
     public boolean unsetRolePermissions(long roleId, String... permissions) {
         if(permissions.length == 0) return roleMapper.unsetAllPermissions(roleId) > 0;
         boolean ok = false;
-        for(String permission : permissions) ok |= roleMapper.unsetPermission(roleId, permission) == 1;
+        for(String permission : permissions) {
+            ok |= roleMapper.unsetPermission(roleId, permission) == 1;
+        }
         return ok;
     }
 
