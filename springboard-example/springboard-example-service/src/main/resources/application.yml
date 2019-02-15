@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: springboard-example-service
   profiles:
     active: @profiles.active@
 ---
@@ -19,13 +21,10 @@ spring:
           driver-class-name: com.mysql.jdbc.Driver
           url: jdbc:mysql://172.18.238.220:3306/springboard?useUnicode=true&characterEncoding=utf-8&useSSL=false
 dubbo:
-  application:
-    name: springboard-example-service
-    qos:
-      enable: false
   registry:
     address: zookeeper://172.18.238.220:2181
   protocol:
+    name: dubbo
     host: 172.18.238.175
     port: 9100
 mybatis-plus:

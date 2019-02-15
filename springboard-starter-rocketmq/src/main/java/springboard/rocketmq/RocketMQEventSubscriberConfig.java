@@ -1,8 +1,8 @@
 package springboard.rocketmq;
 
 import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.spring.starter.core.RocketMQListener;
-import org.apache.rocketmq.spring.starter.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

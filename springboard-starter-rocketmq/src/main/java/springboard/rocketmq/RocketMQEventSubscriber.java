@@ -5,10 +5,10 @@ import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.common.UtilAll;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.spring.starter.annotation.RocketMQMessageListener;
-import org.apache.rocketmq.spring.starter.core.RocketMQListener;
-import org.apache.rocketmq.spring.starter.core.RocketMQPushConsumerLifecycleListener;
-import org.apache.rocketmq.spring.starter.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
+import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.support.RocketMQConsumerLifecycleListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
@@ -19,8 +19,8 @@ import java.io.IOException;
 
 import static springboard.rocketmq.RocketMQEventPublisher.MESSAGE_CLASS_KEY;
 
-@RocketMQMessageListener(topic="${spring.rocketmq.consumer.topic}", consumerGroup="${spring.rocketmq.consumer.group}")
-public class RocketMQEventSubscriber implements ApplicationEventPublisherAware, RocketMQListener<MessageExt>, RocketMQPushConsumerLifecycleListener {
+@RocketMQMessageListener(topic="${rocketmq.consumer.topic}", consumerGroup="${rocketmq.consumer.group}")
+public class RocketMQEventSubscriber implements ApplicationEventPublisherAware, RocketMQListener<MessageExt>, RocketMQConsumerLifecycleListener {
 
     private static Logger log = LoggerFactory.getLogger(RocketMQEventSubscriber.class);
 
@@ -62,9 +62,9 @@ public class RocketMQEventSubscriber implements ApplicationEventPublisherAware, 
     }
 
     @Override
-    public void prepareStart(DefaultMQPushConsumer consumer) {
+    public void prepareStart(Object o) {
+        DefaultMQPushConsumer consumer = (DefaultMQPushConsumer)o;
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_TIMESTAMP);
         consumer.setConsumeTimestamp(UtilAll.timeMillisToHumanString3(System.currentTimeMillis()));
     }
-
 }
