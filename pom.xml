@@ -70,6 +70,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
                 <artifactId>springboard-util</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -199,12 +204,6 @@
                 <groupId>com.google.code.findbugs</groupId>
                     <artifactId>jsr305</artifactId>
                 <version>3.0.2</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/org.javatuples/javatuples -->
-            <dependency>
-                <groupId>org.javatuples</groupId>
-                <artifactId>javatuples</artifactId>
-                <version>1.2</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
             <dependency>
