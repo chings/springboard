@@ -41,6 +41,11 @@
         <dependencies>
             <dependency>
                 <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-common</artifactId>
+                <version>${springboard.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
                 <artifactId>springboard-starter-dubbo</artifactId>
                 <version>${springboard.version}</version>
             </dependency>
