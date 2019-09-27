@@ -6,7 +6,7 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <typeHandlers>
-        <typeHandler javaType="com.baomidou.mybatisplus.core.enums.IEnum" handler="com.baomidou.mybatisplus.extension.handlers.EnumTypeHandler"/>
+        <typeHandler javaType="com.baomidou.mybatisplus.core.enums.IEnum" handler="com.baomidou.mybatisplus.extension.handlers.MybatisEnumTypeHandler"/>
     </typeHandlers>
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageInterceptor"/>

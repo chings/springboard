@@ -62,6 +62,7 @@ public class PageWrapper<T> implements Page<T>, Serializable {
         return number * size;
     }
 
+
     @Override
     public List<T> getContent() {
         return content;

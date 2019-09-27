@@ -1,6 +1,6 @@
 package springboard.dubbo.annotation;
 
-import com.alibaba.dubbo.config.spring.context.annotation.DubboComponentScan;
+import org.apache.dubbo.config.spring.context.annotation.DubboComponentScan;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;

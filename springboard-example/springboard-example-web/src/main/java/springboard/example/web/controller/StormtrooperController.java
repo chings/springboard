@@ -1,6 +1,6 @@
 package springboard.example.web.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
