@@ -12,7 +12,7 @@
     <groupId>cn.ching.springboard</groupId>
     <artifactId>springboard</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.8-SNAPSHOT</version>
+    <version>2.3.1-SNAPSHOT</version>
     <modules>
         <module>springboard-common</module>
         <module>springboard-example</module>
@@ -27,7 +27,7 @@
     </modules>
 
     <properties>
-        <springboard.version>2.1.8-SNAPSHOT</springboard.version>
+        <springboard.version>2.3.1-SNAPSHOT</springboard.version>
         <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
         <spring-data.version>2.3.1.RELEASE</spring-data.version>
         <spring-security.version>5.3.3.RELEASE</spring-security.version>
