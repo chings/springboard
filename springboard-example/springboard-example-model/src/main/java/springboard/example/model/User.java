@@ -1,77 +1,23 @@
 package springboard.example.model;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
-
-import java.io.Serializable;
-import java.util.Date;
-
-public class User extends Role implements Serializable {
-
-    public enum Status implements IEnum, Serializable {
-        ACTIVE(0), DISABLED(-1);
-
-        int value;
-
-        Status(int value) {
-            this.value = value;
-        }
-
-        @Override
-        public Serializable getValue() {
-            return value;
-        }
-    }
-
-    Status status;
-    String username;
-    String password;
-    Date lastLoggedInTime;
-    String lastLoggedInAddr;
+@TableName(value="identity", resultMap="userResultMap")
+public class User extends Identity {
 
     public User() {
         super();
         type = Type.USER;
     }
 
-    public Status getStatus() {
-        return status;
+    Account account;
+
+    public Account getAccount() {
+        return account;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getLastLoggedInTime() {
-        return lastLoggedInTime;
-    }
-
-    public void setLastLoggedInTime(Date lastLoggedInTime) {
-        this.lastLoggedInTime = lastLoggedInTime;
-    }
-
-    public String getLastLoggedInAddr() {
-        return lastLoggedInAddr;
-    }
-
-    public void setLastLoggedInAddr(String lastLoggedInAddr) {
-        this.lastLoggedInAddr = lastLoggedInAddr;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override
@@ -81,12 +27,8 @@ public class User extends Role implements Serializable {
                 ", type=" + type +
                 ", name='" + name + '\'' +
                 ", createdTime=" + createdTime +
-                ", status=" + status +
-                ", username='" + username + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", lastLoggedInTime=" + lastLoggedInTime +
-                ", lastLoggedInAddr='" + lastLoggedInAddr + '\'' +
+                ", updatedTime=" + updatedTime +
+                ", account=" + account +
                 '}';
     }
 

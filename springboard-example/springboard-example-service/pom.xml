@@ -5,7 +5,7 @@
     <parent>
         <artifactId>springboard-example</artifactId>
         <groupId>cn.ching.springboard</groupId>
-        <version>2.1.8-SNAPSHOT</version>
+        <version>2.4.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,6 +32,11 @@
             <artifactId>spring-security-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
@@ -45,6 +50,18 @@
 
     <build>
         <finalName>springboard-example-service</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

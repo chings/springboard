@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="springboard.example.dao.UserMapper">
+    <resultMap id="userResultMap" type="springboard.example.model.User" extends="springboard.example.dao.IdentityMapper.identityResultMap"/>
+    <resultMap id="userResultMap1" type="springboard.example.model.User" extends="springboard.example.dao.IdentityMapper.identityResultMap">
+        <association property="account" javaType="springboard.example.model.Account">
+            <id property="username" column="username"/>
+            <result property="status" column="status"/>
+            <result property="userId" column="user_id"/>
+            <result property="encodedPassword" column="password"/>
+            <result property="createdTime" column="a_created_time"/>
+            <result property="updatedTime" column="a_updated_time"/>
+            <result property="lastLoggedInTime" column="last_logged_in_time"/>
+            <result property="lastLoggedInAddr" column="last_logged_in_addr"/>
+        </association>
+    </resultMap>
+    <select id="selectByUsername" resultMap="userResultMap1">
+        select i.*,a.username,a.status,a.user_id,a.password,a.created_time as a_created_time,a.updated_time as a_updated_time,a.last_logged_in_time,a.last_logged_in_addr
+        from identity i, account a
+        where i.id=a.user_id and a.username=#{username}
+        order by id desc
+    </select>
+    <select id="selectList" resultMap="userResultMap1">
+        select i.*,a.username,a.status,a.user_id,a.password,a.created_time as a_created_time,a.updated_time as a_updated_time,a.last_logged_in_time,a.last_logged_in_addr
+        from identity i, account a
+        where i.id=a.user_id
+        <if test='id != null'> and i.id=#{id}</if>
+        <if test='status != null'> and a.status=#{status}</if>
+        <if test='username != null'> and a.username LIKE '%${username}%'}</if>
+        <if test='name != null'> and i.name LIKE '%${name}%'</if>
+        <if test='createdTime0 != null'> and i.created_time &gt;= #{createdTime0}</if>
+        <if test='createdTime1 != null'> and i.created_time &lt; #{createdTime1}</if>
+        order by id desc
+    </select>
+</mapper>

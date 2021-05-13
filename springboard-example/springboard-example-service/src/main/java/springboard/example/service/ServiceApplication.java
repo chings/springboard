@@ -6,12 +6,12 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import springboard.dubbo.annotation.EnableDubboProvider;
+import springboard.dubbo.annotation.EnableDubboService;
 import springboard.mybatis.annotation.EnableMyBatisPersistence;
 
 @SpringBootApplication
 @EnableMyBatisPersistence("springboard.example.dao")
-@EnableDubboProvider("springboard.example.service")
+@EnableDubboService("springboard.example.service")
 public class ServiceApplication {
 
     @Bean

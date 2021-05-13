@@ -1,9 +1,13 @@
 package springboard.web;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,9 +16,19 @@ import springboard.web.exception.*;
 
 @Configuration
 @ControllerAdvice
-public class WebMVCConfig {
+public class WebConfig {
 
-    private static Logger log = LoggerFactory.getLogger(WebMVCConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(WebConfig.class);
+
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer customizer() {
+        return new Jackson2ObjectMapperBuilderCustomizer() {
+            @Override
+            public void customize(Jackson2ObjectMapperBuilder jacksonObjectMapperBuilder) {
+                jacksonObjectMapperBuilder.featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+            }
+        };
+    }
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

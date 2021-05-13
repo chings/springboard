@@ -1,9 +1,8 @@
 package springboard.example.web.controller;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import springboard.example.model.Stormtrooper;
 import springboard.example.model.StormtrooperService;
@@ -12,10 +11,10 @@ import springboard.web.exception.NotFoundException;
 import java.util.Collection;
 
 @RestController
-@RequestMapping(path = "/troopers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping("/troopers")
 public class StormtrooperController {
 
-    @Reference
+    @DubboReference
     StormtrooperService stormtrooperService;
 
     @RequiresPermissions("troopers:read")

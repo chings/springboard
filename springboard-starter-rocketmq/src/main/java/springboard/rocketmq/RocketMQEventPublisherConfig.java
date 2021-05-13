@@ -14,7 +14,7 @@ public class RocketMQEventPublisherConfig {
     RocketMQTemplate rocketMQTemplate;
 
     @Bean
-    @ConfigurationProperties("rocketmq.producer")
+    @ConfigurationProperties("rocketmq.event-publisher")
     EventPublisher eventPublisher() {
         return new RocketMQEventPublisher(rocketMQTemplate);
     }

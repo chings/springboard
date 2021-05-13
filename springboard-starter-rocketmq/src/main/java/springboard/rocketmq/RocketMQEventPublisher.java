@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class RocketMQEventPublisher implements EventPublisher {
 
-    private static Logger log = LoggerFactory.getLogger(RocketMQEventPublisher.class);
+    private static final Logger log = LoggerFactory.getLogger(RocketMQEventPublisher.class);
 
-    public static final String MESSAGE_CLASS_KEY = "class";
+    public static final String MESSAGE_CLASS_KEY = "_class";
 
     RocketMQTemplate rocketMQTemplate;
     String topic;

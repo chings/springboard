@@ -9,19 +9,16 @@ import java.util.List;
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
 
-    @Insert("INSERT IGNORE INTO role_permissions(role_id, permission) VALUES(#{roleId}, #{permission})")
-    int setPermission(@Param("roleId") Long roleId, @Param("permission") String permission);
+    @Select("select i.* from identity i, users_roles ur where i.id=ur.role_id and user_id=#{userId}")
+    List<Role> findRoles(@Param("userId") Long userId);
 
-    @Select("SELECT permission FROM role_permissions WHERE role_id=#{roleId}")
-    List<String> findPermissions(@Param("roleId") Long roleId);
+    @Insert("insert ignore into users_roles(user_id, role_id) values(#{userId}, #{roleId})")
+    int setRole(@Param("userId") Long userId, @Param("roleId") Long roleId);
 
-    @Select("SELECT DISTINCT permission FROM role_permissions WHERE role_id IN #{roleIds}")
-    List<String> findPermissions2(@Param("roleIds") List<Long> roleIds);
+    @Delete("delete from users_roles where user_id=#{userId} and role_id=#{roleId}")
+    int unsetRole(@Param("userId") Long userId, @Param("roleId") Long roleId);
 
-    @Delete("DELETE FROM role_permissions WHERE role_id=#{roleId} AND permission=#{permission}")
-    int unsetPermission(@Param("roleId") Long roleId, @Param("permission") String permission);
-
-    @Delete("DELETE FROM role_permissions WHERE role_id=#{roleId}")
-    int unsetAllPermissions(@Param("roleId") Long roleId);
+    @Delete("delete from users_roles where user_id=#{userId}")
+    int unsetAllRoles(@Param("userId") Long userId);
 
 }

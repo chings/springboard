@@ -1,8 +1,6 @@
 package springboard.rocketmq;
 
-import org.apache.rocketmq.common.message.MessageExt;
-import org.apache.rocketmq.spring.core.RocketMQListener;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class RocketMQEventSubscriberConfig {
 
     @Autowired
-    RocketMQTemplate rocketMQTemplate;
+    ObjectMapper objectMapper;
 
     @Bean
-    public RocketMQListener<MessageExt> rocketMQListener() {
-        return new RocketMQEventSubscriber(rocketMQTemplate);
+    RocketMQEventSubscriber eventSubscriber() {
+        return new RocketMQEventSubscriber(objectMapper);
     }
 
 }

@@ -5,17 +5,20 @@ spring:
     active: @profiles.active@
 ---
 spring:
-  profiles: development
+  config:
+    activate:
+      on-profile: development
 dubbo:
   registry:
-    address: zookeeper://172.18.238.220:2181
+    address: zookeeper://localhost:2181
 rocketmq:
-  name-server: 172.18.238.220:9876
+  name-server: localhost:9876
   producer:
     group: springboard-example-web
-    topic: springboardEventBus
-  consumer:
+  event-publisher:
+    topic: springboard-example-eventbus
+  event-subscriber:
     group: springboard-example-web
-    topic: springboardEventBus
+    topic: springboard-example-eventbus
 server:
   port: 8000

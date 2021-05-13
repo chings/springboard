@@ -1,4 +1,4 @@
-package springboard.annotation;
+package springboard.lang.annotation;
 
 import java.lang.annotation.*;
 

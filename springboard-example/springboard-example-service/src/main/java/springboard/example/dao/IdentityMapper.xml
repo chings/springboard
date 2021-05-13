@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="springboard.example.dao.IdentityMapper">
+    <resultMap id="identityResultMap" type="springboard.example.model.Identity">
+        <id property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="name" column="name"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="updatedTime" column="updated_time"/>
+        <discriminator javaType="int" column="type">
+            <case value="0" resultType="springboard.example.model.Role"/>
+            <case value="1" resultType="springboard.example.model.User"/>
+        </discriminator>
+    </resultMap>
+</mapper>

@@ -2,11 +2,15 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <settings>
-        <setting name="defaultScriptingLanguage" value="springboard.mybatis.AutoXMLLanguageDriver"/>
+        <setting name="defaultScriptingLanguage" value="springboard.mybatis.DefaultXMLLanguageDriver"/>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- mybatis' lazyLoading will not work well in RPC situations -->
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <setting name="aggressiveLazyLoading" value="true"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
     </settings>
     <typeHandlers>
-        <typeHandler javaType="com.baomidou.mybatisplus.core.enums.IEnum" handler="com.baomidou.mybatisplus.extension.handlers.MybatisEnumTypeHandler"/>
+        <typeHandler javaType="com.baomidou.mybatisplus.annotation.IEnum" handler="com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler"/>
     </typeHandlers>
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageInterceptor"/>

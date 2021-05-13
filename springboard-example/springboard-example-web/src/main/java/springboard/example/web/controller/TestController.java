@@ -1,7 +1,6 @@
 package springboard.example.web.controller;
 
 import org.apache.shiro.subject.Subject;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/test", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping("/test")
 public class TestController {
 
     @GetMapping("/hello")

@@ -1,10 +1,9 @@
-package springboard.data.domain;
+package springboard.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -20,7 +19,7 @@ public class PageWrapper<T> implements Page<T>, Serializable {
     int number;
     int size = DEFAULT_PAGE_SIZE;
     long totalElements;
-    Integer totalPages;
+    int totalPages;
 
     public PageWrapper() { }
 
@@ -29,16 +28,12 @@ public class PageWrapper<T> implements Page<T>, Serializable {
         this.number = number;
         this.size = size;
         this.totalElements = totalElements;
+        totalPages = (int)(totalElements / size);
+        if(totalElements % size > 0) totalPages += 1;
     }
 
     @Override
     public int getTotalPages() {
-        if(totalPages == null) {
-            totalPages = (int)(totalElements / size);
-            if(totalElements % size > 0) {
-                totalPages += 1;
-            }
-        }
         return totalPages;
     }
 
@@ -100,17 +95,17 @@ public class PageWrapper<T> implements Page<T>, Serializable {
 
     @Override
     public Pageable nextPageable() {
-        throw new NotImplementedException();
+        throw new RuntimeException("Not Implemented");
     }
 
     @Override
     public Pageable previousPageable() {
-        throw new NotImplementedException();
+        throw new RuntimeException("Not Implemented");
     }
 
     @Override
     public <U> Page<U> map(Function<? super T, ? extends U> function) {
-        throw new NotImplementedException();
+        throw new RuntimeException("Not Implemented");
     }
 
     @Override
@@ -137,6 +132,17 @@ public class PageWrapper<T> implements Page<T>, Serializable {
 
     public void setTotalElements(long totalElements) {
         this.totalElements = totalElements;
+    }
+
+    @Override
+    public String toString() {
+        return "PageWrapper{" +
+                "content=" + content +
+                ", number=" + number +
+                ", size=" + size +
+                ", totalElements=" + totalElements +
+                ", totalPages=" + totalPages +
+                '}';
     }
 
 }

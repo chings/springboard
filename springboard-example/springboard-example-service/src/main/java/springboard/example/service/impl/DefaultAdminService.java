@@ -1,37 +1,47 @@
 package springboard.example.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import springboard.data.domain.PageWrapper;
+import springboard.data.PageWrapper;
+import springboard.example.dao.AccountMapper;
+import springboard.example.dao.IdentityMapper;
 import springboard.example.dao.RoleMapper;
 import springboard.example.dao.UserMapper;
-import springboard.example.model.AdminService;
-import springboard.example.model.Role;
-import springboard.example.model.User;
+import springboard.example.model.*;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import static springboard.data.domain.PageWrapper.DEFAULT_PAGE_SIZE;
+import static springboard.data.PageWrapper.DEFAULT_PAGE_SIZE;
 
-@Component
 @Service
+@DubboService
 public class DefaultAdminService implements AdminService {
 
     private static Logger log = LoggerFactory.getLogger(DefaultAdminService.class);
+
+    @Autowired
+    AccountMapper accountMapper;
+
+    @Autowired
+    IdentityMapper identityMapper;
 
     @Autowired
     RoleMapper roleMapper;
@@ -42,34 +52,59 @@ public class DefaultAdminService implements AdminService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+
+    @DS("slave")
+    @Override
+    public Role getRole(long id) {
+        return roleMapper.selectById(id);
+    }
+
+    @DS("slave")
+    @Override
+    public Page<Role> listRoles(@Nullable Long id, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
+        LambdaQueryWrapper<Role> criteria = new QueryWrapper<Role>().lambda();
+        criteria.eq(Role::getType, Identity.Type.ROLE);
+        if(id != null) criteria.eq(Role::getId, id);
+        if(name != null) criteria.like(Role::getName, name);
+        if(createdTime0 != null) criteria.ge(Role::getCreatedTime, createdTime0);
+        if(createdTime1 != null) criteria.lt(Role::getCreatedTime, createdTime1);
+
+        Integer pageNum = ArrayUtils.isNotEmpty(pagination) ? pagination[0]: null;
+        if(pageNum != null) {
+            Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
+            com.github.pagehelper.Page<Role> result = PageHelper.startPage(pageNum, pageSize)
+                    .doSelectPage(() -> roleMapper.selectList(criteria));
+            return new PageWrapper<>(result, pageNum, pageSize, result.getTotal());
+        } else {
+            List<Role> result = roleMapper.selectList(criteria);
+            return new PageWrapper<>(result, 0, result.size(), result.size());
+        }
+    }
+
     @Override
     public Role createRole(Role role) {
         boolean ok = roleMapper.insert(role) == 1;
         return ok ? role : null;
     }
 
-    @Transactional
     @Override
-    public User createUser(User user) {
+    public boolean updateRole(long id, @Nullable String name) {
         Role role = new Role();
-        role.setType(user.getType());
-        role.setName(user.getName());
-        role.setCreatedTime(user.getCreatedTime());
-        role = createRole(role);
-        if(role == null) return null;
-
-        user.setId(role.getId());
-        String password = user.getPassword();
-        if(StringUtils.hasText(password)) user.setPassword(passwordEncoder.encode(password));
-        boolean ok = userMapper.insert(user) == 1;
-        user.setPassword(password);
-        return ok ? user : null;
+        role.setId(id);
+        role.setName(name);
+        role.setUpdatedTime(new Date());
+        return roleMapper.updateById(role) == 1;
     }
 
-    @DS("slave")
+    @Transactional
     @Override
-    public Role getRole(long id) {
-        return roleMapper.selectById(id);
+    public boolean purgeRole(long id) {
+        identityMapper.unsetAllPermissions(id);
+        return roleMapper.deleteById(id) == 1;
+    }
+
+    String encodePassword(String password) {
+        return StringUtils.hasText(password) ? passwordEncoder.encode(password) : null;
     }
 
     @DS("slave")
@@ -89,38 +124,18 @@ public class DefaultAdminService implements AdminService {
     public User getUser(String username, String password) {
         User user = userMapper.selectByUsername(username);
         if(user == null) return null;
-        if(!passwordEncoder.matches(password, user.getPassword())) return null;
+        if(!passwordEncoder.matches(password, user.getAccount().getEncodedPassword())) throw new BadCredentialsException("Bad Password: " + password);
         return user;
     }
 
     @DS("slave")
     @Override
-    public Page<Role> findRoles(@Nullable Long id, @Nullable Role.Type type, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
-        QueryWrapper<Role> criteria = new QueryWrapper<>();
-        if(id != null) criteria.eq("id", id);
-        if(type != null) criteria.eq("type", type);
-        if(name != null) criteria.like("name", name);
-        if(createdTime0 != null) criteria.ge("created_time", createdTime0);
-        if(createdTime1 != null) criteria.lt("created_time", createdTime1);
-
-        Integer pageNum = pagination.length > 0 ? pagination[0]: null;
+    public Page<User> listUsers(@Nullable Long id, @Nullable Account.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
+        Integer pageNum = ArrayUtils.isNotEmpty(pagination) ? pagination[0]: null;
         if(pageNum != null) {
             Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
-            com.github.pagehelper.Page<Role> result = PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> roleMapper.selectList(criteria));
-            return new PageWrapper<>(result, pageNum, pageSize, result.getTotal());
-        } else {
-            List<Role> result = roleMapper.selectList(criteria);
-            return new PageWrapper<>(result, 0, result.size(), result.size());
-        }
-    }
-
-    @DS("slave")
-    @Override
-    public Page<User> findUsers(@Nullable Long id, @Nullable User.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
-        Integer pageNum = pagination.length > 0 ? pagination[0]: null;
-        if(pageNum != null) {
-            Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
-            com.github.pagehelper.Page<User> result = PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userMapper.selectList(id, status, username, name, createdTime0, createdTime1));
+            com.github.pagehelper.Page<User> result = PageHelper.startPage(pageNum, pageSize)
+                    .doSelectPage(() -> userMapper.selectList(id, status, username, name, createdTime0, createdTime1));
             return new PageWrapper<>(result, pageNum, pageSize, result.getTotal());
         } else {
             List<User> result = userMapper.selectList(id, status, username, name, createdTime0, createdTime1);
@@ -128,53 +143,64 @@ public class DefaultAdminService implements AdminService {
         }
     }
 
-    @DS("slave")
+    @Transactional
     @Override
-    public List<Role> findRolesOfUser(long userId, Role.Type type) {
-        List<Role> roles = new ArrayList<>();
-        if(type == null || type == Role.Type.USER) {
-            User user = getUser(userId);
-            if(user != null) roles.add(user);
-        }
-        if(type == null || type == Role.Type.ROLE) {
-            roles.addAll(userMapper.findRoles(userId));
-        }
-        return roles;
-    }
+    public User createUser(User user) {
+        boolean ok = identityMapper.insert(user) == 1;
 
-    @DS("slave")
-    @Override
-    public List<String> findRoleNamesOfUser(long userId, Role.Type type) {
-        return findRolesOfUser(userId, type).stream().map(role -> role.getName()).collect(Collectors.toList());
-    }
+        Account account = user.getAccount();
+        account.setUserId(user.getId());
+        String password = account.getPassword();
+        account.setPassword(encodePassword(password));
+        ok |= accountMapper.insert(account) == 1;
+        account.setPassword(password);
 
-    @DS("slave")
-    @Override
-    public List<String> findPermissionsOfRole(long roleId) {
-        return roleMapper.findPermissions(roleId);
-    }
-
-    @DS("slave")
-    @Override
-    public List<String> findPermissionsOfUser(long userId) {
-        List<Long> roleIds = new ArrayList<>();
-        roleIds.add(userId);
-        roleIds.addAll(userMapper.findRoleIds(userId));
-        return roleMapper.findPermissions2(roleIds);
+        return ok ? user : null;
     }
 
     @Override
-    public boolean updateRole(Role role) {
-        return roleMapper.updateById(role) == 1;
+    public boolean updateUser(long id, @Nullable String name) {
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setUpdatedTime(new Date());
+        return userMapper.updateById(user) == 1;
+    }
+
+    @Transactional
+    @Override
+    public boolean purgeUser(long id) {
+        identityMapper.unsetAllPermissions(id);
+        roleMapper.unsetAllRoles(id);
+        accountMapper.deleteByUserId(id);
+        return identityMapper.deleteById(id) == 1;
     }
 
     @Override
-    public boolean updateUser(User user) {
-        String password = user.getPassword();
-        if(StringUtils.hasText(password)) user.setPassword(passwordEncoder.encode(password));
-        boolean ok = userMapper.updateById(user) == 1;
-        user.setPassword(password);
-        return ok;
+    public Account findUserAccount(long userId) {
+        return accountMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public boolean updateUserAccount(long userId, @Nullable Account.Status status, @Nullable String password) {
+        Account account = new Account();
+        account.setStatus(status);
+        account.setPassword(encodePassword(password));
+        account.setUpdatedTime(new Date());
+        return accountMapper.update(account, new QueryWrapper<Account>().lambda().eq(Account::getUserId, userId)) == 1;
+    }
+
+    @Override
+    public boolean touchUserAccount(long userId, @Nullable Date lastLoggedInTime, @Nullable String lastLoggedInAddr) {
+        Account account = new Account();
+        account.setLastLoggedInTime(lastLoggedInTime);
+        account.setLastLoggedInAddr(lastLoggedInAddr);
+        return accountMapper.update(account, new QueryWrapper<Account>().lambda().eq(Account::getUserId, userId)) == 1;
+    }
+
+    @Override
+    public List<Role> findUserRoles(long userId) {
+        return roleMapper.findRoles(userId);
     }
 
     @Transactional
@@ -182,7 +208,7 @@ public class DefaultAdminService implements AdminService {
     public boolean setUserRoles(long userId, long... roleIds) {
         boolean ok = false;
         for(long roleId : roleIds) {
-            ok |= userMapper.setRole(userId, roleId) == 1;
+            ok |= roleMapper.setRole(userId, roleId) == 1;
         }
         return ok;
     }
@@ -190,48 +216,46 @@ public class DefaultAdminService implements AdminService {
     @Transactional
     @Override
     public boolean unsetUserRoles(long userId, long... roleIds) {
-        if(roleIds.length == 0) return userMapper.unsetAllRoles(userId) > 0;
+        if(roleIds.length == 0) return roleMapper.unsetAllRoles(userId) > 0;
         boolean ok = false;
         for(long roleId : roleIds) {
-            ok |= userMapper.unsetRole(userId, roleId) == 1;
+            ok |= roleMapper.unsetRole(userId, roleId) == 1;
         }
         return ok;
     }
 
+    @Override
+    public List<String> findPermissions(long identityId) {
+        return identityMapper.findPermissions(identityId);
+    }
+
+    @Override
+    public List<String> findUserPermissions(long userId) {
+        Set<Long> identityIds = new HashSet<>();
+        identityIds.add(userId);
+        identityIds.addAll(findUserRoles(userId).stream().map(role -> role.getId()).collect(Collectors.toSet()));
+        return identityMapper.findAllPermissions(identityIds);
+    }
+
     @Transactional
     @Override
-    public boolean setRolePermissions(long roleId, String... permissions) {
+    public boolean setPermissions(long identityId, String... permissions) {
         boolean ok = false;
         for(String permission : permissions) {
-            ok |= roleMapper.setPermission(roleId, permission) == 1;
+            ok |= identityMapper.setPermission(identityId, permission) == 1;
         }
         return ok;
     }
 
     @Transactional
     @Override
-    public boolean unsetRolePermissions(long roleId, String... permissions) {
-        if(permissions.length == 0) return roleMapper.unsetAllPermissions(roleId) > 0;
+    public boolean unsetPermissions(long identityId, String... permissions) {
+        if(permissions.length == 0) return identityMapper.unsetAllPermissions(identityId) > 0;
         boolean ok = false;
         for(String permission : permissions) {
-            ok |= roleMapper.unsetPermission(roleId, permission) == 1;
+            ok |= identityMapper.unsetPermission(identityId, permission) == 1;
         }
         return ok;
-    }
-
-    @Transactional
-    @Override
-    public boolean deleteRole(long id) {
-        roleMapper.unsetAllPermissions(id);
-        return roleMapper.deleteById(id) == 1;
-    }
-
-    @Transactional
-    @Override
-    public boolean deleteUser(long id) {
-        deleteRole(id);
-        userMapper.unsetAllRoles(id);
-        return userMapper.deleteById(id) == 1;
     }
 
 }

@@ -5,24 +5,54 @@ spring:
     active: @profiles.active@
 ---
 spring:
-  profiles: development
+  config:
+    activate:
+      on-profile: development
   datasource:
     dynamic:
       primary: master
       datasource:
         master:
           username: root
-          password: 1qaz!QAZ
-          driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://172.18.238.220:3306/springboard?useUnicode=true&characterEncoding=utf-8&useSSL=false
+          password: example
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/springboard?useUnicode=true&characterEncoding=utf-8&useSSL=false
         slave:
           username: root
-          password: 1qaz!QAZ
-          driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://172.18.238.220:3306/springboard?useUnicode=true&characterEncoding=utf-8&useSSL=false
+          password: example
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/springboard?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      type: com.alibaba.druid.pool.DruidDataSource
+      druid:
+        initial-size: 10
+        max-active: 100
+        min-idle: 10
+        max-wait: 60000
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        #Oracle需要打开注释
+        #validation-query: SELECT 1 FROM DUAL
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        stat-view-servlet:
+          enabled: true
+          url-pattern: /druid/*
+          #login-username: admin
+          #login-password: admin
+        filter:
+          stat:
+            log-slow-sql: true
+            slow-sql-millis: 1000
+            merge-sql: false
+          wall:
+            config:
+              multi-statement-allow: true
 dubbo:
   registry:
-    address: zookeeper://172.18.238.220:2181
+    address: zookeeper://localhost:2181
   protocol:
     name: dubbo
     port: 9000

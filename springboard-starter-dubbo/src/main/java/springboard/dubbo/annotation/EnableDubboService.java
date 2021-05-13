@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @DubboComponentScan
-public @interface EnableDubboProvider {
+public @interface EnableDubboService {
 
     @AliasFor(annotation = DubboComponentScan.class)
     String[] value() default {};

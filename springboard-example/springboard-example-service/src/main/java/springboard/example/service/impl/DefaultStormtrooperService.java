@@ -15,8 +15,8 @@
  */
 package springboard.example.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
-import org.springframework.stereotype.Component;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.stereotype.Service;
 import springboard.example.model.Stormtrooper;
 import springboard.example.model.StormtrooperService;
 
@@ -27,8 +27,8 @@ import java.util.*;
 /**
  * Dummy DAO that will generate 50 random Stormtroopers upon creation.
  */
-@Component
 @Service
+@DubboService
 public final class DefaultStormtrooperService implements StormtrooperService {
 
     final static private String[] trooperTypes = {"Basic", "Space", "Aquatic", "Marine", "Jump", "Sand"};

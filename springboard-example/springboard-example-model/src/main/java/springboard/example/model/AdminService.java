@@ -8,33 +8,31 @@ import java.util.List;
 
 public interface AdminService {
 
-    Role createRole(Role role);
-    User createUser(User user);
-
     Role getRole(long id);
+    Page<Role> listRoles(@Nullable Long id, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
+    Role createRole(Role role);
+    boolean updateRole(long id, @Nullable String name);
+    boolean purgeRole(long id);
+
     User getUser(long id);
     User getUser(String username);
     User getUser(String username, String password);
+    Page<User> listUsers(@Nullable Long id, @Nullable Account.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
+    User createUser(User user);
+    boolean updateUser(long id, @Nullable String name);
+    boolean purgeUser(long id);
 
-    Page<Role> findRoles(@Nullable Long id, @Nullable Role.Type type, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
-    Page<User> findUsers(@Nullable Long id, @Nullable User.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
+    Account findUserAccount(long userId);
+    boolean updateUserAccount(long userId, @Nullable Account.Status status, @Nullable String password);
+    boolean touchUserAccount(long userId, @Nullable Date lastLoggedInTime, @Nullable String lastLoggedInAddr);
 
-    List<Role> findRolesOfUser(long userId, Role.Type type);
-    List<String> findRoleNamesOfUser(long userId, Role.Type type);
-
-    List<String> findPermissionsOfRole(long roleId);
-    List<String> findPermissionsOfUser(long userId);
-
-    boolean updateRole(Role role);
-    boolean updateUser(User user);
-
+    List<Role> findUserRoles(long userId);
     boolean setUserRoles(long userId, long... roleIds);
     boolean unsetUserRoles(long userId, long... roleIds);
 
-    boolean setRolePermissions(long roleId, String... permissions);
-    boolean unsetRolePermissions(long roleId, String... permissions);
-
-    boolean deleteRole(long id);
-    boolean deleteUser(long id);
+    List<String> findPermissions(long identityId);
+    List<String> findUserPermissions(long userId);
+    boolean setPermissions(long identityId, String... permissions);
+    boolean unsetPermissions(long identityId, String... permissions);
 
 }

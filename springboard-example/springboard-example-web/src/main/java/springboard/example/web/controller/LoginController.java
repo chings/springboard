@@ -1,6 +1,6 @@
 package springboard.example.web.controller;
 
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -11,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import springboard.annotation.Idempotent;
 import springboard.example.model.AdminService;
 import springboard.example.model.LoggedInEvent;
 import springboard.example.model.User;
 import springboard.lang.EventPublisher;
+import springboard.lang.annotation.Idempotent;
+import springboard.web.exception.NotFoundException;
 import springboard.web.exception.UnauthorizedException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class LoginController {
 
     private static Logger log = LoggerFactory.getLogger(LoginController.class);
 
-    @Reference
+    @DubboReference
     AdminService adminService;
 
     @Autowired
@@ -65,25 +66,20 @@ public class LoginController {
 
     @PostMapping("/users/{id}/password")
     public Object resetUserPassword(@PathVariable("id") long id, @RequestParam("password") String password) {
-        User user = new User();
-        user.setId(id);
-        user.setPassword(password);
-        return adminService.updateUser(user);
+        return adminService.updateUserAccount(id, null, password);
     }
 
     @GetMapping("/users/{id}/permissions")
     public Object getUserPermissions(@PathVariable("id") long id) {
-        return adminService.findPermissionsOfUser(id);
+        User user = adminService.getUser(id);
+        if(user == null) throw new NotFoundException();
+        return adminService.findUserPermissions(id);
     }
 
     @EventListener(LoggedInEvent.class)
     @Idempotent
     public void handleLoggedIn(LoggedInEvent event) {
-        User user = new User();
-        user.setId(event.getUserId());
-        user.setLastLoggedInTime(event.getLoggedInTime());
-        user.setLastLoggedInAddr(event.getLoggedInAddr());
-        adminService.updateUser(user);
+        adminService.touchUserAccount(event.getUserId(), event.getLoggedInTime(), event.getLoggedInAddr());
     }
 
     @EventListener(LoggedInEvent.class)
