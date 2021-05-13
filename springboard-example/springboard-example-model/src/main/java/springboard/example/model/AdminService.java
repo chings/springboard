@@ -6,6 +6,8 @@ import javax.annotation.Nullable;
 import java.util.Date;
 import java.util.List;
 
+/* Keep POJOs and CRUD methods simple and ‘flat’, NO cascading or lazy-loading,
+   in case of being adaptive in RPC situations. */
 public interface AdminService {
 
     Role getRole(long id);

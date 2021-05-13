@@ -176,6 +176,7 @@ public class DefaultAdminService implements AdminService {
         return identityMapper.deleteById(id) == 1;
     }
 
+    @DS("slave")
     @Override
     public Account findUserAccount(long userId) {
         return accountMapper.selectByUserId(userId);
@@ -198,6 +199,7 @@ public class DefaultAdminService implements AdminService {
         return accountMapper.update(account, new QueryWrapper<Account>().lambda().eq(Account::getUserId, userId)) == 1;
     }
 
+    @DS("slave")
     @Override
     public List<Role> findUserRoles(long userId) {
         return roleMapper.findRoles(userId);
@@ -224,11 +226,13 @@ public class DefaultAdminService implements AdminService {
         return ok;
     }
 
+    @DS("slave")
     @Override
     public List<String> findPermissions(long identityId) {
         return identityMapper.findPermissions(identityId);
     }
 
+    @DS("slave")
     @Override
     public List<String> findUserPermissions(long userId) {
         Set<Long> identityIds = new HashSet<>();

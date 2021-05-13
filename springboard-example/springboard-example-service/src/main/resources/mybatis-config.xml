@@ -4,10 +4,6 @@
     <settings>
         <setting name="defaultScriptingLanguage" value="springboard.mybatis.DefaultXMLLanguageDriver"/>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
-        <!-- mybatis' lazyLoading will not work well in RPC situations -->
-        <setting name="lazyLoadingEnabled" value="false"/>
-        <setting name="aggressiveLazyLoading" value="true"/>
-        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
     </settings>
     <typeHandlers>
         <typeHandler javaType="com.baomidou.mybatisplus.annotation.IEnum" handler="com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler"/>
