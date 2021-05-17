@@ -17,8 +17,8 @@ package springboard.example.service.impl;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
-import springboard.example.model.Stormtrooper;
-import springboard.example.model.StormtrooperService;
+import springboard.example.core.Stormtrooper;
+import springboard.example.core.StormtrooperService;
 
 import java.security.SecureRandom;
 import java.util.*;

@@ -12,17 +12,16 @@
     <artifactId>springboard-example</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>springboard-example-model</module>
+        <module>springboard-example-core</module>
         <module>springboard-example-service</module>
-        <module>springboard-example-web</module>
+        <module>springboard-example-webapp</module>
     </modules>
-
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cn.ching.springboard</groupId>
-                <artifactId>springboard-example-model</artifactId>
+                <artifactId>springboard-example-core</artifactId>
                 <version>${springboard.version}</version>
             </dependency>
             <dependency>
@@ -32,7 +31,7 @@
             </dependency>
             <dependency>
                 <groupId>cn.ching.springboard</groupId>
-                <artifactId>springboard-example-web</artifactId>
+                <artifactId>springboard-example-webapp</artifactId>
                 <version>${springboard.version}</version>
             </dependency>
         </dependencies>

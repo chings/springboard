@@ -3,8 +3,8 @@ package springboard.example.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import springboard.example.model.Account;
-import springboard.example.model.User;
+import springboard.example.core.Account;
+import springboard.example.core.User;
 
 import java.util.Date;
 import java.util.List;

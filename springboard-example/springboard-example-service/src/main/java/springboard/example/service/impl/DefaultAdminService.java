@@ -20,7 +20,7 @@ import springboard.example.dao.AccountMapper;
 import springboard.example.dao.IdentityMapper;
 import springboard.example.dao.RoleMapper;
 import springboard.example.dao.UserMapper;
-import springboard.example.model.*;
+import springboard.example.core.*;
 
 import javax.annotation.Nullable;
 import java.util.Date;

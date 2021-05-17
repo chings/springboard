@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>springboard-example-service</artifactId>
+    <artifactId>springboard-example-webapp</artifactId>
 
     <dependencies>
         <dependency>
@@ -18,47 +18,28 @@
         </dependency>
         <dependency>
             <groupId>cn.ching.springboard</groupId>
+            <artifactId>springboard-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching.springboard</groupId>
             <artifactId>springboard-starter-dubbo</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.ching.springboard</groupId>
-            <artifactId>springboard-starter-mybatis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+            <artifactId>springboard-starter-rocketmq</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.ching.springboard</groupId>
-            <artifactId>springboard-test</artifactId>
-            <scope>test</scope>
+            <artifactId>springboard-starter-shiro</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.ching.springboard</groupId>
+            <artifactId>springboard-starter-swagger</artifactId>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>springboard-example-service</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
+        <finalName>springboard-example-webapp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

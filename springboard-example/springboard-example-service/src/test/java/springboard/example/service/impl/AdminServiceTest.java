@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.transaction.annotation.Transactional;
-import springboard.example.model.Account;
-import springboard.example.model.AdminService;
-import springboard.example.model.Role;
-import springboard.example.model.User;
+import springboard.example.core.Account;
+import springboard.example.core.AdminService;
+import springboard.example.core.Role;
+import springboard.example.core.User;
 
 import java.util.Date;
 import java.util.List;
