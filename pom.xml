@@ -19,6 +19,7 @@
         <module>springboard-example</module>
         <module>springboard-starter-dubbo</module>
         <module>springboard-starter-mybatis</module>
+        <module>springboard-starter-redis</module>
         <module>springboard-starter-rocketmq</module>
         <module>springboard-starter-shiro</module>
         <module>springboard-starter-swagger</module>
@@ -97,6 +98,12 @@
                 <artifactId>spring-boot-starter-aop</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -107,6 +114,12 @@
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-commons</artifactId>
+                <version>${spring-data.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
                 <version>${spring-data.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->

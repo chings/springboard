@@ -1,8 +1,12 @@
 package springboard.rocketmq;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import springboard.lang.EventPublisher;
 
 import java.util.HashMap;
@@ -12,13 +16,15 @@ public class RocketMQEventPublisher implements EventPublisher {
 
     private static final Logger log = LoggerFactory.getLogger(RocketMQEventPublisher.class);
 
-    public static final String MESSAGE_CLASS_KEY = "_class";
+    public static final String EVENT_CLASS_KEY = "EventClass";
 
     RocketMQTemplate rocketMQTemplate;
+    ObjectMapper objectMapper;
     String topic;
 
-    public RocketMQEventPublisher(RocketMQTemplate rocketMQTemplate) {
+    public RocketMQEventPublisher(RocketMQTemplate rocketMQTemplate, ObjectMapper objectMapper) {
         this.rocketMQTemplate = rocketMQTemplate;
+        this.objectMapper = objectMapper;
     }
 
     public void setTopic(String topic) {
@@ -35,14 +41,21 @@ public class RocketMQEventPublisher implements EventPublisher {
 
     @Override
     public void publish(Object event) {
-        log.debug("Sending: {}", event);
-        rocketMQTemplate.convertAndSend(topic, event, headers(MESSAGE_CLASS_KEY, event.getClass().getCanonicalName()));
+        publish(topic, event);
     }
 
     @Override
     public void publish(String topic, Object event) {
         log.debug("Sending: {}", event);
-        rocketMQTemplate.convertAndSend(topic, event, headers(MESSAGE_CLASS_KEY, event.getClass().getCanonicalName()));
+        Message<String> message = null;
+        try {
+            message = MessageBuilder.withPayload(objectMapper.writeValueAsString(event))
+                    .setHeader(EVENT_CLASS_KEY, event.getClass().getCanonicalName())
+                    .build();
+        } catch (JsonProcessingException x) {
+            throw new RuntimeException(x);
+        }
+        rocketMQTemplate.send(topic, message);
     }
 
 }

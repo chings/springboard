@@ -1,26 +1,24 @@
-package springboard.rocketmq;
+package springboard.redis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import springboard.lang.EventPublisher;
 
-@Configuration
-public class RocketMQEventPublisherConfig {
+public class RedisEventPublisherConfig {
 
     @Autowired
-    RocketMQTemplate rocketMQTemplate;
+    private StringRedisTemplate redisTemplate;
 
     @Autowired
     ObjectMapper objectMapper;
 
     @Bean
-    @ConfigurationProperties("rocketmq.event-publisher")
+    @ConfigurationProperties("redis.event-publisher")
     EventPublisher eventPublisher() {
-        return new RocketMQEventPublisher(rocketMQTemplate, objectMapper);
+        return new RedisEventPublisher(redisTemplate, objectMapper);
     }
 
 }

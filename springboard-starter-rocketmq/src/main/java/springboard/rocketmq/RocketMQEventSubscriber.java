@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 
-import static springboard.rocketmq.RocketMQEventPublisher.MESSAGE_CLASS_KEY;
+import static springboard.rocketmq.RocketMQEventPublisher.EVENT_CLASS_KEY;
 
 @RocketMQMessageListener(topic="${rocketmq.event-subscriber.topic}", consumerGroup="${rocketmq.event-subscriber.group}", consumeMode = ConsumeMode.ORDERLY)
 public class RocketMQEventSubscriber implements RocketMQListener<MessageExt>, RocketMQConsumerLifecycleListener, ApplicationEventPublisherAware {
@@ -47,16 +47,16 @@ public class RocketMQEventSubscriber implements RocketMQListener<MessageExt>, Ro
     public void onMessage(MessageExt message) {
         log.debug("Received: {}", message);
         Object event = new String(message.getBody());
-        String messageClass = message.getUserProperty(MESSAGE_CLASS_KEY);
-        if(StringUtils.hasText(messageClass)) {
+        String eventClass = message.getUserProperty(EVENT_CLASS_KEY);
+        if(StringUtils.hasText(eventClass)) {
             try {
-                event = objectMapper.readValue((String)event, Class.forName(messageClass));
+                event = objectMapper.readValue((String)event, Class.forName(eventClass));
                 log.debug("Deserialized: {}", event);
             } catch(ClassNotFoundException | IOException x) {
                 throw new RuntimeException(x);
             }
+            localEventPublisher.publishEvent(event);
         }
-        localEventPublisher.publishEvent(event);
     }
 
 }
