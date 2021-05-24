@@ -64,6 +64,11 @@
             </dependency>
             <dependency>
                 <groupId>cn.ching.springboard</groupId>
+                <artifactId>springboard-starter-redis</artifactId>
+                <version>${springboard.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.ching.springboard</groupId>
                 <artifactId>springboard-starter-rocketmq</artifactId>
                 <version>${springboard.version}</version>
             </dependency>

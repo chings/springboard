@@ -42,12 +42,6 @@
             <groupId>cn.ching.springboard</groupId>
             <artifactId>springboard-starter-swagger</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.ching.springboard</groupId>
-            <artifactId>springboard-starter-redis</artifactId>
-            <version>2.4.5-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
     <build>

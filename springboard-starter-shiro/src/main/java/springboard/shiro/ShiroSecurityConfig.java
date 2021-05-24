@@ -32,16 +32,16 @@ public class ShiroSecurityConfig implements WebMvcConfigurer {
     @Autowired
     Realm realm;
 
-    @ConditionalOnMissingBean
     @Bean
+    @ConditionalOnMissingBean
     public DefaultWebSecurityManager defaultWebSecurityManager() {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(realm);
         return defaultWebSecurityManager;
     }
 
-    @ConditionalOnMissingBean
     @Bean
+    @ConditionalOnMissingBean
     public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
         /**
@@ -53,8 +53,8 @@ public class ShiroSecurityConfig implements WebMvcConfigurer {
         return creator;
     }
 
-    @ConditionalOnMissingBean
     @Bean
+    @ConditionalOnMissingBean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
         // use permissive to NOT require authentication, our controller Annotations will decide that
