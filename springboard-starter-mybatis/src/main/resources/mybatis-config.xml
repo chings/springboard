@@ -2,12 +2,10 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <settings>
-        <setting name="defaultScriptingLanguage" value="springboard.mybatis.DefaultXMLLanguageDriver"/>
+        <setting name="defaultEnumTypeHandler" value="com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler"/>
+        <setting name="defaultScriptingLanguage" value="springboard.mybatis.component.DefaultXMLLanguageDriver"/>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
-    <typeHandlers>
-        <typeHandler javaType="com.baomidou.mybatisplus.annotation.IEnum" handler="com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler"/>
-    </typeHandlers>
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
     </plugins>

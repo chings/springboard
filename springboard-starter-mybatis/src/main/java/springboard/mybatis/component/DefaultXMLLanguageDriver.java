@@ -1,4 +1,4 @@
-package springboard.mybatis;
+package springboard.mybatis.component;
 
 import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
 import org.apache.ibatis.mapping.SqlSource;

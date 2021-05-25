@@ -2,6 +2,7 @@ package springboard.redis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -12,13 +13,16 @@ public class RedisEventPublisherConfig {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    @Autowired
-    ObjectMapper objectMapper;
+    @Bean
+    @ConditionalOnMissingBean
+    ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
 
     @Bean
     @ConfigurationProperties("redis.event-publisher")
     EventPublisher eventPublisher() {
-        return new RedisEventPublisher(redisTemplate, objectMapper);
+        return new RedisEventPublisher(redisTemplate, objectMapper());
     }
 
 }

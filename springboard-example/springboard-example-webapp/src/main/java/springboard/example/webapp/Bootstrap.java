@@ -2,7 +2,7 @@ package springboard.example.webapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import springboard.redis.annotation.EnableRedisEventBus; //import springboard.rocketmq.annotation.EnableRocketMQEventBus;
+import springboard.redis.annotation.EnableRedisEventBus;
 import springboard.shiro.annotation.EnableShiroSecurity;
 import springboard.swagger.annotation.EnableSwaggerDocumentation;
 

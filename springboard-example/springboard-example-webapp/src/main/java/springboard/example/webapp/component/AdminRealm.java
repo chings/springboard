@@ -6,6 +6,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import springboard.example.core.AdminService;
 import springboard.example.core.User;
@@ -14,10 +15,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
+@Component("authorizer")
 public class AdminRealm extends AuthorizingRealm {
 
-    @DubboReference
+    @Autowired(required = false) //compatible without Dubbo RPC support
+    @DubboReference //compatible with Dubbo RPC support
     AdminService adminService;
 
     @Override

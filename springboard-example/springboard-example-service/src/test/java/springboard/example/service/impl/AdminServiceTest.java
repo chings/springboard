@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
-public class AdminServiceTest {
+public class  AdminServiceTest {
 
     @Autowired
     AdminService adminService;

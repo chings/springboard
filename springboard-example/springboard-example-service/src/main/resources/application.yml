@@ -56,5 +56,3 @@ dubbo:
   protocol:
     name: dubbo
     port: 9000
-mybatis-plus:
-  config-location: classpath:mybatis-config.xml

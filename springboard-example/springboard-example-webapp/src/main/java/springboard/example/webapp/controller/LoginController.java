@@ -27,7 +27,8 @@ public class LoginController {
 
     private static Logger log = LoggerFactory.getLogger(LoginController.class);
 
-    @DubboReference
+    @Autowired(required = false) //compatible without Dubbo RPC support
+    @DubboReference //compatible with Dubbo RPC support
     AdminService adminService;
 
     @Autowired

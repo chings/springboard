@@ -11,24 +11,23 @@ spring:
   redis:
     host: localhost
     port: 6379
-dubbo:
-  registry:
-    address: zookeeper://localhost:2181
 redis:
   event-publisher:
-    group: springboard-example-webapp
     topic: springboard-example-eventbus
   event-subscriber:
-    group: springboard-example-webapp
+    group: springboard-example
     topic: springboard-example-eventbus
 #rocketmq:
 #  name-server: localhost:9876
 #  producer:
-#    group: springboard-example-webapp
+#    group: springboard-example
 #  event-publisher:
 #    topic: springboard-example-eventbus
 #  event-subscriber:
-#    group: springboard-example-webapp
+#    group: springboard-example
 #    topic: springboard-example-eventbus
+dubbo:
+  registry:
+    address: zookeeper://localhost:2181
 server:
   port: 8000

@@ -2,7 +2,7 @@ package springboard.shiro;
 
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
-import org.apache.shiro.realm.Realm;
+import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -30,14 +30,23 @@ public class ShiroSecurityConfig implements WebMvcConfigurer {
     private static Logger log = LoggerFactory.getLogger(ShiroSecurityConfig.class);
 
     @Autowired
-    Realm realm;
+    AuthorizingRealm realm;
 
     @Bean
     @ConditionalOnMissingBean
-    public DefaultWebSecurityManager defaultWebSecurityManager() {
-        DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
-        defaultWebSecurityManager.setRealm(realm);
-        return defaultWebSecurityManager;
+    public DefaultWebSecurityManager securityManager() {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(realm);
+        return securityManager;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ShiroFilterChainDefinition shiroFilterChainDefinition() {
+        DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
+        // use permissive to NOT require authentication, our controller Annotations will decide that
+        chainDefinition.addPathDefinition("/**", "authcBasic[permissive]");
+        return chainDefinition;
     }
 
     @Bean
@@ -51,15 +60,6 @@ public class ShiroSecurityConfig implements WebMvcConfigurer {
          */
         creator.setUsePrefix(true);
         return creator;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public ShiroFilterChainDefinition shiroFilterChainDefinition() {
-        DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        // use permissive to NOT require authentication, our controller Annotations will decide that
-        chainDefinition.addPathDefinition("/**", "authcBasic[permissive]");
-        return chainDefinition;
     }
 
     @ExceptionHandler(UnauthenticatedException.class)
