@@ -67,7 +67,7 @@ public class LoginController {
 
     @PostMapping("/users/{id}/password")
     public Object resetUserPassword(@PathVariable("id") long id, @RequestParam("password") String password) {
-        return adminService.updateUserAccount(id, null, password);
+        return adminService.updateUserAccount(id, null, null, password);
     }
 
     @GetMapping("/users/{id}/permissions")
