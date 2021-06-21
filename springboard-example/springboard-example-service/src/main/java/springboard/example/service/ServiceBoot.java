@@ -12,7 +12,7 @@ import springboard.mybatis.annotation.EnableMyBatisPersistence;
 @SpringBootApplication
 @EnableMyBatisPersistence("springboard.example.dao")
 @EnableDubboService("springboard.example.service")
-public class Bootstrap {
+public class ServiceBoot {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -20,7 +20,7 @@ public class Bootstrap {
     }
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(Bootstrap.class)
+        new SpringApplicationBuilder(ServiceBoot.class)
                 .web(WebApplicationType.NONE)
                 .run(args);
     }

@@ -1,6 +1,9 @@
-package springboard.example.core;
+package springboard.example.service;
 
 import org.springframework.data.domain.Page;
+import springboard.example.bean.Account;
+import springboard.example.bean.Role;
+import springboard.example.bean.User;
 
 import javax.annotation.Nullable;
 import java.util.Date;
@@ -17,8 +20,8 @@ public interface AdminService {
     boolean purgeRole(long id);
 
     User getUser(long id);
-    User getUser(String username);
-    User getUser(String username, String password);
+    User findUser(String username);
+    User findUser(String username, String password);
     Page<User> listUsers(@Nullable Long id, @Nullable Account.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
     User createUser(User user);
     boolean updateUser(long id, @Nullable String name);
@@ -34,7 +37,7 @@ public interface AdminService {
 
     List<String> findPermissions(long identityId);
     List<String> findUserPermissions(long userId);
-    boolean setPermissions(long identityId, String... permissions);
-    boolean unsetPermissions(long identityId, String... permissions);
+    boolean grantPermissions(long identityId, String... permissions);
+    boolean revokePermissions(long identityId, String... permissions);
 
 }

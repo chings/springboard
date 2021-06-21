@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package springboard.example.core;
+package springboard.example.service;
+
+import springboard.example.bean.Stormtrooper;
 
 import java.util.Collection;
 

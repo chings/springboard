@@ -4,8 +4,8 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import springboard.example.core.Stormtrooper;
-import springboard.example.core.StormtrooperService;
+import springboard.example.bean.Stormtrooper;
+import springboard.example.service.StormtrooperService;
 import springboard.web.exception.NotFoundException;
 
 import java.util.Collection;

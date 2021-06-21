@@ -16,11 +16,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import springboard.data.PageWrapper;
-import springboard.example.core.*;
+import springboard.example.bean.Account;
+import springboard.example.bean.Identity;
+import springboard.example.bean.Role;
+import springboard.example.bean.User;
 import springboard.example.dao.AccountMapper;
 import springboard.example.dao.IdentityMapper;
 import springboard.example.dao.RoleMapper;
 import springboard.example.dao.UserMapper;
+import springboard.example.service.AdminService;
 
 import javax.annotation.Nullable;
 import java.util.Date;
@@ -115,13 +119,13 @@ public class DefaultAdminService implements AdminService {
 
     @DS("slave")
     @Override
-    public User getUser(String username) {
+    public User findUser(String username) {
         return userMapper.selectByUsername(username);
     }
 
     @DS("slave")
     @Override
-    public User getUser(String username, String password) {
+    public User findUser(String username, String password) {
         User user = userMapper.selectByUsername(username);
         if(user == null) return null;
         if(!passwordEncoder.matches(password, user.getAccount().getEncodedPassword())) throw new BadCredentialsException("Bad Password: " + password);
@@ -243,7 +247,7 @@ public class DefaultAdminService implements AdminService {
 
     @Transactional
     @Override
-    public boolean setPermissions(long identityId, String... permissions) {
+    public boolean grantPermissions(long identityId, String... permissions) {
         boolean ok = false;
         for(String permission : permissions) {
             ok |= identityMapper.setPermission(identityId, permission) == 1;
@@ -253,7 +257,7 @@ public class DefaultAdminService implements AdminService {
 
     @Transactional
     @Override
-    public boolean unsetPermissions(long identityId, String... permissions) {
+    public boolean revokePermissions(long identityId, String... permissions) {
         if(permissions.length == 0) return identityMapper.unsetAllPermissions(identityId) > 0;
         boolean ok = false;
         for(String permission : permissions) {

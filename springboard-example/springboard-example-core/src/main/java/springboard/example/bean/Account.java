@@ -1,4 +1,4 @@
-package springboard.example.core;
+package springboard.example.bean;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.IEnum;
@@ -46,72 +46,81 @@ public class Account implements Serializable {
         return username;
     }
 
-    public void setUsername(String username) {
+    public Account setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public Account setStatus(Status status) {
         this.status = status;
+        return this;
     }
 
     public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public Account setUserId(Long userId) {
         this.userId = userId;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public Account setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public String getEncodedPassword() {
         return encodedPassword;
     }
 
-    public void setEncodedPassword(String encodedPassword) {
+    public Account setEncodedPassword(String encodedPassword) {
         this.encodedPassword = encodedPassword;
+        return this;
     }
 
     public Date getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public Account setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
+        return this;
     }
 
     public Date getUpdatedTime() {
         return updatedTime;
     }
 
-    public void setUpdatedTime(Date updatedTime) {
+    public Account setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
+        return this;
     }
 
     public Date getLastLoggedInTime() {
         return lastLoggedInTime;
     }
 
-    public void setLastLoggedInTime(Date lastLoggedInTime) {
+    public Account setLastLoggedInTime(Date lastLoggedInTime) {
         this.lastLoggedInTime = lastLoggedInTime;
+        return this;
     }
 
     public String getLastLoggedInAddr() {
         return lastLoggedInAddr;
     }
 
-    public void setLastLoggedInAddr(String lastLoggedInAddr) {
+    public Account setLastLoggedInAddr(String lastLoggedInAddr) {
         this.lastLoggedInAddr = lastLoggedInAddr;
+        return this;
     }
 
     @Override

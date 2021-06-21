@@ -1,4 +1,4 @@
-package springboard.example.core;
+package springboard.example.bean;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -16,8 +16,9 @@ public class User extends Identity {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public User setAccount(Account account) {
         this.account = account;
+        return this;
     }
 
     @Override

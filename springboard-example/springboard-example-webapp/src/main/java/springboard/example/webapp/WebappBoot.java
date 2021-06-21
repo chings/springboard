@@ -10,10 +10,10 @@ import springboard.swagger.annotation.EnableSwaggerDocumentation;
 @EnableRedisEventBus //@EnableRocketMQEventBus
 @EnableShiroSecurity
 @EnableSwaggerDocumentation
-public class Bootstrap {
+public class WebappBoot {
 
     public static void main(String[] args) {
-        SpringApplication.run(Bootstrap.class, args);
+        SpringApplication.run(WebappBoot.class, args);
     }
 
 }

@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import springboard.example.core.AdminService;
-import springboard.example.core.LoggedInEvent;
-import springboard.example.core.User;
+import springboard.example.bean.User;
+import springboard.example.event.LoggedInEvent;
+import springboard.example.service.AdminService;
 import springboard.lang.EventPublisher;
 import springboard.lang.annotation.Idempotent;
 import springboard.web.exception.NotFoundException;
@@ -47,7 +47,7 @@ public class LoginController {
             throw new UnauthorizedException("The username or password was not correct.");
         }
 
-        User user = adminService.getUser(username);
+        User user = adminService.findUser(username);
         LoggedInEvent loggedInEvent = new LoggedInEvent();
         loggedInEvent.setUserId(user.getId());
         loggedInEvent.setUsername(username);

@@ -8,8 +8,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import springboard.example.core.AdminService;
-import springboard.example.core.User;
+import springboard.example.bean.User;
+import springboard.example.service.AdminService;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +25,7 @@ public class AdminRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String)getAvailablePrincipal(principals);
-        User user = adminService.getUser(username);
+        User user = adminService.findUser(username);
         if(user == null) throw new UnknownAccountException();
 
         SimpleAuthorizationInfo result = new SimpleAuthorizationInfo();
@@ -41,11 +41,11 @@ public class AdminRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         String username = (String)token.getPrincipal();
-        User user = adminService.getUser(username);
+        User user = adminService.findUser(username);
         if(user == null) throw new UnknownAccountException();
 
         String password = new String((char[])token.getCredentials());
-        user = adminService.getUser(username, password);
+        user = adminService.findUser(username, password);
         if(user == null) throw new IncorrectCredentialsException();
 
         return new SimpleAuthenticationInfo(username, password, getName());

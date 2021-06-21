@@ -1,4 +1,4 @@
-package springboard.example.core;
+package springboard.example.event;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,32 +14,36 @@ public class LoggedInEvent implements Serializable {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public LoggedInEvent setUserId(Long userId) {
         this.userId = userId;
+        return this;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public LoggedInEvent setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public Date getLoggedInTime() {
         return loggedInTime;
     }
 
-    public void setLoggedInTime(Date loggedInTime) {
+    public LoggedInEvent setLoggedInTime(Date loggedInTime) {
         this.loggedInTime = loggedInTime;
+        return this;
     }
 
     public String getLoggedInAddr() {
         return loggedInAddr;
     }
 
-    public void setLoggedInAddr(String loggedInAddr) {
+    public LoggedInEvent setLoggedInAddr(String loggedInAddr) {
         this.loggedInAddr = loggedInAddr;
+        return this;
     }
 
     @Override

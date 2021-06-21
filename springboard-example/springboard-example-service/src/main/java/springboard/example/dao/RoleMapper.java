@@ -2,7 +2,7 @@ package springboard.example.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
-import springboard.example.core.Role;
+import springboard.example.bean.Role;
 
 import java.util.List;
 

@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.transaction.annotation.Transactional;
-import springboard.example.core.Account;
-import springboard.example.core.AdminService;
-import springboard.example.core.Role;
-import springboard.example.core.User;
+import springboard.example.bean.Account;
+import springboard.example.bean.Role;
+import springboard.example.bean.User;
+import springboard.example.service.AdminService;
 
 import java.util.Date;
 import java.util.List;
@@ -32,7 +32,7 @@ public class  AdminServiceTest {
         role1.setName("<troppers_op>");
         role1.setCreatedTime(new Date());
         role1 = adminService.createRole(role1);
-        adminService.setPermissions(role1.getId(),  "troopers:read", "troopers:create", "troopers:update", "troopers:delete");
+        adminService.grantPermissions(role1.getId(),  "troopers:read", "troopers:create", "troopers:update", "troopers:delete");
 
         Account account = new Account();
         account.setStatus(Account.Status.ACTIVE);
@@ -45,7 +45,7 @@ public class  AdminServiceTest {
         user.setAccount(account);
         user = adminService.createUser(user);
         adminService.setUserRoles(user.getId(), role.getId(), role1.getId());
-        adminService.setPermissions(user.getId(), "be-handsome");
+        adminService.grantPermissions(user.getId(), "be-handsome");
     }
 
     @Test
@@ -56,14 +56,14 @@ public class  AdminServiceTest {
 
     @Test
     public void test2() {
-        User user = adminService.getUser("ching");
+        User user = adminService.findUser("ching");
         System.out.println(user);
     }
 
     @Test
     public void test3() {
         try {
-            User user = adminService.getUser("ching", "Passw0rd");
+            User user = adminService.findUser("ching", "Passw0rd");
             System.out.println(user);
         } catch(BadCredentialsException x) {
             x.printStackTrace();

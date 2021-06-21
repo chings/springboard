@@ -1,4 +1,4 @@
-package springboard.example.core;
+package springboard.example.bean;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -41,40 +41,45 @@ public class Identity implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public Identity setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Type getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public Identity setType(Type type) {
         this.type = type;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Identity setName(String name) {
         this.name = name;
+        return this;
     }
 
     public Date getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public Identity setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
+        return this;
     }
 
     public Date getUpdatedTime() {
         return updatedTime;
     }
 
-    public void setUpdatedTime(Date updatedTime) {
+    public Identity setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
+        return this;
     }
 
     @Override

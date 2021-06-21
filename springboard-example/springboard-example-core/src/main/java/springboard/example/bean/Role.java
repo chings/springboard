@@ -1,4 +1,4 @@
-package springboard.example.core;
+package springboard.example.bean;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
