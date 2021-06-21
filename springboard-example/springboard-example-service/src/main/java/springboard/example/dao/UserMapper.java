@@ -14,6 +14,6 @@ public interface UserMapper extends BaseMapper<User> {
 
     User selectByUsername(@Param("username") String username);
 
-    List<User> selectList(@Param("id") Long id, @Param("status") Account.Status status, @Param("username") String username, @Param("name") String name, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
+    List<User> selectList(@Param("id") Long id, @Param("status") Account.Status status, @Param("username") String username, @Param("name") String name, @Param("description") String description, @Param("createdTime0") Date createdTime0, @Param("createdTime1") Date createdTime1);
 
 }

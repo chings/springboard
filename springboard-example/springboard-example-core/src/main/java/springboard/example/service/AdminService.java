@@ -14,21 +14,21 @@ import java.util.List;
 public interface AdminService {
 
     Role getRole(long id);
-    Page<Role> listRoles(@Nullable Long id, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
+    Page<Role> listRoles(@Nullable Long id, @Nullable String name, @Nullable String description, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
     Role createRole(Role role);
-    boolean updateRole(long id, @Nullable String name);
+    boolean updateRole(long id, @Nullable String name, @Nullable String description);
     boolean purgeRole(long id);
 
     User getUser(long id);
     User findUser(String username);
     User findUser(String username, String password);
-    Page<User> listUsers(@Nullable Long id, @Nullable Account.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
+    Page<User> listUsers(@Nullable Long id, @Nullable Account.Status status, @Nullable String username, @Nullable String name, @Nullable String description, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);
     User createUser(User user);
-    boolean updateUser(long id, @Nullable String name);
+    boolean updateUser(long id, @Nullable String name, @Nullable String description);
     boolean purgeUser(long id);
 
     Account findUserAccount(long userId);
-    boolean updateUserAccount(long userId, @Nullable Account.Status status, @Nullable String password);
+    boolean updateUserAccount(long userId, @Nullable Account.Status status, @Nullable String username, @Nullable String password);
     boolean touchUserAccount(long userId, @Nullable Date lastLoggedInTime, @Nullable String lastLoggedInAddr);
 
     List<Role> findUserRoles(long userId);

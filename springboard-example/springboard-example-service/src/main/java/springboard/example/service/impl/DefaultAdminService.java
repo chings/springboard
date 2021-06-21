@@ -65,11 +65,12 @@ public class DefaultAdminService implements AdminService {
 
     @DS("slave")
     @Override
-    public Page<Role> listRoles(@Nullable Long id, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
+    public Page<Role> listRoles(@Nullable Long id, @Nullable String name, @Nullable String description, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
         LambdaQueryWrapper<Role> criteria = new QueryWrapper<Role>().lambda();
         criteria.eq(Role::getType, Identity.Type.ROLE);
         if(id != null) criteria.eq(Role::getId, id);
         if(name != null) criteria.like(Role::getName, name);
+        if(description != null) criteria.like(Role::getDescription, description);
         if(createdTime0 != null) criteria.ge(Role::getCreatedTime, createdTime0);
         if(createdTime1 != null) criteria.lt(Role::getCreatedTime, createdTime1);
 
@@ -92,10 +93,11 @@ public class DefaultAdminService implements AdminService {
     }
 
     @Override
-    public boolean updateRole(long id, @Nullable String name) {
+    public boolean updateRole(long id, @Nullable String name, @Nullable String description) {
         Role role = new Role();
         role.setId(id);
         role.setName(name);
+        role.setDescription(description);
         role.setUpdatedTime(new Date());
         return roleMapper.updateById(role) == 1;
     }
@@ -134,15 +136,15 @@ public class DefaultAdminService implements AdminService {
 
     @DS("slave")
     @Override
-    public Page<User> listUsers(@Nullable Long id, @Nullable Account.Status status, @Nullable String username, @Nullable String name, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
+    public Page<User> listUsers(@Nullable Long id, @Nullable Account.Status status, @Nullable String username, @Nullable String name, @Nullable String description, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
         Integer pageNum = ArrayUtils.isNotEmpty(pagination) ? pagination[0]: null;
         if(pageNum != null) {
             Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
             com.github.pagehelper.Page<User> result = PageHelper.startPage(pageNum, pageSize)
-                    .doSelectPage(() -> userMapper.selectList(id, status, username, name, createdTime0, createdTime1));
+                    .doSelectPage(() -> userMapper.selectList(id, status, username, name, description, createdTime0, createdTime1));
             return new PageWrapper<>(result, pageNum, pageSize, result.getTotal());
         } else {
-            List<User> result = userMapper.selectList(id, status, username, name, createdTime0, createdTime1);
+            List<User> result = userMapper.selectList(id, status, username, name, description, createdTime0, createdTime1);
             return new PageWrapper<>(result, 0, result.size(), result.size());
         }
     }
@@ -163,10 +165,11 @@ public class DefaultAdminService implements AdminService {
     }
 
     @Override
-    public boolean updateUser(long id, @Nullable String name) {
+    public boolean updateUser(long id, @Nullable String name, @Nullable String description) {
         User user = new User();
         user.setId(id);
         user.setName(name);
+        user.setDescription(description);
         user.setUpdatedTime(new Date());
         return userMapper.updateById(user) == 1;
     }
@@ -187,7 +190,7 @@ public class DefaultAdminService implements AdminService {
     }
 
     @Override
-    public boolean updateUserAccount(long userId, @Nullable Account.Status status, @Nullable String password) {
+    public boolean updateUserAccount(long userId, @Nullable Account.Status status, String username, @Nullable String password) {
         Account account = new Account();
         account.setStatus(status);
         account.setPassword(encodePassword(password));

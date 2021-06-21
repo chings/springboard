@@ -16,6 +16,10 @@
             <groupId>cn.ching.springboard</groupId>
             <artifactId>springboard-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

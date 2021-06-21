@@ -78,13 +78,13 @@ public class  AdminServiceTest {
 
     @Test
     public void test5() {
-        Page<User> users = adminService.listUsers(null, Account.Status.ACTIVE, null,null, null,null, 1);
+        Page<User> users = adminService.listUsers(null, Account.Status.ACTIVE, null,null, null,null, null, 1);
         System.out.println(users);
     }
 
     @Test
     public void test6() {
-        adminService.updateUserAccount(3L, null, "Passw0rd");
+        adminService.updateUserAccount(3L, null, "Passw0rd",null);
         test3();
     }
 

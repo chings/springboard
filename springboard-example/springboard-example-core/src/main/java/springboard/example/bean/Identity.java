@@ -34,6 +34,7 @@ public class Identity implements Serializable {
     Long id;
     Type type = Type.ROLE;
     String name;
+    String description;
     Date createdTime;
     Date updatedTime;
 
@@ -64,6 +65,15 @@ public class Identity implements Serializable {
         return this;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public Identity setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
     public Date getCreatedTime() {
         return createdTime;
     }
@@ -88,9 +98,9 @@ public class Identity implements Serializable {
                 "id=" + id +
                 ", type=" + type +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 ", createdTime=" + createdTime +
                 ", updatedTime=" + updatedTime +
                 '}';
     }
-
 }

@@ -28,6 +28,7 @@
         <if test='status != null'> and a.status=#{status}</if>
         <if test='username != null'> and a.username LIKE '%${username}%'}</if>
         <if test='name != null'> and i.name LIKE '%${name}%'</if>
+        <if test='description != null'> and i.description LIKE '%${description}%'</if>
         <if test='createdTime0 != null'> and i.created_time &gt;= #{createdTime0}</if>
         <if test='createdTime1 != null'> and i.created_time &lt; #{createdTime1}</if>
         order by id desc
