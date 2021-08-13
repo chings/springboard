@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 public class RocketMQEventSubscriberConfig {
 
     @Bean
-    @ConditionalOnMissingBean
     ObjectMapper objectMapper() {
         return new ObjectMapper();
     }

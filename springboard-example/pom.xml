@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>springboard-example-core</module>
+        <module>springboard-example-model</module>
         <module>springboard-example-service</module>
         <module>springboard-example-webapp</module>
     </modules>
@@ -22,7 +22,7 @@
         <dependencies>
             <dependency>
                 <groupId>cn.ching.springboard</groupId>
-                <artifactId>springboard-example-core</artifactId>
+                <artifactId>springboard-example-model</artifactId>
                 <version>${springboard.version}</version>
             </dependency>
             <dependency>

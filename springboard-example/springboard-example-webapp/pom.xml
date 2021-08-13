@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.ching.springboard</groupId>
-            <artifactId>springboard-example-core</artifactId>
+            <artifactId>springboard-example-model</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.ching.springboard</groupId>

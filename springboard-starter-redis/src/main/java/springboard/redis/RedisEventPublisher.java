@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.data.redis.connection.stream.StringRecord;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -13,7 +12,6 @@ import springboard.lang.EventPublisher;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
 public class RedisEventPublisher implements EventPublisher {
 
     private static final Logger log = LoggerFactory.getLogger(RedisEventPublisher.class);
