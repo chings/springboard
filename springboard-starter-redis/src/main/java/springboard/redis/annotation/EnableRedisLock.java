@@ -1,8 +1,6 @@
 package springboard.redis.annotation;
 
 import org.springframework.context.annotation.Import;
-import springboard.redis.RedisEventPublisherConfig;
-import springboard.redis.RedisEventSubscriberConfig;
 import springboard.redis.RedisLockConfig;
 
 import java.lang.annotation.*;

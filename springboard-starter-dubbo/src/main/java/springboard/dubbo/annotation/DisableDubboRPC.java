@@ -1,7 +1,7 @@
 package springboard.dubbo.annotation;
 
 import org.springframework.context.annotation.Import;
-import springboard.dubbo.config.DisableDubboRPCConfig;
+import springboard.dubbo.DisableDubboRPCConfig;
 
 import java.lang.annotation.*;
 

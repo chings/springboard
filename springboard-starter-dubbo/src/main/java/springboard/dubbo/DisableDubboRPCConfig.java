@@ -1,4 +1,4 @@
-package springboard.dubbo.config;
+package springboard.dubbo;
 
 import org.apache.dubbo.spring.boot.autoconfigure.DubboAutoConfiguration;
 import org.apache.dubbo.spring.boot.autoconfigure.DubboRelaxedBinding2AutoConfiguration;

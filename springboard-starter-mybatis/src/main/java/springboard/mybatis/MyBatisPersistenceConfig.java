@@ -1,4 +1,4 @@
-package springboard.mybatis.config;
+package springboard.mybatis;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import org.springframework.context.annotation.Bean;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 @Configuration
-public class EnableMyBatisPersistenceConfig {
+public class MyBatisPersistenceConfig {
 
     @Bean
     @Primary //use "mybatis-config.xml" here as default configuration

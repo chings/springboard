@@ -9,12 +9,12 @@ import java.util.regex.Pattern;
 
 public class DefaultXMLLanguageDriver extends MybatisXMLLanguageDriver {
 
-    private static final Pattern collectionPattern = Pattern.compile("\\(#\\{(\\w+)\\}\\)");
+    private static final Pattern collectionPattern = Pattern.compile("([Ii][Nn]\\s+)(\\(?#\\{\\s*)(\\w+)(\\s*\\}\\)?)");
 
     public SqlSource createSqlSource(Configuration configuration, String script, Class<?> parameterType) {
         Matcher matcher = collectionPattern.matcher(script);
         if (matcher.find()) {
-            script = matcher.replaceAll("<foreach collection=\"$1\" item=\"_item\" open=\"(\" separator=\",\" close=\")\" >#{_item}</foreach>");
+            script = matcher.replaceAll("$1<foreach collection=\"$3\" item=\"$3_item\" open=\"(\" separator=\",\" close=\")\" >#{$3_item}</foreach>");
         }
 
         if(!script.startsWith("<script>")) script = "<script>" + script;
