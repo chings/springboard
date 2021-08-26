@@ -28,6 +28,6 @@ redis:
 #    topic: springboard-example-eventbus
 dubbo:
   registry:
-    address: zookeeper://localhost:2181
+    address: nacos://localhost:8848
 server:
   port: 8000

@@ -72,13 +72,13 @@ public class  AdminServiceTest {
 
     @Test
     public void test4() {
-        Page<Role> roles = adminService.listRoles(null, null, null, null,null);
+        Page<Role> roles = adminService.listRoles(null, null, null, null,null, 0, 0);
         System.out.println(roles);
     }
 
     @Test
     public void test5() {
-        Page<User> users = adminService.listUsers(null, Account.Status.ACTIVE, null,null, null,null, null, 1);
+        Page<User> users = adminService.listUsers(null, Account.Status.ACTIVE, null,null, null,null, null, 0);
         System.out.println(users);
     }
 

@@ -52,7 +52,7 @@ spring:
               multi-statement-allow: true
 dubbo:
   registry:
-    address: zookeeper://localhost:2181
+    address: nacos://localhost:8848
   protocol:
     name: dubbo
     port: 9000

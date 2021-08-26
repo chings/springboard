@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties({"pageable", "sort"})
 public class PageWrapper<T> implements Page<T>, Serializable {
@@ -28,8 +29,11 @@ public class PageWrapper<T> implements Page<T>, Serializable {
         this.number = number;
         this.size = size;
         this.totalElements = totalElements;
+        if(size <= 0) size = (int)totalElements;
         totalPages = (int)(totalElements / size);
         if(totalElements % size > 0) totalPages += 1;
+        if(number < 0) number = 0;
+        if(number >= totalPages) number = totalPages - 1;
     }
 
     @Override
@@ -104,8 +108,9 @@ public class PageWrapper<T> implements Page<T>, Serializable {
     }
 
     @Override
-    public <U> Page<U> map(Function<? super T, ? extends U> function) {
-        throw new RuntimeException("Not Implemented");
+    public <U> Page<U> map(Function<? super T, ? extends U> mapper) {
+        List content = this.content.stream().map(e -> mapper.apply(e)).collect(Collectors.toList());
+        return new PageWrapper<>(content, number, size, totalElements);
     }
 
     @Override
@@ -116,22 +121,6 @@ public class PageWrapper<T> implements Page<T>, Serializable {
     @Override
     public boolean isEmpty() {
         return !hasContent();
-    }
-
-    public void setContent(List<T> content) {
-        this.content = content;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public void setTotalElements(long totalElements) {
-        this.totalElements = totalElements;
     }
 
     @Override

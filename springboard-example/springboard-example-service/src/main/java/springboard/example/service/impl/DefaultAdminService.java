@@ -3,8 +3,6 @@ package springboard.example.service.impl;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import springboard.data.PageWrapper;
 import springboard.example.bean.Account;
 import springboard.example.bean.Identity;
 import springboard.example.bean.Role;
@@ -25,6 +22,7 @@ import springboard.example.dao.IdentityMapper;
 import springboard.example.dao.RoleMapper;
 import springboard.example.dao.UserMapper;
 import springboard.example.service.AdminService;
+import springboard.mybatis.util.QueryUtils;
 
 import javax.annotation.Nullable;
 import java.util.Date;
@@ -32,8 +30,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static springboard.data.PageWrapper.DEFAULT_PAGE_SIZE;
 
 @Service
 @DubboService
@@ -73,17 +69,7 @@ public class DefaultAdminService implements AdminService {
         if(description != null) criteria.like(Role::getDescription, description);
         if(createdTime0 != null) criteria.ge(Role::getCreatedTime, createdTime0);
         if(createdTime1 != null) criteria.lt(Role::getCreatedTime, createdTime1);
-
-        Integer pageNum = ArrayUtils.isNotEmpty(pagination) ? pagination[0]: null;
-        if(pageNum != null) {
-            Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
-            com.github.pagehelper.Page<Role> result = PageHelper.startPage(pageNum, pageSize)
-                    .doSelectPage(() -> roleMapper.selectList(criteria));
-            return new PageWrapper<>(result, pageNum, pageSize, result.getTotal());
-        } else {
-            List<Role> result = roleMapper.selectList(criteria);
-            return new PageWrapper<>(result, 0, result.size(), result.size());
-        }
+        return QueryUtils.paginate(() -> roleMapper.selectList(criteria), pagination);
     }
 
     @Override
@@ -137,16 +123,7 @@ public class DefaultAdminService implements AdminService {
     @DS("slave")
     @Override
     public Page<User> listUsers(@Nullable Long id, @Nullable Account.Status status, @Nullable String username, @Nullable String name, @Nullable String description, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
-        Integer pageNum = ArrayUtils.isNotEmpty(pagination) ? pagination[0]: null;
-        if(pageNum != null) {
-            Integer pageSize = pagination.length > 1 ? pagination[1] : DEFAULT_PAGE_SIZE;
-            com.github.pagehelper.Page<User> result = PageHelper.startPage(pageNum, pageSize)
-                    .doSelectPage(() -> userMapper.selectList(id, status, username, name, description, createdTime0, createdTime1));
-            return new PageWrapper<>(result, pageNum, pageSize, result.getTotal());
-        } else {
-            List<User> result = userMapper.selectList(id, status, username, name, description, createdTime0, createdTime1);
-            return new PageWrapper<>(result, 0, result.size(), result.size());
-        }
+        return QueryUtils.paginate(() -> userMapper.selectList(id, status, username, name, description, createdTime0, createdTime1), pagination);
     }
 
     @Transactional
