@@ -1,5 +1,6 @@
 package springboard.shiro;
 
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -9,6 +10,7 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import springboard.security.AuthService;
 
 import java.util.List;
 
@@ -29,12 +32,20 @@ public class ShiroSecurityConfig implements WebMvcConfigurer {
 
     private static Logger log = LoggerFactory.getLogger(ShiroSecurityConfig.class);
 
-    @Autowired
-    AuthorizingRealm realm;
+    @Autowired(required = false)
+    @DubboReference(check = false)
+    AuthService authService;
+
+    @Bean
+    @ConditionalOnMissingBean(AuthorizingRealm.class)
+    public AuthRealm authRealm() {
+        if(authService == null) throw new NoSuchBeanDefinitionException(AuthService.class);
+        return new AuthRealm(authService);
+    }
 
     @Bean
     @ConditionalOnMissingBean
-    public DefaultWebSecurityManager securityManager() {
+    public DefaultWebSecurityManager securityManager(AuthorizingRealm realm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
         return securityManager;

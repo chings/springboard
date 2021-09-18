@@ -1,5 +1,6 @@
 package springboard.mybatis;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ public class MyBatisPersistenceConfig {
     public MybatisPlusProperties mybatisPlusProperties() throws Exception {
         MybatisPlusProperties mybatisPlusProperties = new MybatisPlusProperties();
         mybatisPlusProperties.setConfigLocation("classpath:mybatis-config.xml");
+        mybatisPlusProperties.getGlobalConfig().getDbConfig().setIdType(IdType.INPUT);
         return mybatisPlusProperties;
     }
 

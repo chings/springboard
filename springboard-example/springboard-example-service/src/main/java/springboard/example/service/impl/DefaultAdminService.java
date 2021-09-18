@@ -246,4 +246,28 @@ public class DefaultAdminService implements AdminService {
         return ok;
     }
 
+    @Override
+    public Object findSubject(String principal) {
+        return findUser(principal);
+    }
+
+    @Override
+    public Object findSubject(String principal, String credential) {
+        return findUser(principal, credential);
+    }
+
+    @Override
+    public Set<String> findRoles(String principal) {
+        User user = findUser(principal);
+        if(user == null) return null;
+        return findUserRoles(user.getId()).stream().map(role -> role.getName()).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<String> findPermissions(String principal) {
+        User user = findUser(principal);
+        if(user == null) return null;
+        return findUserPermissions(user.getId()).stream().collect(Collectors.toSet());
+    }
+
 }

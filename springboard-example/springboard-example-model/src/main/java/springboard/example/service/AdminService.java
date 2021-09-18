@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import springboard.example.bean.Account;
 import springboard.example.bean.Role;
 import springboard.example.bean.User;
+import springboard.security.AuthService;
 
 import javax.annotation.Nullable;
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.List;
 
 /* Keep POJOs and CRUD methods simple and ‘flat’, NO cascading or lazy-loading,
    in case of being adaptive in RPC situations. */
-public interface AdminService {
+public interface AdminService extends AuthService {
 
     Role getRole(long id);
     Page<Role> listRoles(@Nullable Long id, @Nullable String name, @Nullable String description, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination);

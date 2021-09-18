@@ -13,8 +13,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>cn.ching.springboard</groupId>
+            <artifactId>springboard-common</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring-boot-web-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-common</artifactId>
         </dependency>
     </dependencies>
 
