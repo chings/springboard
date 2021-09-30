@@ -42,7 +42,7 @@
         <rocketmq.version>2.2.0</rocketmq.version>
         <zookeeper.version>3.7.0</zookeeper.version>
         <curator.version>5.1.0</curator.version>
-        <shiro.version>1.7.1</shiro.version>
+        <shiro.version>1.8.0</shiro.version>
         <swagger.version>3.0.0</swagger.version>
     </properties>
 
