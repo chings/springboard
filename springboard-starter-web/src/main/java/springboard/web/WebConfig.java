@@ -1,22 +1,22 @@
 package springboard.web;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import springboard.databind.ObjectMappers;
 import springboard.web.exception.*;
 
 @Configuration
@@ -28,22 +28,20 @@ public class WebConfig {
     @Bean
     @ConditionalOnMissingBean
     public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
-        objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-        return objectMapper;
+        return ObjectMappers.generic();
     }
 
     @Bean
-    @Conditional(HistoryRouterCondition.class)
-    public WebServerFactoryCustomizer containerCustomizer() {
+    @ConditionalOnExpression("T(org.springframework.util.StringUtils).hasText('${springboard.web.router-page:}')")
+    public WebServerFactoryCustomizer containerCustomizer(Environment env) {
+        String routerPage = env.getProperty("springboard.web.router-page");
         return new WebServerFactoryCustomizer<ConfigurableWebServerFactory>() {
             @Override
             public void customize(ConfigurableWebServerFactory container) {
-                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/index.html");
-                container.addErrorPages(error404Page);
-                ErrorPage error405Page = new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/index.html");
-                container.addErrorPages(error405Page);
+                ErrorPage errorPage = new ErrorPage(HttpStatus.NOT_FOUND, routerPage);
+                container.addErrorPages(errorPage);
+                errorPage = new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, routerPage);
+                container.addErrorPages(errorPage);
             }
         };
     }

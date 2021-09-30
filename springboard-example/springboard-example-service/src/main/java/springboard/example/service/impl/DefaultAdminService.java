@@ -22,7 +22,7 @@ import springboard.example.dao.IdentityMapper;
 import springboard.example.dao.RoleMapper;
 import springboard.example.dao.UserMapper;
 import springboard.example.service.AdminService;
-import springboard.mybatis.util.QueryUtils;
+import springboard.mybatis.util.Queries;
 
 import javax.annotation.Nullable;
 import java.util.Date;
@@ -69,7 +69,7 @@ public class DefaultAdminService implements AdminService {
         if(description != null) criteria.like(Role::getDescription, description);
         if(createdTime0 != null) criteria.ge(Role::getCreatedTime, createdTime0);
         if(createdTime1 != null) criteria.lt(Role::getCreatedTime, createdTime1);
-        return QueryUtils.paginate(() -> roleMapper.selectList(criteria), pagination);
+        return Queries.paginate(() -> roleMapper.selectList(criteria), pagination);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class DefaultAdminService implements AdminService {
     @DS("slave")
     @Override
     public Page<User> listUsers(@Nullable Long id, @Nullable Account.Status status, @Nullable String username, @Nullable String name, @Nullable String description, @Nullable Date createdTime0, @Nullable Date createdTime1, int... pagination) {
-        return QueryUtils.paginate(() -> userMapper.selectList(id, status, username, name, description, createdTime0, createdTime1), pagination);
+        return Queries.paginate(() -> userMapper.selectList(id, status, username, name, description, createdTime0, createdTime1), pagination);
     }
 
     @Transactional

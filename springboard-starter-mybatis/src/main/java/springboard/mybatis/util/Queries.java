@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 import static springboard.data.PageWrapper.DEFAULT_PAGE_SIZE;
 
-public class QueryUtils {
+public class Queries {
 
     /*
      * pageNum is 0-based

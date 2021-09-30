@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.data.redis.connection.stream.StringRecord;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import springboard.databind.ObjectMappers;
 import springboard.lang.EventPublisher;
 
 import java.util.HashMap;
@@ -23,9 +24,9 @@ public class RedisEventPublisher implements EventPublisher {
     ObjectMapper objectMapper;
     String topic;
 
-    public RedisEventPublisher(StringRedisTemplate redisTemplate, ObjectMapper objectMapper) {
+    public RedisEventPublisher(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
-        this.objectMapper = objectMapper;
+        this.objectMapper = ObjectMappers.generic();
     }
 
     public void setTopic(String topic) {

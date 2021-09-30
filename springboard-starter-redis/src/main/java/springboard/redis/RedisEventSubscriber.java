@@ -17,6 +17,7 @@ import org.springframework.data.redis.stream.StreamListener;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.data.redis.stream.Subscription;
 import org.springframework.util.StringUtils;
+import springboard.databind.ObjectMappers;
 
 import java.io.IOException;
 import java.util.Map;
@@ -39,10 +40,10 @@ public class RedisEventSubscriber implements StreamListener<String, MapRecord<St
     private StreamMessageListenerContainer<String, MapRecord<String, String, String>> listenerContainer;
     private Subscription subscription;
 
-    public RedisEventSubscriber(RedisConnectionFactory redisConnectionFactory, StringRedisTemplate redisTemplate, ObjectMapper objectMapper) {
+    public RedisEventSubscriber(RedisConnectionFactory redisConnectionFactory, StringRedisTemplate redisTemplate) {
         this.redisConnectionFactory = redisConnectionFactory;
         this.redisTemplate = redisTemplate;
-        this.objectMapper = objectMapper;
+        this.objectMapper = ObjectMappers.generic();
     }
 
     @Override

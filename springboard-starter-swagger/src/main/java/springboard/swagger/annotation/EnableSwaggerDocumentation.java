@@ -1,6 +1,7 @@
 package springboard.swagger.annotation;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.context.annotation.Import;
+import springboard.swagger.SwaggerDocumentationConfig;
 
 import java.lang.annotation.*;
 
@@ -8,5 +9,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@EnableSwagger2
+@Import(SwaggerDocumentationConfig.class)
 public @interface EnableSwaggerDocumentation { }

@@ -12,6 +12,11 @@
     <artifactId>springboard-starter-web</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>cn.ching.springboard</groupId>
+            <artifactId>springboard-util</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -19,12 +24,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

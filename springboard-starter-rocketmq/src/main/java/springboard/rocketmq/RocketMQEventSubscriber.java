@@ -14,12 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.util.StringUtils;
+import springboard.databind.ObjectMappers;
 
 import java.io.IOException;
 
 import static springboard.rocketmq.RocketMQEventPublisher.EVENT_CLASS_KEY;
 
-@RocketMQMessageListener(topic="${rocketmq.event-subscriber.topic}", consumerGroup="${rocketmq.event-subscriber.group}", consumeMode = ConsumeMode.ORDERLY)
+@RocketMQMessageListener(topic="${springboard.rocketmq.event-subscriber.topic}", consumerGroup="${springboard.rocketmq.event-subscriber.group}", consumeMode = ConsumeMode.ORDERLY)
 public class RocketMQEventSubscriber implements RocketMQListener<MessageExt>, RocketMQConsumerLifecycleListener, ApplicationEventPublisherAware {
 
     private static final Logger log = LoggerFactory.getLogger(RocketMQEventSubscriber.class);
@@ -27,8 +28,8 @@ public class RocketMQEventSubscriber implements RocketMQListener<MessageExt>, Ro
     ObjectMapper objectMapper;
     ApplicationEventPublisher localEventPublisher;
 
-    public RocketMQEventSubscriber(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public RocketMQEventSubscriber() {
+        this.objectMapper = ObjectMappers.generic();
     }
 
     @Override

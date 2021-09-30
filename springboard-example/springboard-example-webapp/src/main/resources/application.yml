@@ -11,23 +11,27 @@ spring:
   redis:
     host: localhost
     port: 6379
-redis:
-  event-publisher:
-    topic: springboard-example-eventbus
-  event-subscriber:
-    group: springboard-example
-    topic: springboard-example-eventbus
+springboard:
+  swagger:
+    enabled: false
+  redis:
+    event-publisher:
+      topic: springboard-example-eventbus
+    event-subscriber:
+      group: springboard-example
+      topic: springboard-example-eventbus
+#  rocketmq:
+#    event-publisher:
+#      topic: springboard-example-eventbus
+#    event-subscriber:
+#      group: springboard-example
+#      topic: springboard-example-eventbus
+dubbo:
+  registry:
+    address: nacos://localhost:8848
 #rocketmq:
 #  name-server: localhost:9876
 #  producer:
 #    group: springboard-example
-#  event-publisher:
-#    topic: springboard-example-eventbus
-#  event-subscriber:
-#    group: springboard-example
-#    topic: springboard-example-eventbus
-dubbo:
-  registry:
-    address: nacos://localhost:8848
 server:
   port: 8000

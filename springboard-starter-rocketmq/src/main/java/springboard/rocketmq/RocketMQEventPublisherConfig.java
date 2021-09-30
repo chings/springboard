@@ -8,15 +8,15 @@ import org.springframework.context.annotation.Configuration;
 import springboard.lang.EventPublisher;
 
 @Configuration
-public class RocketMQEventPublisherConfig extends RocketMQCommonConfig {
+public class RocketMQEventPublisherConfig {
 
     @Autowired
     RocketMQTemplate rocketMQTemplate;
 
     @Bean
-    @ConfigurationProperties("rocketmq.event-publisher")
+    @ConfigurationProperties("springboard.rocketmq.event-publisher")
     EventPublisher eventPublisher() {
-        return new RocketMQEventPublisher(rocketMQTemplate, objectMapper());
+        return new RocketMQEventPublisher(rocketMQTemplate);
     }
 
 }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
+import springboard.databind.ObjectMappers;
 import springboard.lang.EventPublisher;
 
 import java.util.HashMap;
@@ -22,9 +23,9 @@ public class RocketMQEventPublisher implements EventPublisher {
     ObjectMapper objectMapper;
     String topic;
 
-    public RocketMQEventPublisher(RocketMQTemplate rocketMQTemplate, ObjectMapper objectMapper) {
+    public RocketMQEventPublisher(RocketMQTemplate rocketMQTemplate) {
         this.rocketMQTemplate = rocketMQTemplate;
-        this.objectMapper = objectMapper;
+        this.objectMapper = ObjectMappers.generic();
     }
 
     public void setTopic(String topic) {
