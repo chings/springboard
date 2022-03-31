@@ -31,7 +31,7 @@
     <properties>
         <springboard.version>2.4.5-SNAPSHOT</springboard.version>
         <spring-boot.version>2.4.5</spring-boot.version>
-        <spring.version>5.3.6</spring.version>
+        <spring.version>5.3.18</spring.version>
         <spring-data.version>2.5.0</spring-data.version>
         <spring-integration.version>5.5.2</spring-integration.version>
         <spring-security.version>5.4.6</spring-security.version>
